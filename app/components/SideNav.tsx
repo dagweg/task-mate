@@ -10,7 +10,7 @@ import './sidenav.css'
 
 function SideNav() {
     return (
-        <div className='bg-dark2 h-screen w-[300px] text-white'>
+        <div className='fixed bg-dark2 h-screen w-[300px] text-white'>
             <div className='h-full flex flex-col w-[80%] mx-auto'>
                 <div className='h-[10%] flex flex-col justify-center items-center'>
                     <h1 className='text-2xl font-bold tracking-wide'><i></i>TaskMate</h1>
