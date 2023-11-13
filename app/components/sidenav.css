@@ -1,0 +1,11 @@
+.side-nav-button {
+    @apply flex gap-4 items-center p-4 rounded-full
+}
+
+.side-nav-button:hover {
+    @apply bg-dark1 duration-150 ease-in-out
+}
+
+.side-nav-button:active {
+    @apply shadow-lg bg-white bg-opacity-50
+}
