@@ -4,6 +4,7 @@ import { BiSolidDashboard } from 'react-icons/bi'
 import { AiOutlineProject } from 'react-icons/ai'
 import { BsFillChatFill } from 'react-icons/bs'
 import { FiHelpCircle } from 'react-icons/fi'
+import { FiSettings } from 'react-icons/fi'
 import { BiLogOut } from 'react-icons/bi'
 import { BsPlusCircleFill } from 'react-icons/bs'
 import './sidenav.css'
@@ -40,6 +41,10 @@ function SideNav() {
                             </Link>
                         </div>
                         <div className='flex flex-col gap-4'>
+                            <Link href={'/settings'} className='side-nav-button'>
+                                <FiSettings className={'scale-150'} />
+                                <label htmlFor="">Settings</label>
+                            </Link>
                             <Link href={'/help&info'} className='side-nav-button'>
                                 <FiHelpCircle className={'scale-150'} />
                                 <label htmlFor="">Help & Information</label>

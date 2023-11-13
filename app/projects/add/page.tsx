@@ -14,7 +14,7 @@ function AddProject() {
                     </div>
                     <div className='text-field flex flex-col'>
                         <label htmlFor="">Project Description</label>
-                        <textarea name="" id="" cols="30" rows="10" className='outline-none border border-black  p-3 border-b-2 border-[#2226] rounded-sm focus:border-indigo-500 w-[100%]'></textarea>
+                        <textarea name="" id="" cols={30} rows={10} className='outline-none border border-black  p-3 border-b-2 border-[#2226] rounded-sm focus:border-indigo-500 w-[100%]'></textarea>
                     </div>
                 </div>
                 <div>
