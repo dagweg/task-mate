@@ -9,6 +9,11 @@ import { BsPlusCircleFill } from 'react-icons/bs'
 import './sidenav.css'
 
 function SideNav() {
+
+    const handleLogoutClick = () => {
+        // ToDo: ValidationPopup() component logic here
+    }
+
     return (
         <div className='fixed bg-dark2 h-screen w-[300px] text-white'>
             <div className='h-full flex flex-col w-[80%] mx-auto'>
@@ -39,10 +44,10 @@ function SideNav() {
                                 <FiHelpCircle className={'scale-150'} />
                                 <label htmlFor="">Help & Information</label>
                             </Link>
-                            <Link href={'/logout'} className='side-nav-button'>
+                            <div className='side-nav-button' >
                                 <BiLogOut className={'scale-150'} />
                                 <label htmlFor="">Logout</label>
-                            </Link>
+                            </div>
                         </div>
                     </div>
                 </nav>

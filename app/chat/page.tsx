@@ -11,11 +11,7 @@ import './chat.css'
 
 function Chat() {
     return (
-        <div className='px-20 py-10 flex flex-col gap-10 h-screen'>
-            <div>
-                <h1 className='text-5xl font-bold '>Chat</h1>
-            </div>
-
+        <div className='flex flex-col gap-10 h-screen'>
             <div className='flex flex-col justify-center items-center h-full'>
                 <div className='bg-[#a6a1b1] w-full h-full flex justify-center rounded-lg shadow-sm bg-opacity-10'>
                     <div className='bg-gray-100 w-[30%] h-full'>
@@ -24,7 +20,7 @@ function Chat() {
                                 <TextField.Slot>
                                     <FiSearch />
                                 </TextField.Slot>
-                                <TextField.Input placeholder='Search members' radius='full' width={"full"}></TextField.Input>
+                                <TextField.Input placeholder='Search members' radius='full'></TextField.Input>
                             </TextField.Root>
                         </div>
                     </div>
