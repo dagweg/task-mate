@@ -1,12 +1,13 @@
 'use client'
 
+import Panel from '@/app/components/Panel'
 import React from 'react'
 import { BsInfoSquare } from 'react-icons/bs'
 
 function AddProject() {
     return (
         <div>
-            <div className='bg-white w-full h-screen relative rounded-2xl shadow-lg p-10 mx-auto grid grid-cols-2 gap-20 px-52'>
+            <div className='bg-white w-full h-full relative rounded-2xl shadow-lg p-10 mx-auto grid grid-cols-2 gap-20 px-16 max-w-7xl'>
                 <div className='flex flex-col gap-4'>
                     <div className='text-field flex flex-col'>
                         <label htmlFor="">Project Name</label>
@@ -58,17 +59,16 @@ function AddProject() {
 
                         {/** Test added email*/}
                         <div className='flex overflow-x-scroll'>
-                            <div className='bg-dark2 w-fit text-white text-xs py-2 px-5 rounded-full my-3 hover:scale-95 duration-200 cursor-pointer'>dagtef@gmail.com</div>
-                            <div className='bg-dark2 w-fit text-white text-xs py-2 px-5 rounded-full my-3 hover:scale-95 duration-200 cursor-pointer'>wegd42@gmail.com</div>
-                            <div className='bg-dark2 w-fit text-white text-xs py-2 px-5 rounded-full my-3 hover:scale-95 duration-200 cursor-pointer'>wegd42@gmail.com</div>
-                            <div className='bg-dark2 w-fit text-white text-xs py-2 px-5 rounded-full my-3 hover:scale-95 duration-200 cursor-pointer'>dagtef@gmail.com</div>
-                            <div className='bg-dark2 w-fit text-white text-xs py-2 px-5 rounded-full my-3 hover:scale-95 duration-200 cursor-pointer'>wegd42@gmail.com</div>
-                            <div className='bg-dark2 w-fit text-white text-xs py-2 px-5 rounded-full my-3 hover:scale-95 duration-200 cursor-pointer'>wegd42@gmail.com</div>
+                            <Panel text={'dagtef@gmail.com'} />
+                            <Panel text={'dagtef2@gmail.com'} />
+                            <Panel text={'wegtef2@gmail.com'} />
+                            <Panel text={'wegtef2@gmail.com'} />
+                            <Panel text={'wegtef2@gmail.com'} />
                         </div>
                     </div>
 
                     <div className='flex justify-end items-center'>
-                        <div className='h-12 w-[65%]  flex justify-center items-center text-xl text-black  outline outline-dark2 outline-2 hover:bg-dark2 hover:text-white hover:font-black cursor-pointer duration-150 linear active:scale-95'>
+                        <div className='h-12 w-[250px]  flex justify-center items-center text-xl text-black  outline outline-dark2 outline-2 hover:bg-dark2 hover:text-white hover:font-black cursor-pointer duration-150 linear active:scale-95'>
                             Finish
                         </div>
                     </div>

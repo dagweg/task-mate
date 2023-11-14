@@ -1,6 +1,21 @@
+import Profile from '@/app/components/Profile'
 import React from 'react'
 
 function AboutUs() {
+
+    const devs = [
+        "Amanuel Garomsa",
+        "Dagmawi Wegayehu",
+        "Ashenafi Dejene",
+        "Bisrat Tewodros",
+        "Etenesh Gishamo",
+        "Elshaday Dagne",
+        "Abraham Asmamaw",
+        "Eden Lijalem",
+        "Heni Abreham",
+        "Tsedenia"
+    ]
+
     return (
         <div>
             <div className='p-5 flex flex-col gap-5'>
@@ -12,46 +27,9 @@ function AboutUs() {
                             <div className='my-5'>
                                 <p className='text-lg font-semibold my-2'>Who made the software?</p>
                                 <div className='bg-gray-50 w-full h-fit grid grid-cols-4 gap-5 p-4'>
-                                    <div className='hover:scale-105 duration-150 ease-in-out rounded-xl p-3 hover:bg-gray-200 cursor-pointer'>
-                                        <div className='bg-orange-300 h-12 w-12 rounded-full'></div>
-                                        <p className='text-sm font-semibold'>Amanuel Garomsa</p>
-                                    </div>
-                                    <div className='hover:scale-105 duration-150 ease-in-out rounded-xl p-3 hover:bg-gray-200 cursor-pointer'>
-                                        <div className='bg-blue-300 h-12 w-12 rounded-full'></div>
-                                        <p className='text-sm font-semibold'>Dagmawi Wegayehu</p>
-                                    </div>
-                                    <div className='hover:scale-105 duration-150 ease-in-out rounded-xl p-3 hover:bg-gray-200 cursor-pointer'>
-                                        <div className='bg-green-300 h-12 w-12 rounded-full'></div>
-                                        <p className='text-sm font-semibold'>Ashenafi Dejene</p>
-                                    </div>
-                                    <div className='hover:scale-105 duration-150 ease-in-out rounded-xl p-3 hover:bg-gray-200 cursor-pointer'>
-                                        <div className='bg-red-300 h-12 w-12 rounded-full'></div>
-                                        <p className='text-sm font-semibold'>Bisrat Tewodros</p>
-                                    </div>
-                                    <div className='hover:scale-105 duration-150 ease-in-out rounded-xl p-3 hover:bg-gray-200 cursor-pointer'>
-                                        <div className='bg-indigo-300 h-12 w-12 rounded-full'></div>
-                                        <p className='text-sm font-semibold'>Etenesh Gishamo</p>
-                                    </div>
-                                    <div className='hover:scale-105 duration-150 ease-in-out rounded-xl p-3 hover:bg-gray-200 cursor-pointer'>
-                                        <div className='bg-sky-300 h-12 w-12 rounded-full'></div>
-                                        <p className='text-sm font-semibold'>Elshaday Dagne</p>
-                                    </div>
-                                    <div className='hover:scale-105 duration-150 ease-in-out rounded-xl p-3 hover:bg-gray-200 cursor-pointer'>
-                                        <div className='bg-gray-300 h-12 w-12 rounded-full'></div>
-                                        <p className='text-sm font-semibold'>Eden Lijalem</p>
-                                    </div>
-                                    <div className='hover:scale-105 duration-150 ease-in-out rounded-xl p-3 hover:bg-gray-200 cursor-pointer'>
-                                        <div className='bg-purple-300 h-12 w-12 rounded-full'></div>
-                                        <p className='text-sm font-semibold'>Abraham Asmamaw</p>
-                                    </div>
-                                    <div className='hover:scale-105 duration-150 ease-in-out rounded-xl p-3 hover:bg-gray-200 cursor-pointer'>
-                                        <div className='bg-pink-300 h-12 w-12 rounded-full'></div>
-                                        <p className='text-sm font-semibold'>Heni Abreham</p>
-                                    </div>
-                                    <div className='hover:scale-105 duration-150 ease-in-out rounded-xl p-3 hover:bg-gray-200 cursor-pointer'>
-                                        <div className='bg-yellow-300 h-12 w-12 rounded-full'></div>
-                                        <p className='text-sm font-semibold'>Tsedenia</p>
-                                    </div>
+                                    {devs.map((uname, i) => (
+                                        <Profile username={uname} key={i} />
+                                    ))}
                                 </div>
                             </div>
                         </div>

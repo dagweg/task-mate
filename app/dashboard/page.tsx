@@ -1,16 +1,30 @@
 import React from 'react'
 import './dashboard.css'
+import Link from 'next/link'
+import Image from 'next/image'
 
 function Dashboard() {
     return (
-        <div className='p-20 flex flex-col gap-10'>
+        <div className='p-20 flex flex-col gap-10  h-screen'>
             <div>
                 <h1 className='text-5xl font-bold '>Dashboard</h1>
             </div>
-            <div className='grid grid-cols-2 grid-rows-2 gap-7 w-full'>
-                <div className='w-full h-96 bg-[#B9B4C7] rounded-lg  shadow-lg'></div>
-                <div className='w-full h-96 bg-[#B9B4C7] rounded-lg  shadow-lg '></div>
-                <div className='w-full h-96 bg-[#B9B4C7] rounded-lg  shadow-lg col-span-2'></div>
+            <div className='grid grid-cols-2 grid-rows-2 gap-7 w-full h-full'>
+                <Link href={'projects/add'}>
+                    <div className='h-full w-full relative overflow-hidden bg-slate-100 rounded-lg shadow-lg flex flex-col justify-end items-end p-4  hover:outline hover:outline-dark2 outline-1 duration-50 ease-in-out'>
+                        <h1 className='font-semibold bg-slate-300 px-10 py-3 rounded-full text-gray-800 hover:bg-dark2 hover:text-slate-100 cursor-pointer active:'>Create a new project</h1>
+                    </div>
+                </Link>
+                <Link href={'projects/add'}>
+                    <div className='h-full w-full  relative overflow-hidden bg-slate-100 rounded-lg shadow-lg flex flex-col justify-end items-end p-4  hover:outline hover:outline-dark2 outline-1 duration-50 ease-in-out'>
+                        <h1 className='font-semibold bg-slate-300 px-10 py-3 rounded-full text-gray-800 hover:bg-dark2 hover:text-slate-100 cursor-pointer active:'>More</h1>
+                    </div>
+                </Link>
+                <Link href={'projects/add'} className='col-span-2'>
+                    <div className='h-full w-full  relative overflow-hidden bg-slate-100 rounded-lg shadow-lg flex flex-col justify-end items-end p-4  hover:outline hover:outline-dark2 outline-1 duration-50 ease-in-out'>
+                        <h1 className='font-semibold bg-slate-300 px-10 py-3 rounded-full text-gray-800 hover:bg-dark2 hover:text-slate-100 cursor-pointer active:'>Team statistics</h1>
+                    </div>
+                </Link>
             </div>
         </div>
     )

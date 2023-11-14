@@ -1,4 +1,3 @@
-import { Slider } from '@radix-ui/themes'
 import React from 'react'
 import { MdDarkMode, MdLightMode } from 'react-icons/md'
 
@@ -27,9 +26,6 @@ function GeneralSettings() {
                             <input type='range' ></input>
                         </div>
                     </div>
-                </div>
-                <div>
-                    <h1 className='text-lg font-semibold'>Chat settings</h1>
                 </div>
             </div>
         </div>
