@@ -26,4 +26,20 @@
   .bg-light1 {
     background-color: #FAF0E6;
   }
+
+  .border-dark2 {
+    border-color: #352F44;
+  }
+
+  .border-dark1 {
+    border-color: #5C5470;
+  }
+
+  .border-light2 {
+    border-color: #B9B4C7;
+  }
+
+  .border-light1 {
+    border-color: #FAF0E6;
+  }
 }
