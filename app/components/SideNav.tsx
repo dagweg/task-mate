@@ -1,4 +1,6 @@
-import React from 'react'
+'use client'
+
+import React, { ReactElement, ReactNode, useState } from 'react'
 import Link from 'next/link'
 import { BiSolidDashboard } from 'react-icons/bi'
 import { AiOutlineProject } from 'react-icons/ai'
@@ -7,6 +9,7 @@ import { FiHelpCircle } from 'react-icons/fi'
 import { FiSettings } from 'react-icons/fi'
 import { BiLogOut } from 'react-icons/bi'
 import { BsPlusCircleFill } from 'react-icons/bs'
+import classNames from 'classnames'
 import './sidenav.css'
 
 function SideNav() {
@@ -15,9 +18,25 @@ function SideNav() {
         // ToDo: ValidationPopup() component logic here
     }
 
+    enum sb {
+        enabled = 'w-[300px]',
+        disabled = 'w-0 hidden'
+    }
+
+    const [sideBar, setSideBar] = useState<string>(sb.enabled)
+
+    const toggleSideBar = () => {
+        if (sideBar === sb.enabled) {
+            setSideBar(sb.disabled)
+        }
+        else {
+            setSideBar(sb.enabled)
+        }
+    }
+
     return (
-        <div className='fixed bg-dark2 h-screen w-[300px] text-white'>
-            <div className='h-full flex flex-col w-[80%] mx-auto'>
+        <div className='fixed h-screen flex text-white w-[300px] z-10' >
+            <div className={`bg-dark2 h-full  ${sideBar} px-4`}>
                 <div className='h-[10%] flex flex-col justify-center items-center'>
                     <h1 className='text-2xl font-bold tracking-wide'><i></i>TaskMate</h1>
                 </div>
@@ -56,6 +75,15 @@ function SideNav() {
                         </div>
                     </div>
                 </nav>
+            </div>
+            <div className={`${classNames({
+                "h-full flex flex-col justify-center overflow-visible relative bg-dark2 w-1": true,
+            })}`} >
+                <i className={classNames({
+                    'fa-solid absolute  text-black cursor-pointer active:scale-95 p-3 duration-150': true,
+                    'fa-angles-right rounded-r-full hover:bg-gray-200 hover:shadow-2xl': sideBar === sb.disabled,
+                    'fa-angles-left rounded-l-full -translate-x-10 text-white hover:bg-white hover:bg-opacity-20 hover:shadow-2xl': sideBar === sb.enabled,
+                })} onClick={toggleSideBar}></i>
             </div>
         </div>
     )

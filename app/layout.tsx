@@ -31,7 +31,7 @@ export default function RootLayout({
       <body className={`${inter.className}`}>
         <Theme>
           <SideNav />
-          <main className='ml-[300px] flex-grow'>{children}</main>
+          <main className='flex-grow'>{children}</main>
         </Theme>
       </body>
     </html>
