@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@radix-ui/themes": "^2.0.0",
-    "next": "14.0.2",
+    "next": "^14.0.2",
     "react": "^18",
     "react-content-loader": "^6.2.1",
     "react-dom": "^18",
@@ -26,5 +26,9 @@
     "postcss": "^8",
     "tailwindcss": "^3.3.0",
     "typescript": "^5"
-  }
+  },
+  "description": "![image](https://github.com/dagweg/task-mate/assets/90281138/aef7ea82-45c2-41b6-891f-7be638bd42a6)\r ![image](https://github.com/dagweg/task-mate/assets/90281138/115efe49-6e92-475c-948d-4fd793e72d48)\r ![image](https://github.com/dagweg/task-mate/assets/90281138/08dd43d4-d7f0-42a3-a24b-7165307c90e3)\r ![image](https://github.com/dagweg/task-mate/assets/90281138/24aed160-0d06-468c-b468-062c639468fb)\r ![image](https://github.com/dagweg/task-mate/assets/90281138/f797f2bf-5761-40f7-a84f-28c66af62290)\r ![image](https://github.com/dagweg/task-mate/assets/90281138/62e04bf9-febd-4ba8-bd68-895ae2f889b0)",
+  "main": "next.config.js",
+  "author": "ashu",
+  "license": "ISC"
 }

@@ -3,7 +3,7 @@
 import Panel from '@/app/components/Panel'
 import React from 'react'
 import { BsInfoSquare } from 'react-icons/bs'
-
+import Link from 'next/link'
 function AddProject() {
     return (
         <div>
@@ -68,9 +68,11 @@ function AddProject() {
                     </div>
 
                     <div className='flex justify-end items-center'>
-                        <div className='h-12 w-[250px]  flex justify-center items-center text-xl text-black  outline outline-dark2 outline-2 hover:bg-dark2 hover:text-white hover:font-black cursor-pointer duration-150 linear active:scale-95'>
+                      <Link href='/projects'> 
+                      <div className='h-12 w-[250px]  flex justify-center items-center text-xl text-black  outline outline-dark2 outline-2 hover:bg-dark2 hover:text-white hover:font-black cursor-pointer duration-150 linear active:scale-95'>
                             Finish
                         </div>
+                        </Link> 
                     </div>
                 </div>
             </div>
