@@ -9,3 +9,118 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+// model User {
+//   id        Int      @id @default(autoincrement())
+//   username  String
+//   email     String   @unique
+//   password  String
+//   teams     TeamMember[]
+//  // tasks     Task[]
+//   comments  TaskComment[]
+//   attachments TaskAttachment[]
+//   progress  TaskProgress[]
+// }
+
+model Team {
+  id        Int          @id @default(autoincrement())
+  name      String
+  members   TeamMember[]
+  projects  Project[]
+}
+
+model TeamMember {
+  id       Int    @id @default(autoincrement())
+  //user     User   @relation(fields: [userId], references: [id])
+ // userId   Int
+  team     Team   @relation(fields: [teamId], references: [id])
+  teamId   Int
+  role     String
+  email String         @db.VarChar(255)
+}
+
+// model Task {
+//   id          Int             @id @default(autoincrement())
+//   title       String
+//   description String?
+//   status      String
+//   dueDate     DateTime
+//   //assignees   TaskAssignment[]
+//   project     Project?        @relation(fields: [projectId], references: [id])
+//   projectId   Int?
+//   comments    TaskComment[]
+//   attachments TaskAttachment[]
+//   progress    TaskProgress[]
+// }
+
+model Project {
+  id          Int             @id @default(autoincrement())
+  projectName  String         @db.VarChar(255)
+  description String          @db.Text
+  startDate   DateTime        @default(now())
+  endDate     DateTime?
+  //tasks       Task[]
+  team        Team?           @relation(fields: [teamId], references: [id])
+  teamId      Int?
+  stakeholders Stakeholder[]
+ // reports     TaskReport[]
+}
+
+// model Chat {
+//   id          Int      @id @default(autoincrement())
+//   sender      User     @relation("Sender", fields: [senderId], references: [id])
+//   senderId    Int
+//   recipient   User     @relation("Recipient", fields: [recipientId], references: [id])
+//   recipientId Int
+//   messages    String[]
+// }
+
+// model TaskComment {
+//   id         Int    @id @default(autoincrement())
+//   task       Task   @relation(fields: [taskId], references: [id])
+//   taskId     Int
+//   user       User   @relation(fields: [userId], references: [id])
+//   userId     Int
+//   comment    String
+//   timestamp  DateTime
+// }
+
+// model TaskAttachment {
+//   id         Int    @id @default(autoincrement())
+//   task       Task   @relation(fields: [taskId], references: [id])
+//   taskId     Int
+//   user       User   @relation(fields: [userId], references: [id])
+//   userId     Int
+//   attachment String
+// }
+
+// model TaskAssignment {
+//   id          Int    @id @default(autoincrement())
+//   task        Task   @relation(fields: [taskId], references: [id])
+//   taskId      Int
+//   assignee    User   @relation(fields: [assigneeId], references: [id])
+//   assigneeId  Int
+// }
+
+// model TaskProgress {
+//   id         Int    @id @default(autoincrement())
+//   task       Task   @relation(fields: [taskId], references: [id])
+//   taskId     Int
+//   user       User   @relation(fields: [userId], references: [id])
+//   userId     Int
+//   progress   Int
+// }
+
+// model TaskReport {
+//   id         Int      @id @default(autoincrement())
+//   project    Project  @relation(fields: [projectId], references: [id])
+//   projectId  Int
+//   //task       Task     @relation(fields: [taskId], references: [id])
+//   taskId     Int
+//   report     String
+// }
+model Stakeholder {
+  id        Int         @id @default(autoincrement())
+  email     String
+  project   Project     @relation(fields: [projectId], references: [id])
+  projectId Int
+}
