@@ -1,6 +1,7 @@
 'use client'
 
 import Panel from '@/app/components/Panel'
+import TextBox from '@/app/components/TextBox'
 import React from 'react'
 import { BsInfoSquare } from 'react-icons/bs'
 
@@ -9,10 +10,7 @@ function AddProject() {
         <div>
             <div className='bg-white w-full h-full relative rounded-2xl shadow-lg p-10 mx-auto grid grid-cols-2 gap-20 px-16 max-w-7xl'>
                 <div className='flex flex-col gap-4'>
-                    <div className='text-field flex flex-col'>
-                        <label htmlFor="">Project Name</label>
-                        <input type="text" name="" id="" className='outline-none border border-black  p-3 border-b-2 border-[#2226] rounded-sm focus:border-dark2 focus:bg-gray-100 w-[100%] focus:border-b-4' />
-                    </div>
+                    <TextBox label='Project Name' />
                     <div className='text-field flex flex-col'>
                         <label htmlFor="">Project Description</label>
                         <textarea name="" id="" cols={30} rows={30} className='outline-none border border-black  p-3 border-b-2 border-[#2226] rounded-sm focus:border-dark2 focus:bg-gray-100 w-[100%] focus:border-b-4'></textarea>
@@ -31,8 +29,7 @@ function AddProject() {
                                 <p className='text-sm'>Don`t worry you can edit them later.</p>
                             </div>
                         </div>
-                        <input type="text" name="" id="" className='outline-none border border-black  p-3 border-b-2 border-[#2226] rounded-sm focus:border-dark2 focus:bg-gray-100 w-[100%] focus:border-b-4' />
-
+                        <TextBox />
                         {/** Test added email*/}
                         <div className='flex overflow-x-scroll'>
                             <div className='bg-dark2 w-fit text-white text-xs py-2 px-5 rounded-full my-3 hover:scale-95 duration-200 cursor-pointer'>dagtef@gmail.com</div>
@@ -55,8 +52,7 @@ function AddProject() {
                                 <p className='text-sm'>Don`t worry you can edit them later.</p>
                             </div>
                         </div>
-                        <input type="text" name="" id="" className='outline-none border border-black  p-3 border-b-2 border-[#2226] rounded-sm focus:border-dark2 focus:bg-gray-100 w-[100%] focus:border-b-4' />
-
+                        <TextBox />
                         {/** Test added email*/}
                         <div className='flex overflow-x-scroll'>
                             <Panel text={'dagtef@gmail.com'} />

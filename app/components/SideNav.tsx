@@ -35,7 +35,7 @@ function SideNav() {
     }
 
     return (
-        <div className='fixed h-screen flex text-white w-[300px] z-10' >
+        <div className='fixed h-screen flex text-white w-fit z-10' >
             <div className={`bg-dark2 h-full  ${sideBar} px-4`}>
                 <div className='h-[10%] flex flex-col justify-center items-center'>
                     <h1 className='text-2xl font-bold tracking-wide'><i></i>TaskMate</h1>
