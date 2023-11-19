@@ -29,12 +29,12 @@ model Team {
 }
 
 model TeamMember {
-  id       Int    @id @default(autoincrement())
+  id    Int    @id @default(autoincrement())
   //user     User   @relation(fields: [userId], references: [id])
  // userId   Int
-  team     Team   @relation(fields: [teamId], references: [id])
-  teamId   Int
-  role     String
+  team    Team   @relation(fields: [teamId], references: [id])
+  teamId Int
+  role   String
   email String         @db.VarChar(255)
 }
 
