@@ -28,28 +28,19 @@ export default function RootLayout({
                 <script src="https://kit.fontawesome.com/bb488c4407.js" async></script>
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link rel="preconnect" href="https://fonts.gstatic.com" />
-                <link href="https://fonts.googleapis.com/css2?family=Agbalumo&family=Comfortaa&family=Inter&family=Lilita+One&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;1,100;1,200;1,300;1,400;1,500&family=Mooli&family=Open+Sans&family=Play:wght@400;700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,800;1,100;1,200;1,300;1,400&family=Quicksand&family=Raleway&family=Rubik&display=swap" rel="stylesheet"></link>
+                {/* <link href="https://fonts.googleapis.com/css2?family=Agbalumo&family=Comfortaa&family=Inter&family=Lilita+One&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;1,100;1,200;1,300;1,400;1,500&family=Mooli&family=Open+Sans&family=Play:wght@400;700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,800;1,100;1,200;1,300;1,400&family=Quicksand&family=Raleway&family=Rubik&display=swap" rel="stylesheet"></link> */}
             </head>
             <body className={`${inter.className}`}>
-                {/* <Session> */}
-                <Theme>
+                <section className='grid grid-cols-1 md:grid-cols-2'>
 
-                    <section className='grid grid-cols-1 md:grid-cols-2'>
+                    <div className="body col-span-1 w-full min-h-screen ">
+                        {children}
+                    </div>
 
-                        <div className="body col-span-1 w-full min-h-screen ">
-                            {children}
-                        </div>
-
-                        <div className="imagecover relative hidden md:flex col-span-1 w-full min-h-screen">
-                            <Image src={"https://avatars.githubusercontent.com/u/71079278?s=400&u=6070252a7ddd13ec86653dd3e3a515adfa9e552e&v=4"} alt="cover Image" objectFit='cover' layout='fill' />
-                        </div>
-
-
-                    </section>
-
-                </Theme>
-                {/* </Session> */}
-
+                    <div className="imagecover relative hidden md:flex col-span-1 w-full min-h-screen">
+                        <Image src={"https://wallpapershome.com/images/pages/pic_h/15590.jpg"} alt="cover Image" objectFit='cover' layout='fill' />
+                    </div>
+                </section>
             </body>
         </html>
     )

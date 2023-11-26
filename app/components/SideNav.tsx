@@ -23,7 +23,7 @@ function SideNav() {
         disabled = 'w-0 hidden'
     }
 
-    const [sideBar, setSideBar] = useState<string>(sb.enabled)
+    const [sideBar, setSideBar] = useState<string>(sb.disabled)
 
     const toggleSideBar = () => {
         if (sideBar === sb.enabled) {
@@ -35,7 +35,7 @@ function SideNav() {
     }
 
     return (
-        <div className='fixed h-screen flex text-white w-fit z-10' >
+        <div className='fixed h-screen flex text-white w-fit z-10'>
             <div className={`bg-dark2 h-full  ${sideBar} px-4`}>
                 <div className='h-[10%] flex flex-col justify-center items-center'>
                     <h1 className='text-2xl font-bold tracking-wide'><i></i>TaskMate</h1>
@@ -77,8 +77,8 @@ function SideNav() {
                 </nav>
             </div>
             <div className={`${classNames({
-                "h-full flex flex-col justify-center overflow-visible relative bg-dark2 w-1": true,
-            })}`} >
+                "h-full flex flex-col justify-center overflow-visible relative bg-dark2 w-2 cursor-pointer hover:bg-gray-100 duration-200 ": true,
+            })}`} onClick={toggleSideBar}>
                 <i className={classNames({
                     'fa-solid absolute  text-black cursor-pointer active:scale-95 p-3 duration-150': true,
                     'fa-angles-right rounded-r-full hover:bg-gray-200 hover:shadow-2xl': sideBar === sb.disabled,

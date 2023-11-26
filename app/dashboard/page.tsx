@@ -1,13 +1,45 @@
-import React from 'react'
+'use client'
+
+import React, { useState, useEffect } from 'react'
 import './dashboard.css'
 import Link from 'next/link'
-import Image from 'next/image'
+
 
 function Dashboard() {
+
+
+    const [userName, setUserName] = useState('')
+
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.hash.substring(1))
+        const accessToken = params.get('access_token') as string
+
+        fetch('api/getUser/', {
+            method: 'post',
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                accessToken: accessToken
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data)
+                    setUserName(prev => data.full_name)
+                else
+                    throw new Error('data is null')
+            })
+            .catch(error => console.log(error))
+
+    }, [])
+
+
     return (
         <div className='p-20 flex flex-col gap-10  h-screen'>
-            <div>
+            <div className='flex justify-between'>
                 <h1 className='text-5xl font-bold '>Dashboard</h1>
+                <p>Logged in as : <span className='font-semibold'>{userName}</span></p>
             </div>
             <div className='grid grid-cols-2 md:grid-cols-1  gap-7 w-full h-fit max-w-[2000px] mx-auto'>
                 <Link href={'projects/add'} className='col-span-1'>
