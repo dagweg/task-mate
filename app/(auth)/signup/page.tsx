@@ -3,6 +3,7 @@
 import TextBox from '@/app/components/TextBox'
 import React, { useEffect } from 'react'
 import { parsePhoneNumber } from 'libphonenumber-js'
+import { useRouter } from 'next/navigation'
 
 import { useState } from 'react'
 import { countryCodes, CountryCode } from '@/app/data/country'
@@ -12,10 +13,12 @@ function SignUp() {
 
 
     const [phone, setPhone] = useState('1234');
+    const router = useRouter()
+
 
 
     return (
-        <div className='flex flex-col h-screen w-full justify-center items-center'>
+        <div className='flex flex-col h-full w-full justify-center items-center'>
             <div className='bg-gray-50 shadow-lg  w-[600px] px-20 py-16'>
                 <h1 className='font-bold text-3xl my-5'>Sign Up</h1>
                 <form action="" method='POST' className='flex flex-col gap-4'>
@@ -72,6 +75,7 @@ function SignUp() {
                         </div>
                     </div>
                     <Button label={'Create Account'} />
+                    <p>Already have an account? <span className='font-semibold text-purple-800 cursor-pointer' onClick={() => router.push('/login')}>Login</span></p>
                 </form>
             </div>
         </div>

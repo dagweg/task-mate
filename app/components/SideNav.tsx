@@ -43,32 +43,32 @@ function SideNav() {
                 <nav className='flex-grow'>
                     <div className='flex flex-col h-full space-y-8 justify-between py-20'>
                         <div className='flex flex-col gap-4'>
-                            <Link href={'/dashboard'} className='side-nav-button'>
+                            <Link href={'/dashboard'} className='side-nav-button' onClick={() => setSideBar(sb.disabled)}>
                                 <BiSolidDashboard className={'scale-150'} />
                                 <label htmlFor="">Dashboard</label>
                             </Link>
-                            <Link href={'/projects'} className='side-nav-button'>
+                            <Link href={'/projects'} className='side-nav-button' onClick={() => setSideBar(sb.disabled)}>
                                 <AiOutlineProject className={'scale-150'} />
                                 <label htmlFor="">Projects</label>
                                 <div className='flex flex-grow justify-end'>
                                     {/* <BsPlusCircleFill /> */}
                                 </div>
                             </Link>
-                            <Link href={'/chat'} className='side-nav-button'>
+                            <Link href={'/chat'} className='side-nav-button' onClick={() => setSideBar(sb.disabled)}>
                                 <BsFillChatFill className={'scale-150'} />
                                 <label htmlFor="">Chat</label>
                             </Link>
                         </div>
                         <div className='flex flex-col gap-4'>
-                            <Link href={'/settings'} className='side-nav-button'>
+                            <Link href={'/settings'} className='side-nav-button' onClick={() => setSideBar(sb.disabled)}>
                                 <FiSettings className={'scale-150'} />
                                 <label htmlFor="">Settings</label>
                             </Link>
-                            <Link href={'/help&info'} className='side-nav-button'>
+                            <Link href={'/help&info'} className='side-nav-button' onClick={() => setSideBar(sb.disabled)}>
                                 <FiHelpCircle className={'scale-150'} />
                                 <label htmlFor="">Help & Information</label>
                             </Link>
-                            <div className='side-nav-button' >
+                            <div className='side-nav-button' onClick={() => setSideBar(sb.disabled)}>
                                 <BiLogOut className={'scale-150'} />
                                 <label htmlFor="">Logout</label>
                             </div>
