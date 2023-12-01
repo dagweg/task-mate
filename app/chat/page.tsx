@@ -8,6 +8,7 @@ import { BsMicFill } from 'react-icons/bs'
 import { RiSendPlane2Fill } from 'react-icons/ri'
 import { TextField } from '@radix-ui/themes'
 import './chat.css'
+import ChatMessage from '../components/ChatMessage'
 
 function Chat() {
     return (
@@ -26,13 +27,7 @@ function Chat() {
                     </div>
                     <div className='bg-gray-300 flex flex-col flex-grow h-full p-4 gap-4    '>
                         <div className='flex flex-col flex-grow justify-end gap-2'>
-                            <div className='flex gap-2 items-end'>
-                                <div className='bg-orange-300 h-12 w-12 rounded-full'></div>
-                                <div className='bg-white rounded-r-3xl rounded-t-3xl max-w-[350px] p-4'>
-                                    <h1 className='font-semibold'>Riley</h1>
-                                    <p className='text-sm'>Hello everybody, just wanted to let you know that today will be meeting day.</p>
-                                </div>
-                            </div>
+                            <ChatMessage username='Riley' message='We have meeting today afternoon' />
                             <div className='flex gap-2 items-end'>
                                 <div className='bg-blue-300 h-12 w-12 rounded-full'></div>
                                 <div className='bg-white rounded-r-3xl rounded-t-3xl max-w-[350px] p-4'>
@@ -41,11 +36,11 @@ function Chat() {
                                 </div>
                             </div>
                         </div>
-                        <TextField.Root className=''>
+                        <TextField.Root className='p-4'>
                             <TextField.Slot>
                                 <ImAttachment />
                             </TextField.Slot>
-                            <TextField.Input placeholder='' radius='full'></TextField.Input>
+                            <TextField.Input placeholder='' radius='full' className='!text-[16px]'></TextField.Input>
                             <TextField.Slot>
                                 <BsEmojiSmile />
                                 <BsMicFill />

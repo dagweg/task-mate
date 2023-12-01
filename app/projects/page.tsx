@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import React, { ReactElement, useEffect, useState } from 'react'
 import supabase from '../config/supabaseClient'
+import constants from '../data/constants'
 
 
 interface Project {

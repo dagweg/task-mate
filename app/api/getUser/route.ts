@@ -10,6 +10,9 @@ export async function POST(request: NextRequest) {
 
         if (data) {
             const user = data.user?.user_metadata
+            if (!user) {
+                return NextResponse.json('user not found or access key has expired!!', { status: 404 })
+            }
             return NextResponse.json({
                 ...user
             }, { status: 200 })

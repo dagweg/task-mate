@@ -3,35 +3,53 @@
 import React, { useState, useEffect } from 'react'
 import './dashboard.css'
 import Link from 'next/link'
+import constants from '../data/constants'
+import { useRouter } from 'next/navigation'
 
 
 function Dashboard() {
 
-
     const [userName, setUserName] = useState('')
+    const router = useRouter()
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.hash.substring(1))
         const accessToken = params.get('access_token') as string
 
-        fetch('api/getUser/', {
-            method: 'post',
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                accessToken: accessToken
-            })
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data)
-                    setUserName(prev => data.full_name)
-                else
-                    throw new Error('data is null')
-            })
-            .catch(error => console.log(error))
+        let storedToken = localStorage.getItem(constants.USER_ACCESS_TOKEN)
+        const storedUserData = localStorage.getItem(constants.USER_DATA)
 
+
+        // request only if there is access token, else get the locally stored data from the first login 
+        if (accessToken) {
+            localStorage.setItem(constants.USER_ACCESS_TOKEN, JSON.stringify(accessToken)) // store for later use if needed
+            fetch('api/getUser/', {
+                method: 'post',
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    accessToken: accessToken
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data) {
+                        setUserName(prev => data.full_name)
+                        localStorage.setItem(constants.USER_DATA, JSON.stringify(data)) // store user information
+                    }
+                    else
+                        throw new Error('data is null')
+                })
+                .catch(error => console.log(error))
+        }
+
+
+        // basic first time visit check
+        if (!storedUserData) {
+            // redirect to login
+            router.push('/login')
+        }
     }, [])
 
 
