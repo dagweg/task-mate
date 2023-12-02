@@ -28,8 +28,10 @@ export default function RootLayout({
       </head>
       <body>
         <Theme>
-          <SideNav />
-          <main className='flex-grow'>{children}</main>
+          <section className='flex'>
+              <SideNav />
+              <main className='flex-grow'>{children}</main>
+          </section>
         </Theme>
       </body>
     </html>

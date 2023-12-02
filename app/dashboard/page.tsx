@@ -4,60 +4,24 @@ import React, { useState, useEffect } from 'react'
 import './dashboard.css'
 import Link from 'next/link'
 import constants from '../data/constants'
-import { useRouter } from 'next/navigation'
+import { redirect, useRouter } from 'next/navigation'
+import { useSession } from 'next-auth/react'
 
 
 function Dashboard() {
 
-    const [userName, setUserName] = useState('')
-    const router = useRouter()
-
-    useEffect(() => {
-        const params = new URLSearchParams(window.location.hash.substring(1))
-        const accessToken = params.get('access_token') as string
-
-        let storedToken = localStorage.getItem(constants.USER_ACCESS_TOKEN)
-        const storedUserData = localStorage.getItem(constants.USER_DATA)
-
 
         // request only if there is access token, else get the locally stored data from the first login 
-        if (accessToken) {
-            localStorage.setItem(constants.USER_ACCESS_TOKEN, JSON.stringify(accessToken)) // store for later use if needed
-            fetch('api/getUser/', {
-                method: 'post',
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    accessToken: accessToken
-                })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data) {
-                        setUserName(prev => data.full_name)
-                        localStorage.setItem(constants.USER_DATA, JSON.stringify(data)) // store user information
-                    }
-                    else
-                        throw new Error('data is null')
-                })
-                .catch(error => console.log(error))
-        }
-
-
-        // basic first time visit check
-        if (!storedUserData) {
-            // redirect to login
-            router.push('/login')
-        }
-    }, [])
+        const {data:session} = useSession()
+        const user  = session?.user
+        console.log("heeyoooooo this is athe session",user)
 
 
     return (
         <div className='p-20 flex flex-col gap-10  h-screen'>
             <div className='flex justify-between'>
                 <h1 className='text-5xl font-bold '>Dashboard</h1>
-                <p>Logged in as : <span className='font-semibold'>{userName}</span></p>
+                <p>Logged in as : <span className='font-semibold'>{user?.name ?? "signup"}</span></p>
             </div>
             <div className='grid grid-cols-2 md:grid-cols-1  gap-7 w-full h-fit max-w-[2000px] mx-auto'>
                 <Link href={'projects/add'} className='col-span-1'>
