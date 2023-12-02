@@ -11,6 +11,7 @@ import { BiLogOut } from 'react-icons/bi'
 import { BsPlusCircleFill } from 'react-icons/bs'
 import classNames from 'classnames'
 import './sidenav.css'
+import { cn } from '../lib/utils'
 
 function SideNav() {
 
@@ -19,8 +20,8 @@ function SideNav() {
     }
 
     enum sb {
-        enabled = 'w-[300px]',
-        disabled = 'w-0 hidden'
+        enabled = 'w-[300px] transition-all duration-500',
+        disabled = 'w-0 p-0 m-0  transition-all duration-300'
     }
 
     const [sideBar, setSideBar] = useState<string>(sb.disabled)
@@ -35,8 +36,8 @@ function SideNav() {
     }
 
     return (
-        <div className='fixed h-screen flex text-white w-fit z-10'>
-            <div className={`bg-dark2 h-full  ${sideBar} px-4`}>
+        <div className=' h-screen flex text-white w-fit z-10'>
+            <div className={cn(`bg-dark2 h-full px-4`,sideBar)}>
                 <div className='h-[10%] flex flex-col justify-center items-center'>
                     <h1 className='text-2xl font-bold tracking-wide'><i></i>TaskMate</h1>
                 </div>
