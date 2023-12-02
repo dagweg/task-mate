@@ -28,9 +28,9 @@ export default function RootLayout({
       </head>
       <body>
         <Theme>
-          <section className='flex'>
+          <section className='flex fixed h-screen  w-full'>
               <SideNav />
-              <main className='flex-grow'>{children}</main>
+              <main className='flex-grow h-screen overflow-y-scroll w-full'>{children}</main>
           </section>
         </Theme>
       </body>
