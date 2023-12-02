@@ -23,9 +23,9 @@ export default  async function RootLayout({
   const session  = await getServerAuthSession()
   console.log("this session is from the server",session)
 
-  if(!session?.user){
-    redirect("/login")
-  }
+  // if(!session?.user){
+  //   redirect("/login")
+  // }
 
   return (
     <html lang="en">
