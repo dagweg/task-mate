@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react'
 import Link from 'next/link'
-import TopNav from '../components/TopNav'
+import TopNav from '@/app/components/TopNav'
+
 
 function layout({ children }: { children: ReactNode }) {
     return (

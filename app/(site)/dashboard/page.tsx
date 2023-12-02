@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from 'react'
 import './dashboard.css'
 import Link from 'next/link'
-import constants from '../data/constants'
 import { redirect, useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 
