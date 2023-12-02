@@ -1,34 +1,49 @@
 'use client'
 
-import React from 'react'
-import { FaGoogle } from "react-icons/fa6";
+import React, { useEffect } from 'react'
+import { FaGithub } from "react-icons/fa6";
 import { useRouter } from 'next/navigation';
+import { signIn } from 'next-auth/react';
 
 const Page = () => {
 
     const router = useRouter()
 
-    const login = async () => {
-        fetch('api/login', { method: 'post' })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data)
-                if (data) {
-                    router.push(data.url); // Redirect to the authentication URL
-                }
-                else {
-                    console.log(data.error)
-                }
-            })
-            .catch(e => console.log(e))
+    // const login = async () => {
+    //     fetch('api/login', { method: 'post' })
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             console.log(data)
+    //             if (data) {
+    //                 router.push(data.url); // Redirect to the authentication URL
+    //             }
+    //             else {
+    //                 console.log(data.error)
+    //             }
+    //         })
+    //         .catch(e => console.log(e))
+    // }
+    let redirectUrl = "http://location:3000";
+
+    useEffect(() => {
+    const url = new URL(location.href);
+    redirectUrl = url.searchParams.get("callbackUrl")!;
+    });
+
+    const handleLogin  = ()=>{
+        signIn()
     }
 
     return (
         <>
             <div className='relative w-full h-full flex flex-col justify-center items-center p-10'>
                 <h1 className='text-3xl font-bold tracking-wide py-10'>Task Mate</h1>
-                <div className='group flex items-center justify-start gap-6 border-black border-2 shadow-lg p-5 px-16 hover:bg-dark2 active:scale-105 duration-150 text-xl cursor-pointer' onClick={login}>
-                    <FaGoogle className='scale-150 group-hover:text-white duration-150' />
+                <div className='group flex items-center justify-start gap-6 border-black border-2 shadow-lg p-5 px-16 hover:bg-dark2 active:scale-105 duration-150 text-xl cursor-pointer' onClick={() => {
+    signIn("github", {
+      callbackUrl: redirectUrl,
+    });
+  }}>
+                    <FaGithub className='scale-150 group-hover:text-white duration-150 ' />
                     <label htmlFor="google" className='group-hover:text-white duration-150'>Continue with Google</label>
                 </div>
             </div>
