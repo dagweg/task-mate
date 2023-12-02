@@ -8,7 +8,7 @@ import { BsMicFill } from 'react-icons/bs'
 import { RiSendPlane2Fill } from 'react-icons/ri'
 import { TextField } from '@radix-ui/themes'
 import './chat.css'
-import ChatMessage from '../components/ChatMessage'
+import ChatMessage from '../../components/ChatMessage'
 
 function Chat() {
     return (

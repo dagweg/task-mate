@@ -12,8 +12,13 @@ import { BsPlusCircleFill } from 'react-icons/bs'
 import classNames from 'classnames'
 import './sidenav.css'
 import { cn } from '../lib/utils'
+import { useSession } from 'next-auth/react'
+import Image from 'next/image'
 
 function SideNav() {
+
+    const {data:session} = useSession()
+    const user = session?.user
 
     const handleLogoutClick = () => {
         // ToDo: ValidationPopup() component logic here
@@ -37,12 +42,19 @@ function SideNav() {
 
     return (
         <div className=' h-screen flex text-white w-fit z-10'>
-            <div className={cn(`bg-dark2 h-full px-4`,sideBar)}>
-                <div className='h-[10%] flex flex-col justify-center items-center'>
-                    <h1 className='text-2xl font-bold tracking-wide'><i></i>TaskMate</h1>
+            <div className={cn(`bg-dark2 h-full px-4 space-y-4 `,sideBar)}>
+
+                <div className="user py-2 w-full flex flex-row gap-4 space-y-5 border-b border-b-[#3f3759]">
+                    <div className="avatar relative h-[4rem] w-[4rem] rounded-full border-2 border-stone-500">
+                            <Image className='rounded-full' src={user?.image as string} alt={user?.name as string} objectFit='cover' layout='fill' />
+                    </div>
+                    <div className="userName text-lg font-semibold">
+                            Amanuel-1
+                    </div>
                 </div>
-                <nav className='flex-grow'>
-                    <div className='flex flex-col h-full space-y-8 justify-between py-20'>
+                
+                <nav className={cn('flex w-full',sideBar)}>
+                    <div className={cn('flex flex-col h-full w-full space-y-8 px-2 justify-between py-16',sideBar==sb.disabled?'hidden':'')}>
                         <div className='flex flex-col gap-4'>
                             <Link href={'/dashboard'} className='side-nav-button' onClick={() => setSideBar(sb.disabled)}>
                                 <BiSolidDashboard className={'scale-150'} />
@@ -76,6 +88,9 @@ function SideNav() {
                         </div>
                     </div>
                 </nav>
+                <div className={cn('h-[10%] w-full flex flex-col justify-center items-center text-[#a29eae]',sideBar==sb.disabled?'hidden':'')}>
+                    <h1 className='text-2xl font-bold tracking-wide '><i></i>TaskMate</h1>
+                </div>
             </div>
             <div className={`${classNames({
                 "h-full flex flex-col justify-center overflow-visible relative bg-dark2 w-2 cursor-pointer hover:bg-gray-100 duration-200 ": true,

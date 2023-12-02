@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import Link from 'next/link'
 import './help&info.css'
-import TopNav from '../components/TopNav'
+import TopNav from '@/app/components/TopNav'
 
 function HelpAndInfoLayout({ children }: { children: ReactNode }) {
     return (
