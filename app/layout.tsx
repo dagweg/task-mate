@@ -4,6 +4,7 @@ import './globals.css'
 import '@radix-ui/themes/styles.css';
 import SideNav from './components/SideNav'
 import { Theme } from '@radix-ui/themes'
+import SessionProvide from './components/sessionProvide';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -27,12 +28,14 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Agbalumo&family=Comfortaa&family=Inter&family=Lilita+One&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;1,100;1,200;1,300;1,400;1,500&family=Mooli&family=Open+Sans&family=Play:wght@400;700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,800;1,100;1,200;1,300;1,400&family=Quicksand&family=Raleway&family=Rubik&display=swap" rel="stylesheet"></link>
       </head>
       <body>
+        <SessionProvide>
         <Theme>
           <section className='flex fixed h-screen  w-full'>
               <SideNav />
               <main className='flex-grow h-screen overflow-y-scroll w-full'>{children}</main>
           </section>
         </Theme>
+        </SessionProvide>
       </body>
     </html>
   )
