@@ -6,7 +6,7 @@ import { Url } from "next/dist/shared/lib/router/router";
 
   
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
 const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };
 
