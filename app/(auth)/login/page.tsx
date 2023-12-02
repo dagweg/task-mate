@@ -38,13 +38,13 @@ const Page = () => {
         <>
             <div className='relative w-full h-full flex flex-col justify-center items-center p-10'>
                 <h1 className='text-3xl font-bold tracking-wide py-10'>Task Mate</h1>
-                <div className='group flex items-center justify-start gap-6 border-black border-2 shadow-lg p-5 px-16 hover:bg-dark2 active:scale-105 duration-150 text-xl cursor-pointer' onClick={() => {
+                <div className='group flex items-center justify-start gap-6 bg-stone-800 text-stone-50 border-black border-2 shadow-lg p-5 px-16 hover:bg-dark2 active:scale-105 duration-150 text-xl cursor-pointer' onClick={() => {
     signIn("github", {
       callbackUrl: redirectUrl,
     });
   }}>
-                    <FaGithub className='scale-150 group-hover:text-white duration-150 ' />
-                    <label htmlFor="google" className='group-hover:text-white duration-150'>Continue with Google</label>
+                    <FaGithub className='scale-150  group-hover:text-white duration-150 ' />
+                    <label htmlFor="google" className='group-hover:text-white duration-150'>Continue with Githhub</label>
                 </div>
             </div>
         </>

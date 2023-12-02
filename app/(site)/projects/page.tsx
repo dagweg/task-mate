@@ -39,7 +39,7 @@ function Projects() {
             {
                 projects.map((project: any, index: number) => (
                     <Link href={'/project/[id]'} as={`/project/${project.name}`} key={index}>
-                        <div className='flex flex-col justify-around cols-span-1  overflow-hidden bg-[#a6a1b1] w-full h-full max-w-[500px] p-7 rounded-3xl shadow-sm bg-opacity-10 hover:scale-[101%] duration-200 hover:bg-white hover:shadow-2xl cursor-pointer active:scale-100'>
+                        <div className='flex flex-col justify-around cols-span-1  overflow-hidden bg-[#a6a1b1] w-full h-full max-w-[500px] p-7 rounded-[10px] shadow-sm bg-opacity-10 hover:scale-[101%] duration-200 hover:bg-white hover:shadow-2xl cursor-pointer active:scale-100'>
                             <h1 className='font-bold tracking-wide text-2xl py-2'>{shortener(project.name,22)}</h1>
                             <p className='text-sm text-justify '>
                                 {shortener(project.description,200)}
