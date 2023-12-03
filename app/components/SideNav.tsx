@@ -44,14 +44,20 @@ function SideNav() {
         <div className=' h-screen flex text-white w-fit z-10'>
             <div className={cn(`bg-dark2 h-full px-4 space-y-4 `,sideBar)}>
 
-                <div className="user py-2 w-full flex flex-row gap-4 space-y-5 border-b border-b-[#3f3759]">
+                {
+                    user?(
+                        <div className="user py-2 w-full flex flex-row gap-4 space-y-5 border-b border-b-[#3f3759]">
                     <div className="avatar relative h-[4rem] w-[4rem] rounded-full border-2 border-stone-500">
                             <Image className='rounded-full' src={user?.image as string} alt={user?.name as string} objectFit='cover' layout='fill' />
                     </div>
                     <div className="userName text-lg font-semibold">
-                            Amanuel-1
+                            {user?.name}
                     </div>
                 </div>
+                    ):(
+                        <h1>not signed in</h1>
+                    )
+                }
                 
                 <nav className={cn('flex w-full',sideBar)}>
                     <div className={cn('flex flex-col h-full w-full space-y-8 px-2 justify-between py-16',sideBar==sb.disabled?'hidden':'')}>
