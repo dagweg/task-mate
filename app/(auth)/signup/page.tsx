@@ -19,8 +19,8 @@ function SignUp() {
 
     return (
         <div className='flex flex-col h-full w-full justify-center items-center'>
-            <div className='bg-gray-50 shadow-lg  w-[600px] px-20 py-16'>
-                <h1 className='font-bold text-3xl my-5'>Sign Up</h1>
+            <div className='w-[700px] px-20 py-16'>
+                <h1 className='font-bold text-5xl my-7 text-center'>Sign Up</h1>
                 <form action="" method='POST' className='flex flex-col gap-4'>
                     <div className='grid grid-cols-2 gap-2'>
                         <div className='flex flex-col'>
@@ -74,7 +74,7 @@ function SignUp() {
                             <p className='text-md text-[15px]'>I agree with the licenses, terms and conditions of this software.</p>
                         </div>
                     </div>
-                    <Button label={'Create Account'} />
+                    <Button label={'Create Account'} className='bg-dark2 text-white hover:bg-dark1 ' />
                     <p>Already have an account? <span className='font-semibold text-purple-800 cursor-pointer' onClick={() => router.push('/login')}>Login</span></p>
                 </form>
             </div>
