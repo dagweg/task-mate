@@ -43,9 +43,9 @@ model User {
   accounts      Account[]
   sessions      Session[]
 
-  teams    Team[]
-  projects Project[]
-  tasks    Task[]
+  teams    Team[]//2 maximum
+  projects Project[]//2 maximum
+  tasks    Task[]// 3 maximum
   role     Role      @default(TEAM_MEMBER)
   // isAdmin  Boolean   @default(false) // changed  to enum 
   Message  Message[]
@@ -57,7 +57,6 @@ model Stakeholder {
 }
 
 enum Role {
-  ADMIN
   TEAM_MANAGER
   TEAM_MEMBER
 }
@@ -73,17 +72,19 @@ model VerificationToken {
 model Team {
   id              String @id @default(cuid())
   name            String
-  members         User[] @relation()
+  members         User[]//user is maximum a member of two teams
+
   administratorId String
   // tasks Task[]
   managerId       String
+  messages Message[]
 }
 
-model Administrator {
-  id       String    @id @default(cuid())
-  name     String
-  projects Project[]
-}
+// model Administrator {
+//   id       String    @id @default(cuid())
+//   name     String
+//   projects Project[]
+// }
 
 // !! the commented are not clear...
 model Project {
@@ -103,9 +104,9 @@ model Project {
   updatedAt       DateTime       @updatedAt
   User            User?          @relation(fields: [userId], references: [id])
   userId          String?
-  Stakeholder     Stakeholder[]
-  Administrator   Administrator? @relation(fields: [administratorId], references: [id])
-  administratorId String?
+  Stakeholder     Stakeholder[]//to be seen
+  // Administrator   Administrator? @relation(fields: [administratorId], references: [id])
+  // administratorId String?
 
   // @@index([AdministratorId, title, dueDate])
 }
@@ -133,7 +134,7 @@ enum Progress {
 
 model SubTask {
   id       String   @id @default(cuid())
-  name     String
+  title     String
   taskId   String
   progress Progress @default(NOT_STARTED)
 
@@ -146,7 +147,9 @@ model Message {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   userId    String
+  teamId String
   user      User     @relation(fields: [userId], references: [id])
+  team    Team @relation(fields: [teamId],references: [id],onDelete: Cascade,onUpdate: Cascade)
 }
 
 // model Report {
