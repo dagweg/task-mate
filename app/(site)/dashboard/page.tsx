@@ -11,17 +11,16 @@ import Card from '@/app/components/card'
 function Dashboard() {
 
 
-        // request only if there is access token, else get the locally stored data from the first login 
-        const {data:session} = useSession()
-        const user  = session?.user
-        console.log("heeyoooooo this is athe session",user)
+    // request only if there is access token, else get the locally stored data from the first login 
+    const { data: session } = useSession()
+    const user = session?.user
+    console.log("heeyoooooo this is athe session", user)
 
 
     return (
         <div className='p-20 flex flex-col gap-10  h-screen'>
             <div className='flex justify-between'>
                 <h1 className='text-5xl font-bold '>Dashboard</h1>
-                <p>Logged in as : <span className='font-semibold'>{user?.name ?? "signup"}</span></p>
             </div>
             <div className='grid grid-cols-2 md:grid-cols-1  gap-7 w-full h-fit max-w-[2000px] mx-auto'>
                 <Link href={'projects/add'} className='col-span-1'>

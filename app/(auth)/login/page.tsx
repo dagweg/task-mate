@@ -4,6 +4,8 @@ import React, { useEffect } from 'react'
 import { FaGithub } from "react-icons/fa6";
 import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
+import TextBox from '@/app/components/TextBox';
+import Link from 'next/link';
 
 const Page = () => {
 
@@ -26,25 +28,35 @@ const Page = () => {
     let redirectUrl = "http://location:3000";
 
     useEffect(() => {
-    const url = new URL(location.href);
-    redirectUrl = url.searchParams.get("callbackUrl")!;
+        const url = new URL(location.href);
+        redirectUrl = url.searchParams.get("callbackUrl")!;
     });
 
-    const handleLogin  = ()=>{
+    const handleLogin = () => {
         signIn()
     }
 
     return (
         <>
             <div className='relative w-full h-full flex flex-col justify-center items-center p-10'>
-                <h1 className='text-3xl font-bold tracking-wide py-10'>Task Mate</h1>
-                <div className='group flex items-center justify-start gap-6 bg-stone-800 text-stone-50 border-black border-2 shadow-lg p-5 px-16 hover:bg-dark2 active:scale-105 duration-150 text-xl cursor-pointer' onClick={() => {
-    signIn("github", {
-      callbackUrl: redirectUrl,
-    });
-  }}>
-                    <FaGithub className='scale-150  group-hover:text-white duration-150 ' />
-                    <label htmlFor="google" className='group-hover:text-white duration-150'>Continue with Githhub</label>
+                <h1 className='text-5xl font-bold tracking-wide py-10'>Login</h1>
+                <div className='flex flex-col gap-2'>
+                    <TextBox placeholder='Email'></TextBox>
+                    <TextBox placeholder='Password'></TextBox>
+                    <div className='flex items-center space-x-4'>
+                        <div className='flex-grow h-[1px] bg-black'></div>
+                        <p>or</p>
+                        <div className='flex-grow h-[1px] bg-black'></div>
+                    </div>
+                    <div className='group flex items-center justify-start gap-6 bg-stone-800 text-stone-50 border-black border-2 shadow-lg p-5 px-16 hover:bg-dark2 active:scale-105 duration-150 text-xl cursor-pointer' onClick={() => {
+                        signIn("github", {
+                            callbackUrl: redirectUrl,
+                        });
+                    }}>
+                        <FaGithub className='scale-150  group-hover:text-white duration-150 ' />
+                        <label htmlFor="google" className='group-hover:text-white duration-150'>Continue with Githhub</label>
+                    </div>
+                    <p>New to Task Mate? <Link href={'/signup'} className='hover:underline'>Create Account</Link></p>
                 </div>
             </div>
         </>
