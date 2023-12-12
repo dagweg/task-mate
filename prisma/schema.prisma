@@ -100,7 +100,7 @@ model Project {
   tasks           Task[]
   createdBy       User          @relation("createdBy",fields: [creatorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   // administrator   Administrator @relation(fields: [AdministratorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  dueDate         DateTime
+  dueDate         DateTime      @default(now())
   createdAt       DateTime       @default(now())
   updatedAt       DateTime       @updatedAt
   
@@ -109,7 +109,7 @@ model Project {
   // Administrator   Administrator? @relation(fields: [administratorId], references: [id])
   // administratorId String?
 
-  // @@index([AdministratorId, title, dueDate])
+   @@index([ title, dueDate])
 }
 
 model Task {
