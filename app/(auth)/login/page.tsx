@@ -1,93 +1,80 @@
 'use client'
 
-import React, { useEffect } from 'react'
-import { FaGithub } from "react-icons/fa6";
-import { useRouter } from 'next/navigation';
+import React, { useEffect } from 'react';
+import { FaGithub } from 'react-icons/fa6';
+import { useParams } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import TextBox from '@/app/components/TextBox';
 import Link from 'next/link';
 
-const Page = () => {
-
-    const router = useRouter()
-
-    // const login = async () => {
-    //     fetch('api/login', { method: 'post' })
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             console.log(data)
-    //             if (data) {
-    //                 router.push(data.url); // Redirect to the authentication URL
-    //             }
-    //             else {
-    //                 console.log(data.error)
-    //             }
-    //         })
-    //         .catch(e => console.log(e))
-    // }
-    let redirectUrl = "http://location:3000";
-
-    useEffect(() => {
-        const url = new URL(location.href);
-        redirectUrl = url.searchParams.get("callbackUrl")!;
-    });
-
-    const handleLogin = () => {
-        signIn()
-    }
-
-    return (
-        <>
-            <div className='relative w-full h-full flex flex-col justify-center items-center p-10'>
-                <h1 className='text-5xl font-bold tracking-wide py-10'>Login</h1>
-                <div className='flex flex-col gap-2'>
-                    <TextBox placeholder='Email'></TextBox>
-                    <TextBox placeholder='Password'></TextBox>
-                    <div className='flex items-center space-x-4'>
-                        <div className='flex-grow h-[1px] bg-black'></div>
-                        <p>or</p>
-                        <div className='flex-grow h-[1px] bg-black'></div>
-                    </div>
-                    <div className='group flex items-center justify-start gap-6 bg-stone-800 text-stone-50 border-black border-2 shadow-lg p-5 px-16 hover:bg-dark2 active:scale-105 duration-150 text-xl cursor-pointer' onClick={() => {
-                        signIn("github", {
-                            callbackUrl: redirectUrl,
-                        });
-                    }}>
-                        <FaGithub className='scale-150  group-hover:text-white duration-150 ' />
-                        <label htmlFor="google" className='group-hover:text-white duration-150'>Continue with Githhub</label>
-                    </div>
-                    <p>New to Task Mate? <Link href={'/signup'} className='hover:underline'>Create Account</Link></p>
-                </div>
-            </div>
-        </>
-    )
+interface PageProps {
+  error?: string;
 }
 
-export default Page
+const errors: { [key: string]: string } = {
+  Signin: 'Try signing in with a different account.',
+  OAuthSignin: 'Try signing in with a different account.',
+  OAuthCallback: 'Try signing in with a different account.',
+  OAuthCreateAccount: 'Try signing in with a different account.',
+  EmailCreateAccount: 'Try signing in with a different account.',
+  Callback: 'Try signing in with a different account.',
+  OAuthAccountNotLinked:
+    'To confirm your identity, sign in with the same account you used originally.',
+  EmailSignin: 'Check your email address.',
+  CredentialsSignin: 'Sign in failed. Check the details you provided are correct.',
+  default: 'Unable to sign in.',
+};
 
-// <div className='w-full h-full flex flex-col gap-4 justify-center items-center text-stone-800 px-4 md:px-10 md:py-24 lg:px-24'>
-//     <div className="flex flex-row gap-4 w-full  bg-transparent">
-//         <div className="title w-full py-2 text-center text-xl md:text-4xl font-semibold">Log into your account</div>
-//     </div>
+const Page: React.FC<PageProps> = ({ error }) => {
+  const errorMessage = error && (errors[error] ?? errors.default);
 
-//     <form action="" className='w-full flex flex-col gap-6 justify-center items-center'>
-//         <label htmlFor="email"></label>
-//         <input type="text" name="email" id="email" placeholder='amanapps.inc@gmail.com'
-//             className='w-[80%] py-3 border-stone-500 outline-1 rounded-sm bg-stone-50'
-//         />
-//         <label htmlFor="password"></label>
-//         <input type="password" name="password" id="password" placeholder='your password'
-//             className='w-[80%] py-3 border-stone-500 outline-1 rounded-sm  bg-stone-50'
-//         />
+  const router = useParams();
+  let redirectUrl = 'http://location:3000';
 
-//         <div className="sumbit py-3 flex w-full justify-center text-stone-400" >
-//             <button className="w-[60%] bg-stone-800 py-4 px-2">login</button>
-//         </div>
+  useEffect(() => {
+    const url = new URL(location.href);
+    redirectUrl = url.searchParams.get('callbackUrl')!;
+  }, []);
 
-//         <div className="providers relative flex flex-row gap-4 border-t-8 w-full py-4 ">
-//             <p className="p absolute top-0 left-1/2 -translate-x-1/2 py-4 px-1 bg-white">or</p>
-//             <button className="google w-[60%] py-4 px-2 ">signIn with  </button>
-//         </div>
+  const handleLogin = () => {
+    signIn();
+  };
 
-//     </form>
-// </div>
+  return (
+    <>
+      <div className="relative w-full h-full flex flex-col justify-center items-center p-10">
+        <h1 className="text-5xl font-bold tracking-wide py-10">Login</h1>
+        <div className="flex flex-col gap-2">
+          <TextBox placeholder="Email" />
+          <TextBox placeholder="Password" />
+          <div className="flex items-center space-x-4">
+            <div className="flex-grow h-[1px] bg-black" />
+            <p>or</p>
+            <div className="flex-grow h-[1px] bg-black" />
+          </div>
+          <div
+            className="group flex items-center justify-start gap-6 bg-stone-800 text-stone-50 border-black border-2 shadow-lg p-5 px-16 hover:bg-dark2 active:scale-105 duration-150 text-xl cursor-pointer"
+            onClick={() => {
+              signIn('github', {
+                callbackUrl: redirectUrl,
+              });
+            }}
+          >
+            <FaGithub className="scale-150  group-hover:text-white duration-150 " />
+            <label htmlFor="google" className="group-hover:text-white duration-150">
+              Continue with Githhub
+            </label>
+          </div>
+          <p>
+            New to Task Mate? <Link href="/signup">Create Account</Link>
+          </p>
+        </div>
+        {errorMessage && (
+          <div className="w-full bg-[rgba(255,10,10,.2)] h-40">{errorMessage}</div>
+        )}
+      </div>
+    </>
+  );
+};
+
+export default Page;
