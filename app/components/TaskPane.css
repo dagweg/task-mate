@@ -1,0 +1,23 @@
+.task-pane {
+    @apply !relative w-[100%] h-fit bg-white px-10 py-6 shadow-md flex flex-col gap-2 duration-150 ease-in-out
+}
+
+/* 
+@keyframes reveal-task-pane {
+    0% {
+        scale: 0;
+    }
+
+} */
+
+
+
+.task-pane:hover .delete-task {
+    @apply block
+}
+
+.task-pane::before {
+    content: '';
+    /* background: linear-gradient(0deg, #FF1D59, #F65990); */
+    @apply !absolute inset-0 z-[-1] scale-[1.01] bg-black
+}
