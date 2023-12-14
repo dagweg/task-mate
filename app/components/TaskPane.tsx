@@ -1,170 +1,212 @@
-'use client'
+import React from 'react'
+import { useState } from 'react'
+import { TaskPaneType } from '@/app/lib/interface'
+import { SubTaskType } from '@/app/lib/interface'
+import { Button, Card, Dialog, DropdownMenu, Flex, IconButton, Text, TextField } from '@radix-ui/themes'
+import { FaCheck } from "react-icons/fa";
+import { IoIosMore } from "react-icons/io";
+import { IoAdd } from "react-icons/io5";
+import { nanoid } from 'nanoid'
+import { MdEdit } from "react-icons/md";
+import { MdAddToQueue } from "react-icons/md";
+import { IoClose } from "react-icons/io5";
+import MDEditor from '@uiw/react-md-editor';
+import { MdDescription } from "react-icons/md";
 
-import React, { ReactNode, useEffect, useRef, useState } from 'react'
-import TextBox from './TextBox'
-import { MdAddToQueue, MdAssignmentAdd, MdAddBox, MdDone, MdAdd } from "react-icons/md";
-import './TaskPane.css'
-import { RiDeleteBinFill } from "react-icons/ri";
-import classNames from 'classnames';
-import { nanoid } from 'nanoid';
-import { Button, DropdownMenu, TextField } from '@radix-ui/themes';
-import { cn } from '../lib/utils';
-import { IoMdMore } from "react-icons/io";
-import { TfiMoreAlt } from "react-icons/tfi";
-import { CiEdit } from "react-icons/ci";
-import { FaRegEdit } from "react-icons/fa";
-// import Button from './Button';
+function TaskPane(props: TaskPaneType) {
 
-interface SubTask {
-    label: string,
-    id: number,
-    editMode: boolean,
-    opened: boolean
-}
-interface Props {
-    taskId: any,
-    removeTaskPaneCallback: any
-}
+    const [taskPane, setTaskPane] = useState<TaskPaneType>(props)
+    const [subTasks, setSubTasks] = useState<SubTaskType[]>(props.subtasks)
+    const [tpTitle, setTpTitle] = useState<string>(props.title)
 
-
-function TaskPane({ taskId, removeTaskPaneCallback }: Props) {
-
-    const [taskTitle, setTaskTitle] = useState<string>('');
-    const [subTasks, setSubTasks] = useState<SubTask[]>([]);
-    const [subTaskTitle, setSubTaskTitle] = useState<string>('');
-    const [taskPaneCreated, setTaskPaneCreated] = useState<Boolean>(false);
-
-    let userList = useRef<HTMLDivElement>(null);
-
-    const addSubTaskFromMenu = () => {
-        const emptySubTask: SubTask = {
-            label: '',
-            id: 0,
-            editMode: true,
-            opened: false
+    function saveTaskTitle() {
+        const newTaskPane: TaskPaneType = {
+            ...taskPane,
+            title: tpTitle,
+            isEditMode: false
         }
-        setSubTasks((prev: SubTask[]) => [...prev, emptySubTask])
+
+        setTaskPane(prev => newTaskPane)
     }
 
-    const setSubTaskEditMode = (subTaskId: number, editMode: boolean) => {
-        const modifiedSubTasks: SubTask[] = subTasks.map(subTask => {
-            if (subTask.id == subTaskId) {
-                return {
-                    ...subTask,
-                    label: subTaskTitle,
-                    editMode: editMode,
-                }
+    function editTaskTitle() {
+        const newSubTask: TaskPaneType = {
+            ...taskPane,
+            isEditMode: true
+        }
+        setTaskPane(prev => newSubTask)
+    }
+
+    function deleteTaskPane() {
+        props.removeTaskPaneCallback(taskPane.id)
+    }
+
+    function addSubTask() {
+        const newSubTask: SubTaskType = {
+            id: nanoid(),
+            description: '',
+            isComplete: false,
+            isEditMode: true,
+            isFirstTime: true,
+            isOpen: false, // is the dialog open
+            title: '',
+            removeSubTaskCallback: (subTaskId: string) => {
+                setSubTasks(prev => prev.filter(subTask => subTask.id != subTaskId))
             }
-            return subTask
-        })
-        setSubTasks(modifiedSubTasks)
-    }
-
-    const addSubTask = (subTaskId: number) => {
-        setSubTaskEditMode(subTaskId, false);
-        const newSubTask: SubTask = {
-            label: subTaskTitle,
-            id: subTaskId,
-            editMode: false,
-            opened: false
-        }
-        setSubTasks(prev => [
-            ...prev,
-            newSubTask
-        ])
-    }
-
-    const titleTextBoxOnBlur = () => {
-        if (taskTitle == '' && subTasks.length == 0) {
-            removeTaskPaneCallback(taskId)
         }
 
-        setTaskPaneCreated(true);
+        setSubTasks(prev => [...prev, newSubTask])
     }
-
-
-
-    useEffect(() => {
-
-    })
-
-
 
     return (
-        <div className='task-pane' key={taskId}>
-            {/* <div className='delete-task absolute cursor-pointer hidden top-0 right-0 p-1 hover:bg-gray-200 rounded-full' onClick={() => removeTaskPaneCallback(taskId)}>
-                <RiDeleteBinFill className='' />
-            </div> */}
-            <div className={cn('flex ', taskPaneCreated ? '' : 'justify-center')}>
+        <div className='task-pane'>
+            <Card className='!bg-gray-200  h-fit !border-2 duration-75 hover:!border-red-200'>
                 {
-                    taskPaneCreated ?
+                    taskPane.isEditMode ?
                         <>
-                            <div className='flex justify-between items-center w-full'>
-                                <h1 className='text-xl font-semibold uppercase'>{taskTitle}</h1>
-                                <DropdownMenu.Root>
-                                    <DropdownMenu.Trigger>
-                                        <Button className='!bg-transparent hover:!bg-gray-200' >
-                                            <TfiMoreAlt className='text-black text-xl' />
-                                        </Button>
-                                    </DropdownMenu.Trigger>
-                                    <DropdownMenu.Content>
-                                        <DropdownMenu.Item shortcut="⌘ E" onClick={() => setTaskPaneCreated(false)}>Edit</DropdownMenu.Item>
-                                        <DropdownMenu.Separator />
-                                        <DropdownMenu.Item shortcut="⌘ A" onClick={() => addSubTaskFromMenu()}>Add Subtask</DropdownMenu.Item>
-                                        <DropdownMenu.Separator />
-                                        <DropdownMenu.Item shortcut="⌘ ⌫" color="red" onClick={() => removeTaskPaneCallback(taskId)}>
-                                            Delete
-                                        </DropdownMenu.Item>
-                                    </DropdownMenu.Content>
-                                </DropdownMenu.Root>
-                            </div>
+                            <TextField.Root className='flex items-center'>
+                                <TextField.Input placeholder='Task Title' className='!p-2' value={tpTitle} onChange={e => setTpTitle(e.target.value)}></TextField.Input>
+                                <TextField.Slot>
+                                    <IconButton className=' !m-1 !bg-gray-200 hover:!bg-neutral-600' onClick={saveTaskTitle}>
+                                        <FaCheck></FaCheck>
+                                    </IconButton>
+                                </TextField.Slot>
+                            </TextField.Root>
                         </>
                         :
                         <>
-                            <TextBox placeholder='Task Title' className='h-8 border-t-0 border-r-0 border-l-0 !border-b-2   focus:bg-slate-200 flex-grow' onChange={(e: any) => setTaskTitle(e.target.value)} onBlur={titleTextBoxOnBlur}></TextBox>
-                            <Button className='!bg-gray-400 hover:!bg-gray-600' onClick={() => setTaskPaneCreated(true)}>
-                                <MdDone />Done
-                            </Button>
+                            <div className='flex items-center justify-between' >
+                                <h1 className='uppercase text-xl tracking-wider font-semibold'>{taskPane.title}</h1>
+                                <DropdownMenu.Root>
+                                    <DropdownMenu.Trigger>
+                                        <IconButton className=' !m-1 !bg-gray-200 hover:!bg-neutral-300 !text-xl !text-black'><IoIosMore /></IconButton>
+                                    </DropdownMenu.Trigger>
+                                    <DropdownMenu.Content className='min-w-[10rem]'>
+                                        <DropdownMenu.Item onClick={editTaskTitle} className=' !m-1  hover:!bg-neutral-600 hover:!text-white !text-black'>Edit Title</DropdownMenu.Item>
+                                        <DropdownMenu.Separator />
+                                        <DropdownMenu.Item onClick={deleteTaskPane} className=' !m-1  hover:!bg-red-500 hover:!text-white !text-black'>Delete</DropdownMenu.Item>
+                                    </DropdownMenu.Content>
+                                </DropdownMenu.Root>
+                            </div>
+
+                            <div className='sub-task-container space-y-[10px] py-2'>
+                                {
+                                    subTasks.map(subTask => (
+                                        <SubTask key={subTask.id} {...subTask} />
+                                    ))
+                                }
+                            </div>
+
+                            <div className='flex justify-end'>
+                                <IconButton onClick={addSubTask} className=' !m-1 !bg-gray-400 hover:!bg-neutral-600 !w-fit !px-4 gap-2'><IoAdd />Add Subtask</IconButton>
+                            </div>
                         </>
                 }
-            </div>
-            <hr className='h-[2px] bg-black my-2 bg-opacity-50' />
-            <div className='space-y-2 '>
-                {subTasks.map((subTask: SubTask, index: number) => (
-                    <>
-                        {
-                            subTask.editMode == true ?
-                                < div key={index} className='flex w-full ' >
-                                    <TextField.Root className='w-full'>
-                                        <TextField.Slot>
-                                            <MdAddToQueue></MdAddToQueue>
-                                        </TextField.Slot>
-                                        <TextField.Input className='!p-2 !outline-2 !outline-gray-700' color='gray'>
-                                        </TextField.Input>
-                                        <TextField.Slot>
-                                            <div className='p-1 rounded-lg hover:bg-gray-200 cursor-pointer' onClick={() => setSubTaskEditMode(index, false)}>Add</div>
-                                        </TextField.Slot>
-                                    </TextField.Root>
-                                </div>
-                                :
-                                < div key={index} className='flex justify-between items-center bg-white border-[1px] text-neutral-800 font-md tracking-wide p-2 rounded-xl' >
-                                    <h3>{subTask.label}</h3>
-                                    <div className='p-[0.3rem] bg-gray-200 hover:bg-gray-600 hover:text-white duration-75 rounded-full' onClick={() => setSubTaskEditMode(index, true)}>
-                                        <FaRegEdit className='text-xl ' />
-                                    </div>
-                                </div>
-                        }
-                    </>
-                ))}
-                <div className='flex justify-end '>
-                    <Button className='!mt-2 !bg-transparent !text-black hover:!text-white hover:!bg-gray-800 duration-75 ease-out' onClick={addSubTaskFromMenu}>
-                        <MdAdd></MdAdd>
-                        Add a subtask
-                    </Button>
-                </div>
-            </div>
-        </div >
+
+            </Card>
+        </div>
     )
+}
+
+
+function SubTask(props: SubTaskType) {
+
+    const [subTask, setSubTask] = useState<SubTaskType>(props)
+    const [stTitle, setStTitle] = useState<string>(props.title)
+    const [mdText, setMdText] = useState<any>('**Write something here**')
+
+    function saveSubTaskTitle() {
+        const newSubTask: SubTaskType = {
+            ...subTask,
+            title: stTitle,
+            isEditMode: false
+        }
+
+        setSubTask(prev => newSubTask)
+    }
+
+    function editSubTaskTitle() {
+        const newSubTask: SubTaskType = {
+            ...subTask,
+            isEditMode: true
+        }
+        setSubTask(prev => newSubTask)
+    }
+    function deleteSubTask() {
+        props.removeSubTaskCallback(subTask.id)
+    }
+
+    function openSubTaskDialog(bool: boolean) {
+        const opened: SubTaskType = {
+            ...subTask,
+            isOpen: bool
+        }
+        setSubTask(prev => opened)
+    }
+
+    return (
+        <>
+            {
+                subTask.isEditMode ?
+                    <>
+                        <TextField.Root className='flex items-center'>
+                            <TextField.Input placeholder='Subtask' className='!p-2' value={stTitle} onChange={e => setStTitle(e.target.value)}></TextField.Input>
+                            <TextField.Slot>
+                                <IconButton className=' !m-1 !bg-gray-200 hover:!bg-neutral-600' onClick={saveSubTaskTitle}>
+                                    <FaCheck></FaCheck>
+                                </IconButton>
+                            </TextField.Slot>
+                        </TextField.Root>
+                    </>
+                    :
+                    <>
+                        <div className='flex items-center justify-between bg-white hover:bg-slate-100 rounded-xl px-2 '>
+                            <div onClick={() => openSubTaskDialog(true)} className=' flex-grow py-2 '>
+                                <h1 className='uppercase text-sm px-2 tracking-wider font-semibold'>{subTask.title}</h1>
+                            </div>
+                            <DropdownMenu.Root>
+                                <DropdownMenu.Trigger>
+                                    <IconButton className=' !m-1 !bg-gray-200 hover:!bg-neutral-300 !text-xl !text-black'><MdEdit /></IconButton>
+                                </DropdownMenu.Trigger>
+                                <DropdownMenu.Content className='min-w-[10rem]'>
+                                    <DropdownMenu.Item onClick={editSubTaskTitle} className='z-10 !m-1  hover:!bg-neutral-600 hover:!text-white !text-black'>Edit Title</DropdownMenu.Item>
+                                    <DropdownMenu.Separator />
+                                    <DropdownMenu.Item onClick={deleteSubTask} className=' !m-1  hover:!bg-red-500 hover:!text-white !text-black'>Delete</DropdownMenu.Item>
+                                </DropdownMenu.Content>
+                            </DropdownMenu.Root>
+                        </div>
+                    </>
+
+            }
+            {
+
+                subTask.isOpen ?
+                    <div className='fixed inset-0 w-full h-full bg-black backdrop-blur-[1px] bg-opacity-75 z-[100] flex justify-center items-center'>
+                        <div className='bg-slate-500 bg-opacity-75 rounded-lg w-[700px] h-[800px] z-[105] text-white p-5'>
+                            <div className='flex items-center  gap-2 justify-between'>
+                                <div className='flex  items-center  gap-2'>
+                                    <MdAddToQueue className='text-2xl' />
+                                    <h1 className='text-2xl font-semibold capitalize'>{subTask.title}</h1>
+                                </div>
+                                <IoClose onClick={() => openSubTaskDialog(false)} className='text-2xl hover:bg-slate-400 rounded-full p-1 active:scale-105' />
+                            </div>
+                            <div className='py-10'>
+                                <div className='flex py-4'>
+                                    <MdDescription onClick={() => openSubTaskDialog(false)} className='text-2xl hover:bg-slate-400 rounded-full p-1 active:scale-105' />
+                                    <h1>Description:</h1>
+                                </div>
+                                <MDEditor className='!h-[400px]' value={mdText} onChange={setMdText} />
+                            </div>
+                        </div>
+
+                    </div>
+                    :
+                    <div></div>
+            }
+
+        </>
+    )
+
 }
 
 export default TaskPane

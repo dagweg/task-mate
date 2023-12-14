@@ -8,18 +8,12 @@ import { MdAddBox } from "react-icons/md";
 import { IoStatsChart } from "react-icons/io5";
 import './layout.css'
 import { FaUsers } from "react-icons/fa";
-import TaskPane from '@/app/components/TaskPane';
 import { nanoid } from 'nanoid';
 import { AiOutlineClear } from "react-icons/ai";
+import TaskPane from '@/app/components/TaskPane';
+import { TaskPaneType } from '@/app/lib/interface'
+import { SubTaskType } from '@/app/lib/interface'
 
-interface TaskPaneInterface {
-    key: string,
-    taskTitle: string,
-    subTasks: [{
-        subTaskTitle: string,
-        key: string
-    }]
-}
 
 function ProjectLayout({ children }: { children: ReactNode }) {
 
@@ -28,16 +22,19 @@ function ProjectLayout({ children }: { children: ReactNode }) {
     let paths = pathname.split('/')
     let path = decodeURIComponent(paths[paths.length - 1])
 
-    const [taskPanes, setTaskPanes] = useState<TaskPaneInterface[]>([])
+    const [taskPanes, setTaskPanes] = useState<TaskPaneType[]>([])
 
     const addTask = () => {
-        const newTask: TaskPaneInterface = {
-            key: nanoid(),
-            taskTitle: '',
-            subTasks: [{
-                subTaskTitle: '',
-                key: nanoid()
-            }]
+        const newTask: TaskPaneType = {
+            id: nanoid(),
+            title: '',
+            subtasks: [],
+            isEditMode: true,
+            isFirstTime: true,
+            removeTaskPaneCallback: (taskPaneId: string) => {
+                const newTaskPanes = taskPanes.filter(taskPane => taskPane.id != taskPaneId)
+                setTaskPanes(prev => newTaskPanes)
+            }
         }
 
         console.log(taskPanes)
@@ -45,9 +42,9 @@ function ProjectLayout({ children }: { children: ReactNode }) {
         setTaskPanes(prev => [...prev, newTask])
     }
 
-    const removeTaskPane = (k: any) => {
+    const removeTaskPane = (k: string) => {
         const newTaskPanes = taskPanes.filter(taskPane => {
-            return taskPane.key !== k
+            return taskPane.id !== k
         })
         setTaskPanes(prev => newTaskPanes)
     }
@@ -55,13 +52,6 @@ function ProjectLayout({ children }: { children: ReactNode }) {
     const clearTasks = () => {
         setTaskPanes([])
     }
-
-    useEffect(() => {
-        // console.log(taskPanes)
-        // taskPanes.forEach((taskPane: TaskPaneInterface) => {
-        //     console.log(taskPane.key)
-        // })
-    })
 
     return (
         <div className='flex flex-col h-screen'>
@@ -90,8 +80,11 @@ function ProjectLayout({ children }: { children: ReactNode }) {
 
                     <div className=' grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 p-4 gap-5'>
                         {/* {children}? */}
-                        {taskPanes.map((taskPane: TaskPaneInterface, index: any) => (
-                            <TaskPane taskId={taskPane.key} key={index} removeTaskPaneCallback={removeTaskPane} />
+                        {taskPanes.map((taskPane: TaskPaneType, index: any) => (
+                            <TaskPane
+                                key={taskPane.id}
+                                {...taskPane}
+                            />
                         ))}
 
                     </div>
