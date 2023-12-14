@@ -5,7 +5,7 @@ import ButtonRound from '@/app/components/ButtonRound'
 
 function ProjectsLayout({ children }: { children: ReactNode }) {
     return (
-        <div className='p-20 flex flex-col gap-10 h-fit '>
+        <div className='flex flex-col gap-10 h-fit '>
             <div className='flex justify-between w-full items-center'>
                 <h1 className='text-5xl font-bold '>Projects</h1>
                 {/* <AddProjectDropdownButton/> */}

@@ -5,7 +5,7 @@ import TopNav from '@/app/components/TopNav'
 
 function HelpAndInfoLayout({ children }: { children: ReactNode }) {
     return (
-        <div className='p-20 flex flex-col gap-10 h-screen'>
+        <div className='flex flex-col gap-10 h-screen'>
             <div>
                 <h1 className='text-5xl font-bold '>Help and Information</h1>
             </div>

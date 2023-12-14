@@ -1,10 +1,10 @@
 .add-new-task:hover.add-new-task::before {
     content: "Add new Task";
     transform: translateY(150%);
-    @apply z-10 absolute bg-gray-200 w-full h-full rounded-md text-xs px-2 flex items-center
+    @apply z-10 absolute bg-neutral-800 text-white w-full h-full rounded-md text-xs px-2 flex items-center
 }
 
-.add-new-task:hover.add-new-task::after {
+/* .add-new-task:hover.add-new-task::after {
     content: '';
     transform: translateY(400%) rotate(45deg) scale(2);
     z-index: 0;
@@ -12,7 +12,7 @@
     height: 10px;
 
     @apply absolute bg-gray-200
-}
+} */
 
 .add-new-task:active.add-new-task::after,
 .add-new-task:active.add-new-task::before {
@@ -25,10 +25,10 @@
     transform: translateY(150%);
     transition: 150ms ease-in;
     /* width: fit-content; */
-    @apply z-10 absolute bg-gray-200 h-full rounded-md text-xs px-2 flex items-center
+    @apply z-10 absolute bg-neutral-800 text-white h-full rounded-md text-xs px-2 flex items-center
 }
 
-.generate-task-report:hover.generate-task-report::after {
+/* .generate-task-report:hover.generate-task-report::after {
     content: '';
     transform: translateY(400%) rotate(45deg) scale(2);
     z-index: 0;
@@ -36,7 +36,7 @@
     height: 10px;
 
     @apply absolute bg-gray-200
-}
+} */
 
 .generate-task-report:active.generate-task-report::before,
 .generate-task-report:active.generate-task-report::after {
@@ -46,13 +46,14 @@
 
 .users-online:hover.users-online::before {
     content: "Online Users";
-    transform: translate(-25%, 180%);
+    transform: translateY(200%);
     transition: 150ms ease-in;
+    transition-delay: 1s;
     /* width: fit-content; */
-    @apply z-10 !absolute bg-gray-200 h-fit py-2 w-full rounded-md text-xs px-2 flex items-center
+    @apply z-10 absolute bg-neutral-800 text-white h-fit py-2 w-fit rounded-md text-xs px-2 flex items-center
 }
 
-.users-online:hover.users-online::after {
+/* .users-online:hover.users-online::after {
     content: '';
     transform: translate(200%, 200%) rotate(45deg) scale(2);
     z-index: 0;
@@ -60,7 +61,7 @@
     height: 10px;
 
     @apply !absolute bg-gray-200
-}
+} */
 
 .generate-task-report:active.generate-task-report::before,
 .generate-task-report:active.generate-task-report::after {

@@ -26,7 +26,7 @@ function SideNav() {
 
     enum sb {
         enabled = 'w-[300px] transition-all duration-500',
-        disabled = 'w-0 p-0 m-0  transition-all duration-300'
+        disabled = 'w-fit p-0 m-0  transition-all duration-300'
     }
 
     const [sideBar, setSideBar] = useState<string>(sb.disabled)
@@ -42,58 +42,56 @@ function SideNav() {
 
     return (
         <div className=' h-screen flex text-white w-fit z-10'>
-            <div className={cn(`bg-dark2 h-full px-4 space-y-4 `, sideBar)}>
+            <div className={cn(`bg-dark2 h-full space-y-4`, sideBar, sb.disabled == sideBar ? 'flex flex-col items-center' : '')}>
 
-                <div className="user py-5 w-full flex items-center  gap-4  border-b border-b-[#3f3759]">
-                    <div className="avatar relative h-[4rem] w-[4rem] rounded-full border-2 border-stone-500">
+                <div className="user py-5 w-full flex items-center  gap-4  border-b border-b-[#3f3759] px-2">
+                    <div className="avatar relative min-h-[4rem] min-w-[4rem] rounded-full border-2 border-stone-500 flex justify-center mx-2">
                         <Image className='rounded-full' src={user?.image as string} alt={user?.name as string} objectFit='cover' layout='fill' />
                     </div>
-                    <div className="userName text-lg font-semibold">
+                    <div className={cn(sideBar == sb.enabled ? "userName text-lg font-semibold" : 'hidden')}>
                         {sideBar == sb.enabled && user?.name}
                     </div>
                 </div>
 
                 <nav className={cn('flex w-full', sideBar)}>
-                    <div className={cn('flex flex-col h-full w-full space-y-8 px-2 justify-between py-16', sideBar == sb.disabled ? 'hidden' : '')}>
+                    <div className={cn('flex flex-col h-full w-full space-y-8 px-2 justify-between py-16')}>
                         <div className='flex flex-col gap-4'>
-                            <Link href={'/dashboard'} className='side-nav-button' onClick={() => setSideBar(sb.disabled)}>
+                            <Link href={'/dashboard'} className='side-nav-button'>
                                 <BiSolidDashboard className={'scale-150'} />
-                                <label htmlFor="">Dashboard</label>
+                                <label htmlFor="" className={cn(sb.disabled == sideBar ? 'hidden' : '')}>Dashboard</label>
                             </Link>
-                            <Link href={'/projects'} className='side-nav-button' onClick={() => setSideBar(sb.disabled)}>
+                            <Link href={'/projects'} className='side-nav-button'>
                                 <AiOutlineProject className={'scale-150'} />
-                                <label htmlFor="">Projects</label>
-                                <div className='flex flex-grow justify-end'>
-                                    {/* <BsPlusCircleFill /> */}
-                                </div>
+                                <label htmlFor="" className={cn(sb.disabled == sideBar ? 'hidden' : '')}>Projects</label>
                             </Link>
-                            <Link href={'/chat'} className='side-nav-button' onClick={() => setSideBar(sb.disabled)}>
+                            <Link href={'/chat'} className='side-nav-button'>
                                 <BsFillChatFill className={'scale-150'} />
-                                <label htmlFor="">Chat</label>
+                                <label htmlFor="" className={cn(sb.disabled == sideBar ? 'hidden' : '')}>Chat</label>
                             </Link>
                         </div>
                         <div className='flex flex-col gap-4'>
-                            <Link href={'/settings'} className='side-nav-button' onClick={() => setSideBar(sb.disabled)}>
+                            <Link href={'/settings'} className='side-nav-button'>
                                 <FiSettings className={'scale-150'} />
-                                <label htmlFor="">Settings</label>
+                                <label htmlFor="" className={cn(sb.disabled == sideBar ? 'hidden' : '')}>Settings</label>
                             </Link>
-                            <Link href={'/help&info'} className='side-nav-button' onClick={() => setSideBar(sb.disabled)}>
+                            <Link href={'/help&info'} className='side-nav-button'>
                                 <FiHelpCircle className={'scale-150'} />
-                                <label htmlFor="">Help & Information</label>
+                                <label htmlFor="" className={cn(sb.disabled == sideBar ? 'hidden' : '')}>Help & Information</label>
                             </Link>
-                            <div className='side-nav-button' onClick={() => setSideBar(sb.disabled)}>
+                            <div className='side-nav-button'>
                                 <BiLogOut className={'scale-150'} />
-                                <label htmlFor="">Logout</label>
+                                <label htmlFor="" className={cn(sb.disabled == sideBar ? 'hidden' : '')}>Logout</label>
                             </div>
                         </div>
                     </div>
                 </nav>
                 <div className={cn('h-[10%] w-full flex flex-col justify-center items-center text-[#a29eae]', sideBar == sb.disabled ? 'hidden' : '')}>
                     <h1 className='text-2xl font-bold tracking-wide '><i></i>TaskMate</h1>
+                    <p>Alpha Build</p>
                 </div>
             </div>
             <div className={`${classNames({
-                "h-full flex flex-col justify-center overflow-visible relative bg-dark2 w-2 cursor-pointer hover:bg-gray-100 duration-200 ": true,
+                "h-full flex flex-col justify-center overflow-visible w-2 cursor-pointer  duration-200 ": true,
             })}`} onClick={toggleSideBar}>
                 <i className={classNames({
                     'fa-solid absolute  text-black cursor-pointer active:scale-95 p-3 duration-150': true,

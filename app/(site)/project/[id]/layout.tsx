@@ -64,7 +64,7 @@ function ProjectLayout({ children }: { children: ReactNode }) {
     })
 
     return (
-        <div className='p-20 flex flex-col h-screen'>
+        <div className='flex flex-col h-screen'>
             <span className='font-bold'>{path}</span>
             <div className='flex items-center justify-between'>
                 <TopNav links={[
@@ -77,20 +77,24 @@ function ProjectLayout({ children }: { children: ReactNode }) {
                     <div className='bg-gray-100 h-full p-5 hover:bg-neutral-200 duration-75 ease-in-out cursor-pointer' onClick={clearTasks}>
                         <AiOutlineClear className='h-full text-xl' />
                     </div>
-                    <Panel text={
-                        <div className='flex gap-4 h-full items-center '><FaUsers className='scale-[2]' />1000</div>
-                    }
-                        className='users-online relative rounded-none !bg-transparent  !text-black h-full ' />
+                    <div className='users-online'>
+                        <Panel text={
+                            <div className='flex gap-4 h-full items-center '><FaUsers className='scale-[2]' />1000</div>
+                        }
+                            className='!relative rounded-none !bg-transparent  !text-black h-full ' />
+                    </div>
                 </div>
             </div>
-            <div className='w-full flex-grow rounded-lg px-0'>
+            <div className='flex flex-col items-center'>
+                <div className='w-full max-w-[2400px] mx-0 flex-grow rounded-lg px-0'>
 
-                <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-4 gap-5'>
-                    {/* {children}? */}
-                    {taskPanes.map((taskPane: TaskPaneInterface, index: any) => (
-                        <TaskPane taskId={taskPane.key} key={index} removeTaskPaneCallback={removeTaskPane} />
-                    ))}
+                    <div className=' grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 p-4 gap-5'>
+                        {/* {children}? */}
+                        {taskPanes.map((taskPane: TaskPaneInterface, index: any) => (
+                            <TaskPane taskId={taskPane.key} key={index} removeTaskPaneCallback={removeTaskPane} />
+                        ))}
 
+                    </div>
                 </div>
             </div>
         </div>

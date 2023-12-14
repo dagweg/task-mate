@@ -9,7 +9,7 @@ import { BsInfoSquare } from 'react-icons/bs'
 function AddProject() {
     return (
         <div>
-            <div className='w-[650px] mx-auto h-fit relative rounded-2xl  p-10  space-y-20 gap-20 px-16 max-w-7xl items-center'>
+            <div className='w-[650px] mx-auto h-fit relative rounded-2xl space-y-20 gap-20 px-16 max-w-7xl items-center'>
                 <div className='flex flex-col gap-4 '>
                     <TextBox label='Project Name' />
                     <div className='text-field flex flex-col'>
