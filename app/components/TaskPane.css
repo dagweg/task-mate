@@ -1,5 +1,5 @@
 .task-pane {
-    @apply !relative w-[100%] h-fit bg-white hover:border-red-300 border-2 px-10 py-6 shadow-md flex flex-col gap-2 duration-150 ease-in-out rounded-lg text-sm
+    @apply !relative w-[100%] h-fit bg-gray-100 hover:border-red-300 border-2 px-4 py-4 shadow-md flex flex-col gap-2 duration-150 ease-in-out rounded-lg text-sm
 }
 
 /* 

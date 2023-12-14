@@ -86,9 +86,9 @@ function ProjectLayout({ children }: { children: ReactNode }) {
                 </div>
             </div>
             <div className='flex flex-col items-center'>
-                <div className='w-full max-w-[2400px] mx-0 flex-grow rounded-lg px-0'>
+                <div className='w-full max-w-[1600px] mx-0 flex-grow rounded-lg px-0'>
 
-                    <div className=' grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 p-4 gap-5'>
+                    <div className=' grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 p-4 gap-5'>
                         {/* {children}? */}
                         {taskPanes.map((taskPane: TaskPaneInterface, index: any) => (
                             <TaskPane taskId={taskPane.key} key={index} removeTaskPaneCallback={removeTaskPane} />
