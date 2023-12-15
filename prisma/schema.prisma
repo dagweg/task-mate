@@ -7,18 +7,19 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// next auth
 model Account {
-  id                String  @id @default(cuid())
+  id                String    @id @default(cuid())
   userId            String
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
-  expires_at        Int?
+  refresh_token     String?   @db.Text
+  access_token      String?   @db.Text
+  expires_at        DateTime?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String?   @db.Text
   session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -27,29 +28,31 @@ model Account {
 }
 
 model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
+  id           String    @id @default(cuid())
+  sessionToken String    @unique
   userId       String
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expires      DateTime?
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+// custom models
 model User {
   id            String    @id @default(cuid())
-  name          String?
+  firstName     String?
+  lastName      String?
   email         String?   @unique
   emailVerified DateTime?
+  password      String?
+  phoneNumber   String?
   image         String?
-  accounts      Account[]
   sessions      Session[]
-
-  teams    Team[]//2 maximum
-  projects Project[]  @relation("createdBy")//2 maximum
-
-  tasks    Task[]// 3 maximum 
-  role     Role      @default(TEAM_MEMBER)
-  // isAdmin  Boolean   @default(false) // changed  to enum 
-  Message  Message[]
+  tasks         Task[] // 3 maximum 
+  role          Role      @default(TEAM_MEMBER)
+  Message       Message[]
+  projects      Project[] @relation("createdBy") //2 maximum
+  projectId     String?
+  Project       Project?  @relation(fields: [projectId], references: [id])
+  Account       Account[]
 }
 
 model Stakeholder {
@@ -70,46 +73,21 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-model Team {
-  id              String @id @default(cuid())
-  name            String
-  members         User[]//user is maximum a member of two teams
-
-  administratorId String
-  // tasks Task[]
-  managerId       String
-  messages Message[]
-}
-
-// model Administrator {
-//   id       String    @id @default(cuid())
-//   name     String
-//   projects Project[]
-// }
-
-// !! the commented are not clear...
 model Project {
-  id              String         @id @default(cuid())
-  title           String         @unique
-  // AdministratorId String
-  creatorId       String
-  coverImage      String         @db.Text
-  description     String         @db.Text
-  // demoLink        String
-  // projectLink     String
-  tasks           Task[]
-  createdBy       User          @relation("createdBy",fields: [creatorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  // administrator   Administrator @relation(fields: [AdministratorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  dueDate         DateTime      @default(now())
-  createdAt       DateTime       @default(now())
-  updatedAt       DateTime       @updatedAt
-  
+  id           String        @id @default(cuid())
+  title        String        @unique
+  creatorId    String
+  coverImage   String        @db.Text
+  description  String        @db.Text
+  tasks        Task[]
+  createdBy    User          @relation("createdBy", fields: [creatorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  dueDate      DateTime      @default(now())
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @default(now()) @updatedAt
+  users        User[]
+  stakeHolders Stakeholder[] //to be seen
 
-  Stakeholder     Stakeholder[]//to be seen
-  // Administrator   Administrator? @relation(fields: [administratorId], references: [id])
-  // administratorId String?
-
-   @@index([ title, dueDate])
+  @@index([title, dueDate])
 }
 
 model Task {
@@ -135,7 +113,7 @@ enum Progress {
 
 model SubTask {
   id       String   @id @default(cuid())
-  title     String
+  title    String
   taskId   String
   progress Progress @default(NOT_STARTED)
 
@@ -148,42 +126,6 @@ model Message {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   userId    String
-  teamId String
+  teamId    String
   user      User     @relation(fields: [userId], references: [id])
-  team    Team @relation(fields: [teamId],references: [id],onDelete: Cascade,onUpdate: Cascade)
 }
-
-// model Report {
-//   id        String  @id @default(cuid())
-//   authorId  String // whyyyy ! Remove  it
-//   taskId    String?
-//   projectId String?
-//   title     String
-//   content   String
-// }
-
-// model Comment {
-//   id        String  @id @default(cuid())
-//   postId    String?
-//   commentId String?
-//   authorid  String
-
-//   // post          BlogPost?  @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-//   parentComment Comment?  @relation("childComments", fields: [commentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-//   childComments Comment[] @relation("childComments")
-// }
-
-// model User {
-//   id            String    @id @default(cuid())
-//   name          String?
-//   email         String?   @unique
-//   emailVerified DateTime?
-//   image         String?
-//   accounts      Account[]
-//   sessions      Session[]
-//   teams         Team[]
-//   projects      Project[]
-//   tasks         Task[]
-//   isAdmin       Boolean   @default(false)
-//   Message       Message[]
-// }

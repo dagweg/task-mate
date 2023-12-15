@@ -3,10 +3,12 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import '@radix-ui/themes/styles.css';
 import SideNav from './components/SideNav'
-import { Theme } from '@radix-ui/themes'
+import { Button, Theme } from '@radix-ui/themes'
 import SessionProvide from './components/sessionProvide';
 import { getServerAuthSession } from './lib/auth';
 import { redirect } from 'next/navigation';
+import AuthLayout from './(auth)/layout';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -36,15 +38,18 @@ export default async function RootLayout({
         <script src="https://kit.fontawesome.com/bb488c4407.js" async></script>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
-        <link href="https://fonts.googleapis.com/css2?family=Agbalumo&family=Comfortaa&family=Inter&family=Lilita+One&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;1,100;1,200;1,300;1,400;1,500&family=Mooli&family=Open+Sans&family=Play:wght@400;700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,800;1,100;1,200;1,300;1,400&family=Quicksand&family=Raleway&family=Rubik&display=swap" rel="stylesheet"></link>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link href="https://fonts.googleapis.com/css2?family=Agbalumo&family=Comfortaa&family=Gasoek+One&family=Inter&family=Lilita+One&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;1,100;1,200;1,300;1,400;1,500&family=Mooli&family=Open+Sans&family=Play:wght@400;700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,800;1,100;1,200;1,300;1,400&family=Quicksand&family=Raleway&family=Rubik&display=swap" rel="stylesheet" />
       </head>
       <body>
         <SessionProvide>
           <Theme>
-            <section className='flex fixed h-screen w-full'>
-              <SideNav />
-              <main className='flex-grow h-screen overflow-y-scroll w-full px-16 py-10'>{children}</main>
-            </section>
+            {
+              <section className='flex fixed h-screen w-full'>
+                <SideNav />
+                <main className='flex-grow h-screen overflow-y-scroll w-full px-16 py-10'>{children}</main>
+              </section>
+            }
           </Theme>
         </SessionProvide>
       </body>

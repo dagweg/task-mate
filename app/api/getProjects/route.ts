@@ -1,16 +1,24 @@
-import supabase from "@/app/config/supabaseClient";
 import { NextResponse, NextRequest } from "next/server";
-
+import { db } from '@/app/lib/prisma'
 
 export async function POST(request: NextRequest) {
-    const { data, error } = await supabase
-        .from('projects')
-        .select()
+    // try {
+    //     const newUser = await db.user.create({
+    //         data: {
+    //             firstName: 'John',
+    //             lastName: 'Doe',
+    //             email: 'john.doe@example.com',
+    //             role: "TEAM_MEMBER",
+    //         },
+    //     });
 
-    if (error) {
-        console.log(error)
-        return NextResponse.json(error, { status: 500 })
-    }
+    //     console.log('User added:', newUser);
 
-    return NextResponse.json(data, { status: 200 })
+    // } catch (error) {
+    //     console.error('Error adding user:', error);
+    // } finally {
+    //     // Close the Prisma client connection
+    //     await db.$disconnect();
+    // }
+
 }
