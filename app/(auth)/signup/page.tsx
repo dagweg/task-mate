@@ -6,110 +6,147 @@ import { parsePhoneNumber } from 'libphonenumber-js'
 import { useRouter } from 'next/navigation'
 
 import { useState } from 'react'
-import { countryCodes, CountryCode } from '@/app/data/country'
-import Button from '@/app/components/Button'
+// import { countryCodes, CountryCode } from '@/app/data/country'
+
 import { POST } from '@/app/api/route'
+import Image from 'next/image'
+
+import { Button, Dialog, Flex, IconButton, TextField } from '@radix-ui/themes'
+import Link from 'next/link'
+import MessageBox from '@/app/components/MessageBox'
+import { FaUserAlt } from "react-icons/fa";
 
 function SignUp() {
 
-    let firstname = useRef<HTMLInputElement>(null);
-    let lastname = useRef<HTMLInputElement>(null);
-    let email = useRef<HTMLInputElement>(null);
-    let password = useRef<HTMLInputElement>(null);
-    let confirmpassword = useRef<HTMLInputElement>(null);
-    // let role = useRef<HTMLInputElement>(null);
-    let phonenumber = useRef<HTMLInputElement>(null);
-    let newsletter = useRef<HTMLInputElement>(null);
-    let licenseandterms = useRef<HTMLInputElement>(null);
+    const [countryCode, setCountryCode] = useState([])
+    const [accountCreated, setAccountCreated] = useState<boolean>(false);
+    const [formData, setFormData] = useState({
+        firstName: '',
+        lastName: '',
+        email: '',
+        passWord: '',
+        confirmPassWord: '',
+        countryCode: '',
+        phoneNumber: '',
+        licenseAndTerms: false
+    });
 
-    const [phone, setPhone] = useState('1234');
     const router = useRouter()
 
-    // const createAccount = async () => {
-    //     fetch('api/addUser', {
-    //         method: 'POST',
-    //         body: JSON.stringify({
-    //             "a": "a"
-    //         }),
-    //     })
-    //     //test acc.creation - no input validation !boilerplate
+    const handleSubmit = (e: any) => {
+        e.preventDefault()
 
-    //     // assuming valid input
+        fetch('api/addUser/', { method: 'POST', body: JSON.stringify(formData), headers: { 'Content-Type': 'application/json' } })
+            .then(async response => {
+                const data = await response.json()
+                if (response.ok) {
+                    console.log('Registerd Successfully')
+                    setAccountCreated(true);
+                } else {
+                    console.log(data)
+                }
+            })
 
-    //     // const form = new FormData();
-    //     // if (firstname.current)
-    //     //     form.append('username', firstname.current.value);
-    //     // if (lastname.current)
-    //     //     form.append('lastname', lastname.current.value);
-    //     // if (email.current)
-    //     //     form.append('email', email.current.value);
-    //     // if (password.current)
-    //     //     form.append('password', password.current.value);
-    //     // if (role.current)
-    //     //     form.append('role', role.current.value);
-    //     // if (phonenumber.current)
-    //     //     form.append('phonenumber', phonenumber.current.value);
-    //     // if (newsletter.current)
-    //     //     form.append('newsletter', newsletter.current.value);
-    //     // if (licenseandterms.current)
-    //     //     form.append('licenseandterms', licenseandterms.current.value);
+        console.log(formData)
 
-    // }
+    }
+
+    const handleInputChange = (e: any, field: string) => {
+        setFormData((prev: typeof formData) => {
+            const updatedFormData = {
+                ...prev,
+                [field]: e.target.value
+            };
+            // console.log(updatedFormData);
+            return updatedFormData;
+        });
+    }
+
+    useEffect(() => {
+        async function fetchCountryCodes() {
+            fetch('https://restcountries.com/v3.1/all?fields=name,flags,idd',
+                {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    setCountryCode(data)
+                })
+        }
+        fetchCountryCodes()
+    }, [])
 
     return (
         <div className='flex flex-col h-full w-full justify-center items-center'>
+            {
+                // accountCreated &&
+                <Dialog.Root>
+                    <Dialog.Trigger>
+
+                    </Dialog.Trigger>
+
+                    <Dialog.Content style={{ maxWidth: 450 }} className='flex flex-col justify-center items-center'>
+                        <Dialog.Title>Account created successfully!</Dialog.Title>
+                        <Flex gap="3" mt="4" justify="end">
+                            <Dialog.Close>
+                                <Button variant="soft" color="gray">
+                                    Cancel
+                                </Button>
+                            </Dialog.Close>
+                            <Link href={'/login'}><Button className='!bg-gray-300 !text-black hover:!bg-dark2 hover:!text-white ' >Login</Button></Link>
+                        </Flex>
+                    </Dialog.Content>
+                </Dialog.Root>
+                // <MessageBox href='/login' message='Account Created Successfully!' icon=<FaUserAlt className='text-white text-8xl' /> />
+            }
             <div className='w-[700px] px-20 py-16'>
                 <h1 className='font-bold text-5xl my-7 text-center'>Sign Up</h1>
-                <form action="/api/addUser" method='POST' className='flex flex-col gap-4'>
+                <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
                     <div className='grid grid-cols-2 gap-2'>
                         <div className='flex flex-col'>
                             <label htmlFor="first-name">First Name</label>
-                            <TextBox className='!h-10' ref={firstname} />
+                            <TextBox className='!h-10' onChange={(e: any) => handleInputChange(e, 'firstName')} />
                         </div>
                         <div className='flex flex-col'>
                             <label htmlFor="first-name">Last Name</label>
-                            <TextBox className='!h-10' ref={lastname} />
+                            <TextBox className='!h-10' onChange={(e: any) => handleInputChange(e, 'lastName')} />
                         </div>
                     </div>
                     <div className='grid grid-cols-2 gap-2'>
                         <div className='flex flex-col'>
                             <label htmlFor="first-name">Email</label>
-                            <TextBox className='!h-10' ref={email} />
+                            <TextBox className='!h-10' onChange={(e: any) => handleInputChange(e, 'email')} />
                         </div>
                         <div className='flex flex-col'>
                             <label htmlFor="first-name">Password</label>
-                            <TextBox className='!h-10' type='password' ref={password} />
+                            <TextBox className='!h-10' onChange={(e: any) => handleInputChange(e, 'passWord')} type='password' />
                         </div>
                         <div className='flex flex-col'>
                             <label htmlFor="first-name">Confirm Password</label>
-                            <TextBox className='!h-10' type='password' ref={confirmpassword} />
+                            <TextBox className='!h-10' onChange={(e: any) => handleInputChange(e, 'confirmPassWord')} type='password' />
                         </div>
                     </div>
-                    {/* <div className='flex gap-5 items-center'>
-                        <label>Role</label>
-                        <select name='Role' ref={role as any}>
-                            <option value="Team Member">Team Member</option>
-                            <option value="Project Manager">Project Manager</option>
-                        </select>
-                    </div> */}
                     <div className='flex flex-col'>
                         <label htmlFor="first-name">Phonenumber</label>
                         <div className='flex w-fit bg-red-100'>
-                            <select className='w-'>
-                                {countryCodes.map((country: CountryCode, index) => (
-                                    <option key={index}>{country.dial_code} {country.flag}</option>
+                            <select className='w-20' onChange={(e: any) => handleInputChange(e, 'countryCode')}>
+                                {countryCode.map((country: any, index) => (
+                                    <option key={index}>
+                                        <span>
+                                            <label>{country.idd.root}{country.idd.suffixes[0]}</label>
+                                            {/* <Image src={country.flags.png} alt='' width={10} height={10} objectFit='fit' ></Image> */}
+                                        </span>
+                                    </option>
                                 ))}
                             </select>
-                            <TextBox className='!h-10 !flex-grow' ref={phonenumber} />
+                            <TextBox className='!h-10 max-w-2xl !flex-grow' onChange={(e: any) => handleInputChange(e, 'phoneNumber')} />
                         </div>
                     </div>
                     <div className='flex-col space-y-2 my-3 '>
-                        {/* <div className='flex gap-4 items-start'>
-                            <input type='checkbox' className='my-2' ref={newsletter as any}></input>
-                            <p className='text-md text-[15px]'>I would like to recieve latest news about Task Mate and any offers the may come in the future.</p>
-                        </div> */}
                         <div className='flex gap-4 items-start'>
-                            <input type='checkbox' className='my-2' ref={licenseandterms as any}></input>
+                            <input type='checkbox' className='my-2' ></input>
                             <p className='text-md text-[15px]'>I agree with the licenses, terms and conditions of this software.</p>
                         </div>
                     </div>
