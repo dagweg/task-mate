@@ -14,6 +14,7 @@ import './sidenav.css'
 import { cn } from '../lib/utils'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
+import { FaUserAlt } from "react-icons/fa";
 
 function SideNav() {
 
@@ -45,9 +46,18 @@ function SideNav() {
             <div className={cn(`bg-dark2 h-full space-y-4`, sideBar, sb.disabled == sideBar ? 'flex flex-col items-center' : '')}>
 
                 <div className="user py-5 w-full flex items-center  gap-4  border-b border-b-[#3f3759] px-2">
-                    <div className="avatar relative min-h-[4rem] min-w-[4rem] rounded-full border-2 border-stone-500 flex justify-center mx-2">
-                        <Image className='rounded-full' src={user?.image as string} alt={user?.name as string} objectFit='cover' layout='fill' />
-                    </div>
+                    {
+                        user?.image ?
+                            <div className="avatar relative min-h-[4rem] min-w-[4rem] rounded-full border-2 border-stone-500 flex justify-center mx-2">
+                                <Image className='rounded-full' src={user?.image as string} alt={user?.name as string} objectFit='cover' layout='fill' />
+                            </div>
+                            :
+                            <div className='w-full flex justify-center'>
+                                <div className='p-4 bg-dark1 rounded-full'>
+                                    <FaUserAlt className='!text-4xl ' />
+                                </div>
+                            </div>
+                    }
                     <div className={cn(sideBar == sb.enabled ? "userName text-lg font-semibold" : 'hidden')}>
                         {sideBar == sb.enabled && user?.name}
                     </div>
