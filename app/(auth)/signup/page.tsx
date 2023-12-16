@@ -31,6 +31,8 @@ function SignUp() {
         licenseAndTerms: false
     });
 
+    const dialogRef = useRef<any>();
+
     const router = useRouter()
 
     const handleSubmit = (e: any) => {
@@ -42,12 +44,13 @@ function SignUp() {
                 if (response.ok) {
                     console.log('Registerd Successfully')
                     setAccountCreated(true);
+                    dialogRef.current.click()
                 } else {
                     console.log(data)
                 }
             })
 
-        console.log(formData)
+        // console.log(formData)
 
     }
 
@@ -80,27 +83,22 @@ function SignUp() {
 
     return (
         <div className='flex flex-col h-full w-full justify-center items-center'>
-            {
-                // accountCreated &&
-                <Dialog.Root>
-                    <Dialog.Trigger>
-
-                    </Dialog.Trigger>
-
-                    <Dialog.Content style={{ maxWidth: 450 }} className='flex flex-col justify-center items-center'>
-                        <Dialog.Title>Account created successfully!</Dialog.Title>
-                        <Flex gap="3" mt="4" justify="end">
-                            <Dialog.Close>
-                                <Button variant="soft" color="gray">
-                                    Cancel
-                                </Button>
-                            </Dialog.Close>
-                            <Link href={'/login'}><Button className='!bg-gray-300 !text-black hover:!bg-dark2 hover:!text-white ' >Login</Button></Link>
-                        </Flex>
-                    </Dialog.Content>
-                </Dialog.Root>
-                // <MessageBox href='/login' message='Account Created Successfully!' icon=<FaUserAlt className='text-white text-8xl' /> />
-            }
+            <Dialog.Root >
+                <Dialog.Trigger>
+                    <Button ref={dialogRef}></Button>
+                </Dialog.Trigger>
+                <Dialog.Content style={{ maxWidth: 450 }} className='flex flex-col justify-center items-center '>
+                    <Dialog.Title>Account created successfully!</Dialog.Title>
+                    <Flex gap="3" mt="4" justify="end">
+                        <Dialog.Close>
+                            <Button variant="soft" color="gray">
+                                Cancel
+                            </Button>
+                        </Dialog.Close>
+                        <Link href={'/login'}><Button className='!bg-gray-300 !text-black hover:!bg-dark2 hover:!text-white ' >Login</Button></Link>
+                    </Flex>
+                </Dialog.Content>
+            </Dialog.Root>
             <div className='w-[700px] px-20 py-16'>
                 <h1 className='font-bold text-5xl my-7 text-center'>Sign Up</h1>
                 <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
@@ -151,7 +149,7 @@ function SignUp() {
                         </div>
                     </div>
                     <input type='submit' value={'Create Account'} className='bg-dark1 rounded-md cursor-pointer text-white py-4 hover:bg-dark2'></input>
-                    <p>Already have an account? <span className='font-semibold text-purple-800 cursor-pointer' onClick={() => router.push('/login')}>Login</span></p>
+                    <p>Already have an account? <span className='font-semibold underline hover: cursor-pointer' onClick={() => router.push('/login')}>Login</span></p>
                 </form>
             </div>
         </div>
