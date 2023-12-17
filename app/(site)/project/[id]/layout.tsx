@@ -14,6 +14,7 @@ import TaskPane from '@/app/components/TaskPane';
 import { TaskPaneType } from '@/app/lib/interface'
 import { useRouter } from 'next/router'
 import { SubTaskType } from '@/app/lib/interface'
+import Link from 'next/link';
 
 
 function ProjectLayout({ children }: { children: ReactNode }) {
@@ -90,7 +91,7 @@ function ProjectLayout({ children }: { children: ReactNode }) {
             </div>
             <div className='flex gap-4'>
                 <p className='bg-gray-200 rounded-t-lg p-2 text-sm hover:bg-gray-100 duration-150 cursor-pointer'>Add Task</p>
-                <p className='bg-gray-200 rounded-t-lg p-2 text-sm hover:bg-gray-100 duration-150 cursor-pointer'>View Tasks</p>
+                <Link href={'./viewtasks'}><p className='bg-gray-200 rounded-t-lg p-2 text-sm hover:bg-gray-100 duration-150 cursor-pointer'>View Tasks</p></Link>
             </div>
             <div className='flex items-center justify-between'>
                 <TopNav links={[

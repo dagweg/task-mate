@@ -11,9 +11,11 @@ import { MdEdit } from "react-icons/md";
 import { MdAddToQueue } from "react-icons/md";
 import AsyncSelect from 'react-select/async'
 import { OptionsOrGroups, GroupBase } from 'react-select'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { IoClose } from "react-icons/io5";
 import { MDXEditor, headingsPlugin, listsPlugin, quotePlugin, thematicBreakPlugin } from '@mdxeditor/editor'
 import { MdDescription } from "react-icons/md";
+import { useParams } from 'next/navigation'
 // import MDEditor from '@uiw/react-md-editor';
 
 
@@ -24,6 +26,12 @@ function TaskPane(props: TaskPaneType) {
     const [subTasks, setSubTasks] = useState<SubTaskType[]>(props.subtasks)
     const [tpTitle, setTpTitle] = useState<string>(props.title)
 
+    const params = useSearchParams()
+
+    const projectName = params.get('pname')
+    const projectId = params.get('pid')
+
+
     function saveTaskTitle() {
         const newTaskPane: TaskPaneType = {
             ...taskPane,
@@ -32,6 +40,34 @@ function TaskPane(props: TaskPaneType) {
         }
 
         setTaskPane(prev => newTaskPane)
+
+
+        fetch('http://localhost:3000/api/task', {
+            method: "POST",
+            body: JSON.stringify({
+                title: tpTitle,
+                projectId: projectId
+            }),
+            headers: {
+                "Content-Type": 'application'
+            }
+        })
+            .then(async response => {
+                const data = await response.json()
+
+                console.log(data)
+                if (response.ok) {
+                    // PROBLEM
+                    // setTaskPane({
+                    //     ...taskPane,
+                    //     id: data.id
+                    // })
+                }
+                else {
+
+                }
+            })
+            .catch(e => console.log(e))
     }
 
     function editTaskTitle() {
@@ -64,19 +100,15 @@ function TaskPane(props: TaskPaneType) {
     }
 
     useEffect(() => {
-        // console.log(taskPane)
-        fetch('/api/addTask', {
-            method: 'POST',
-            body: JSON.stringify(taskPane),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(async response => {
-                const data = await response.json()
-                console.log(data)
-            })
+
     }, [taskPane, subTasks])
+
+
+    function handleTitleBlur() {
+        if (tpTitle === '') {
+            props.removeTaskPaneCallback(props.id)
+        }
+    }
 
     return (
         <div className='task-pane'>
@@ -85,7 +117,7 @@ function TaskPane(props: TaskPaneType) {
                     taskPane.isEditMode ?
                         <>
                             <TextField.Root className='flex items-center'>
-                                <TextField.Input placeholder='Task Title' className='!p-2' value={tpTitle} onChange={e => setTpTitle(e.target.value)}></TextField.Input>
+                                <TextField.Input placeholder='Task Title' autoFocus onBlur={handleTitleBlur} className='!p-2' value={tpTitle} onChange={e => setTpTitle(e.target.value)} ></TextField.Input>
                                 <TextField.Slot>
                                     <IconButton className=' !m-1 !bg-gray-200 hover:!bg-neutral-600' onClick={saveTaskTitle}>
                                         <FaCheck></FaCheck>
@@ -112,7 +144,7 @@ function TaskPane(props: TaskPaneType) {
                             <div className='sub-task-container space-y-[10px] py-2'>
                                 {
                                     subTasks.map(subTask => (
-                                        <SubTask key={subTask.id} {...subTask} />
+                                        <SubTask key={subTask.id} props={{ ...subTask }} taskId={taskPane.id as string} />
                                     ))
                                 }
                             </div>
@@ -129,7 +161,7 @@ function TaskPane(props: TaskPaneType) {
 }
 
 
-function SubTask(props: SubTaskType) {
+function SubTask({ props, taskId }: { props: SubTaskType, taskId: string }) {
 
 
     const [subTask, setSubTask] = useState<SubTaskType>(props)
@@ -148,6 +180,31 @@ function SubTask(props: SubTaskType) {
             title: stTitle,
             isEditMode: false
         }
+
+
+
+        fetch('http://localhost:3000/api/subtask', {
+            method: "POST",
+            body: JSON.stringify({
+                title: stTitle,
+                taskId: taskId
+            }),
+            headers: {
+                "Content-Type": 'application'
+            }
+        })
+            .then(async response => {
+                const data = await response.json()
+
+                if (response.ok) {
+                    // add
+
+                }
+                else {
+
+                }
+            })
+            .catch(e => console.log(e))
 
         setSubTask(prev => newSubTask)
     }

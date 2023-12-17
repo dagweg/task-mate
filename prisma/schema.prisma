@@ -81,13 +81,13 @@ model Project {
   description  String        @db.Text
   tasks        Task[]
   createdBy    User          @relation("createdBy", fields: [creatorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  dueDate      DateTime      @default(now())
+  // dueDate      DateTime      @default(now())
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @default(now()) @updatedAt
   users        User[]
   stakeHolders Stakeholder[] //to be seen
 
-  @@index([title, dueDate])
+  @@index([title])
 }
 
 model Task {
