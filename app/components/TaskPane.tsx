@@ -1,17 +1,22 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useState } from 'react'
 import { TaskPaneType } from '@/app/lib/interface'
 import { SubTaskType } from '@/app/lib/interface'
-import { Button, Card, Dialog, DropdownMenu, Flex, IconButton, Text, TextField } from '@radix-ui/themes'
+import { Button, Card, Dialog, DropdownMenu, Flex, IconButton, Text, TextArea, TextField } from '@radix-ui/themes'
 import { FaCheck } from "react-icons/fa";
 import { IoIosMore } from "react-icons/io";
 import { IoAdd } from "react-icons/io5";
 import { nanoid } from 'nanoid'
 import { MdEdit } from "react-icons/md";
 import { MdAddToQueue } from "react-icons/md";
+import AsyncSelect from 'react-select/async'
+import { OptionsOrGroups, GroupBase } from 'react-select'
 import { IoClose } from "react-icons/io5";
-import MDEditor from '@uiw/react-md-editor';
+import { MDXEditor, headingsPlugin, listsPlugin, quotePlugin, thematicBreakPlugin } from '@mdxeditor/editor'
 import { MdDescription } from "react-icons/md";
+// import MDEditor from '@uiw/react-md-editor';
+
+
 
 function TaskPane(props: TaskPaneType) {
 
@@ -30,11 +35,11 @@ function TaskPane(props: TaskPaneType) {
     }
 
     function editTaskTitle() {
-        const newSubTask: TaskPaneType = {
+        const newTaskPane: TaskPaneType = {
             ...taskPane,
             isEditMode: true
         }
-        setTaskPane(prev => newSubTask)
+        setTaskPane(prev => newTaskPane)
     }
 
     function deleteTaskPane() {
@@ -57,6 +62,21 @@ function TaskPane(props: TaskPaneType) {
 
         setSubTasks(prev => [...prev, newSubTask])
     }
+
+    useEffect(() => {
+        // console.log(taskPane)
+        fetch('/api/addTask', {
+            method: 'POST',
+            body: JSON.stringify(taskPane),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(async response => {
+                const data = await response.json()
+                console.log(data)
+            })
+    }, [taskPane, subTasks])
 
     return (
         <div className='task-pane'>
@@ -111,9 +131,11 @@ function TaskPane(props: TaskPaneType) {
 
 function SubTask(props: SubTaskType) {
 
+
     const [subTask, setSubTask] = useState<SubTaskType>(props)
     const [stTitle, setStTitle] = useState<string>(props.title)
-    const [mdText, setMdText] = useState<any>('**Write something here**')
+    const [selectedUsers, setSelectedUsers] = useState<any>([])
+    const dialogRef = useRef<any>()
 
     function saveSubTaskTitle() {
         const newSubTask: SubTaskType = {
@@ -142,6 +164,27 @@ function SubTask(props: SubTaskType) {
             isOpen: bool
         }
         setSubTask(prev => opened)
+        dialogRef.current.click()
+    }
+
+    function handleUserSelectChange() {
+
+    }
+
+    async function loadOptions(query: string, callback: (options: OptionsOrGroups<any, GroupBase<any>>) => void): Promise<OptionsOrGroups<any, GroupBase<any>>> {
+
+        const tempProjectId = '1234abcd'
+        const tempUserId = 'user1234'
+        const response = await fetch(`api/getUsers`, {
+            method: "POST",
+            body: JSON.stringify({
+                projectId: tempProjectId,
+                userId: tempUserId
+            })
+        })
+
+        const data: [] = await response.json()
+        return Promise.resolve(data as OptionsOrGroups<any, GroupBase<any>>)
     }
 
     return (
@@ -178,32 +221,44 @@ function SubTask(props: SubTaskType) {
                     </>
 
             }
-            {
-
-                subTask.isOpen ?
-                    <div className='fixed inset-0 w-full h-full bg-black backdrop-blur-[1px] bg-opacity-75 z-[100] flex justify-center items-center'>
-                        <div className='bg-slate-500 bg-opacity-75 rounded-lg w-[700px] h-[800px] z-[105] text-white p-5'>
-                            <div className='flex items-center  gap-2 justify-between'>
-                                <div className='flex  items-center  gap-2'>
-                                    <MdAddToQueue className='text-2xl' />
-                                    <h1 className='text-2xl font-semibold capitalize'>{subTask.title}</h1>
-                                </div>
-                                <IoClose onClick={() => openSubTaskDialog(false)} className='text-2xl hover:bg-slate-400 rounded-full p-1 active:scale-105' />
-                            </div>
-                            <div className='py-10'>
-                                <div className='flex py-4'>
-                                    <MdDescription onClick={() => openSubTaskDialog(false)} className='text-2xl hover:bg-slate-400 rounded-full p-1 active:scale-105' />
-                                    <h1>Description:</h1>
-                                </div>
-                                <MDEditor className='!h-[400px]' value={mdText} onChange={setMdText} />
-                            </div>
-                        </div>
-
+            <Dialog.Root>
+                <Dialog.Trigger>
+                    <Button ref={dialogRef} className='!hidden'></Button>
+                </Dialog.Trigger>
+                <Dialog.Content>
+                    <Dialog.Title className='flex space-x-4'>
+                        <MdAddToQueue className='text-2xl' />
+                        <h1>{subTask.title}</h1>
+                    </Dialog.Title>
+                    <div>
+                        Description:
+                        <TextArea>
+                        </TextArea>
                     </div>
-                    :
-                    <div></div>
-            }
+                    <div>
+                        Assign members:
+                        <AsyncSelect
+                            isMulti
+                            value={selectedUsers}
+                            onChange={handleUserSelectChange}
+                            placeholder='type email'
+                            loadOptions={loadOptions}
+                        />
+                        {/* <AsyncSelect isMulti ></AsyncSelect> */}
+                        {/* <DropdownMenu.Root>
+                            <DropdownMenu.Trigger>
+                                <TextField.Input></TextField.Input>
+                            </DropdownMenu.Trigger>
+                            <DropdownMenu.Content>
+                                <DropdownMenu.Item onClick={editSubTaskTitle} className='z-10 !m-1  hover:!bg-neutral-600 hover:!text-white !text-black'>User</DropdownMenu.Item>
+                                <DropdownMenu.Item onClick={editSubTaskTitle} className='z-10 !m-1  hover:!bg-neutral-600 hover:!text-white !text-black'>User</DropdownMenu.Item>
+                                <DropdownMenu.Item onClick={editSubTaskTitle} className='z-10 !m-1  hover:!bg-neutral-600 hover:!text-white !text-black'>User</DropdownMenu.Item>
 
+                            </DropdownMenu.Content>
+                        </DropdownMenu.Root> */}
+                    </div>
+                </Dialog.Content>
+            </Dialog.Root>
         </>
     )
 

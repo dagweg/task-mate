@@ -7,6 +7,7 @@ import { signIn } from 'next-auth/react';
 import TextBox from '@/app/components/TextBox';
 import Link from 'next/link';
 import { Button, Dialog, Flex } from '@radix-ui/themes';
+import { FaGoogle } from 'react-icons/fa';
 
 
 interface PageProps {
@@ -109,16 +110,29 @@ const Page: React.FC<PageProps> = ({ error }) => {
         <h1 className="text-5xl font-bold tracking-wide py-10">Login</h1>
         <div className="flex flex-col gap-2">
           <form onSubmit={handleSubmit} className='flex flex-col gap-3 w-[300px]'>
-            <TextBox placeholder="Email" onChange={(e: any) => handleInputChange(e, 'email')} />
+            {/* <TextBox placeholder="Email" onChange={(e: any) => handleInputChange(e, 'email')} />
             <TextBox placeholder="Password" onChange={(e: any) => handleInputChange(e, 'passWord')} />
             <input type='submit' value={'Signin'} className='bg-dark1 rounded-sm cursor-pointer text-white py-4 hover:bg-dark2 w-full font-semibold'></input>
-            {/* <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-4">
               <div className="flex-grow h-[1px] bg-black" />
               <p>or</p>
               <div className="flex-grow h-[1px] bg-black" />
+            </div> */}
+            <div
+              className="group flex justify-center items-center  gap-6 bg-white text-black border-black border-2 shadow-lg py-4  px-2 w-full rounded-sm  hover:bg-gray-100  active:scale-105 duration-150 text-xl cursor-pointer "
+              onClick={() => {
+                signIn('google', {
+                  callbackUrl: redirectUrl,
+                });
+              }}
+            >
+              <FaGoogle className="scale-150 duration-150 " />
+              <label htmlFor="google" className="text-sm duration-150 ">
+                Continue with Google
+              </label>
             </div>
             <div
-              className="group flex items-center justify-start gap-6 bg-stone-800 text-stone-50 border-black border-2 shadow-lg p-5 px-16 hover:bg-dark2 active:scale-105 duration-150 text-xl cursor-pointer"
+              className="group flex justify-center items-center  gap-6 bg-stone-800 text-stone-50 border-black border-2 shadow-lg py-4 px-2 w-full rounded-sm  hover:bg-dark2 active:scale-105 duration-150 text-xl cursor-pointer "
               onClick={() => {
                 signIn('github', {
                   callbackUrl: redirectUrl,
@@ -126,14 +140,14 @@ const Page: React.FC<PageProps> = ({ error }) => {
               }}
             >
               <FaGithub className="scale-150  group-hover:text-white duration-150 " />
-              <label htmlFor="google" className="group-hover:text-white duration-150">
+              <label htmlFor="google" className="text-sm group-hover:text-white duration-150 ">
                 Continue with Githhub
               </label>
             </div>
-            */}
-            <p>
+
+            {/* <p>
               New to Task Mate? <Link href="/signup" className='underline font-semibold'>Create Account</Link>
-            </p>
+            </p> */}
           </form>
         </div>
         {errorMessage && (

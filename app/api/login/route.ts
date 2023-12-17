@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/app/lib/prisma";
+import { Cookies } from 'react-cookie';
 
 
 export async function POST(request: NextRequest) {
@@ -12,6 +13,21 @@ export async function POST(request: NextRequest) {
         }
     }
     )
+
+    const expires = new Date(Date.now() + (1000 * 60 * 60 * 24)); // Set expires to 24 hours from now
+    // const session = db.session.create({
+    //     data: {
+    //         userId: user?.id,
+    //         expires,
+    //     },
+    // });
+
+
+
+
+    //  ('sessionId', sessionId, { maxAge: 60 * 60 * 24 }); // Expires in 24 hours
+
+
 
     // BASIC CHECKS below, will strengthen it later using zod
     if (!user?.email) {
