@@ -2,7 +2,7 @@
 
 import Panel from '@/app/components/Panel'
 import React, { ReactNode, useEffect, useState } from 'react'
-import { usePathname } from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
 import TopNav from '@/app/components/TopNav';
 import { MdAddBox } from "react-icons/md";
 import { IoStatsChart } from "react-icons/io5";
@@ -12,17 +12,26 @@ import { nanoid } from 'nanoid';
 import { AiOutlineClear } from "react-icons/ai";
 import TaskPane from '@/app/components/TaskPane';
 import { TaskPaneType } from '@/app/lib/interface'
+import { useRouter } from 'next/router'
 import { SubTaskType } from '@/app/lib/interface'
 
 
 function ProjectLayout({ children }: { children: ReactNode }) {
 
     const pathname = usePathname();
+    const searchParams = useSearchParams()
 
-    let paths = pathname.split('/')
-    let path = decodeURIComponent(paths[paths.length - 1])
+    // let paths = pathname.split('/')
+    // let path = decodeURIComponent(paths[paths.length - 1])
+    // let {pname, pid} = 
+
+    useEffect(() => {
+        console.log(searchParams.keys)
+        getProductOwner()
+    }, [])
 
     const [taskPanes, setTaskPanes] = useState<TaskPaneType[]>([])
+    const [pOwner, setPOwner] = useState<string>('')
 
     const addTask = () => {
         const newTask: TaskPaneType = {
@@ -53,9 +62,36 @@ function ProjectLayout({ children }: { children: ReactNode }) {
         setTaskPanes([])
     }
 
+    const getProductOwner = () => {
+        fetch('/api/getUser', {
+            method: "POST",
+            body: JSON.stringify({
+                id: localStorage.getItem('userID')
+            }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                setPOwner(data)
+            })
+            .catch(e => console.log(e))
+    }
+
+
+
     return (
         <div className='flex flex-col h-screen'>
-            <span className='font-bold'>{path}</span>
+            <div className='flex justify-between'>
+                <span className='font-bold'>{ }</span>
+                <p>Project Owner: {pOwner}</p>
+            </div>
+            <div className='flex gap-4'>
+                <p className='bg-gray-200 rounded-t-lg p-2 text-sm hover:bg-gray-100 duration-150 cursor-pointer'>Add Task</p>
+                <p className='bg-gray-200 rounded-t-lg p-2 text-sm hover:bg-gray-100 duration-150 cursor-pointer'>View Tasks</p>
+            </div>
             <div className='flex items-center justify-between'>
                 <TopNav links={[
                     { label: <MdAddBox />, link: "#", onClickCallback: () => addTask(), className: 'add-new-task relative hover:!bg-gray-200 hover:!text-black rounded-sm !w-fit ' },
@@ -69,7 +105,7 @@ function ProjectLayout({ children }: { children: ReactNode }) {
                     </div>
                     <div className='users-online'>
                         <Panel text={
-                            <div className='flex gap-4 h-full items-center '><FaUsers className='scale-[2]' />1000</div>
+                            <div className='flex gap-4 h-full items-center '><FaUsers className='scale-[2]' /></div>
                         }
                             className='!relative rounded-none !bg-transparent  !text-black h-full ' />
                     </div>

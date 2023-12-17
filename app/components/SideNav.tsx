@@ -1,6 +1,6 @@
 'use client'
 
-import React, { ReactElement, ReactNode, useState } from 'react'
+import React, { ReactElement, ReactNode, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { BiSolidDashboard } from 'react-icons/bi'
 import { AiOutlineProject } from 'react-icons/ai'
@@ -18,8 +18,9 @@ import { FaUserAlt } from "react-icons/fa";
 
 function SideNav() {
 
-    const { data: session } = useSession()
-    const user = session?.user
+    // const { data: session } = useSession()
+    // const user = session?.user
+
 
     const handleLogoutClick = () => {
         // ToDo: ValidationPopup() component logic here
@@ -41,26 +42,35 @@ function SideNav() {
         }
     }
 
+    useEffect(() => {
+        console.log('/n/n/n')
+        // here is a test, and its working,
+        /// retrieving hte userId from local storage
+        // lets see it!
+        console.log(localStorage.getItem('userId'))
+        // console.log(user?.name as string)
+    })
+
     return (
         <div className=' h-screen flex text-white w-fit z-10'>
             <div className={cn(`bg-dark2 h-full space-y-4`, sideBar, sb.disabled == sideBar ? 'flex flex-col items-center' : '')}>
 
                 <div className="user py-5 w-full flex items-center  gap-4  border-b border-b-[#3f3759] px-2">
                     {
-                        user?.image ?
-                            <div className="avatar relative min-h-[4rem] min-w-[4rem] rounded-full border-2 border-stone-500 flex justify-center mx-2">
-                                <Image className='rounded-full' src={user?.image as string} alt={user?.name as string} objectFit='cover' layout='fill' />
+                        // user?.image ?
+                        //     <div className="avatar relative min-h-[4rem] min-w-[4rem] rounded-full border-2 border-stone-500 flex justify-center mx-2">
+                        //         <Image className='rounded-full' src={user?.image as string} alt={user?.name as string} objectFit='cover' layout='fill' />
+                        //     </div>
+                        //     :
+                        <div className='w-full flex justify-center'>
+                            <div className='p-4 bg-dark1 rounded-full'>
+                                <FaUserAlt className='!text-4xl ' />
                             </div>
-                            :
-                            <div className='w-full flex justify-center'>
-                                <div className='p-4 bg-dark1 rounded-full'>
-                                    <FaUserAlt className='!text-4xl ' />
-                                </div>
-                            </div>
+                        </div>
                     }
-                    <div className={cn(sideBar == sb.enabled ? "userName text-lg font-semibold" : 'hidden')}>
+                    {/* <div className={cn(sideBar == sb.enabled ? "userName text-lg font-semibold" : 'hidden')}>
                         {sideBar == sb.enabled && user?.name}
-                    </div>
+                    </div> */}
                 </div>
 
                 <nav className={cn('flex w-full', sideBar)}>

@@ -80,7 +80,7 @@ function TaskPane(props: TaskPaneType) {
 
     return (
         <div className='task-pane'>
-            <Card className='!bg-gray-200  h-fit !border-2 duration-75 hover:!border-red-200'>
+            <Card className='!bg-gray-200  h-fit !border-2 duration-75 '>
                 {
                     taskPane.isEditMode ?
                         <>
@@ -134,8 +134,13 @@ function SubTask(props: SubTaskType) {
 
     const [subTask, setSubTask] = useState<SubTaskType>(props)
     const [stTitle, setStTitle] = useState<string>(props.title)
+    const [desc, setDesc] = useState<string>(props.description)
     const [selectedUsers, setSelectedUsers] = useState<any>([])
     const dialogRef = useRef<any>()
+
+    useEffect(() => {
+
+    })
 
     function saveSubTaskTitle() {
         const newSubTask: SubTaskType = {
@@ -173,13 +178,10 @@ function SubTask(props: SubTaskType) {
 
     async function loadOptions(query: string, callback: (options: OptionsOrGroups<any, GroupBase<any>>) => void): Promise<OptionsOrGroups<any, GroupBase<any>>> {
 
-        const tempProjectId = '1234abcd'
-        const tempUserId = 'user1234'
-        const response = await fetch(`api/getUsers`, {
+        const response = await fetch(`api/getTeamMembers`, {
             method: "POST",
             body: JSON.stringify({
-                projectId: tempProjectId,
-                userId: tempUserId
+                creatorId: localStorage.getItem('userId')
             })
         })
 
@@ -232,7 +234,7 @@ function SubTask(props: SubTaskType) {
                     </Dialog.Title>
                     <div>
                         Description:
-                        <TextArea>
+                        <TextArea onChange={e => setDesc(prev => e.target.value)} value={desc}>
                         </TextArea>
                     </div>
                     <div>
@@ -241,7 +243,7 @@ function SubTask(props: SubTaskType) {
                             isMulti
                             value={selectedUsers}
                             onChange={handleUserSelectChange}
-                            placeholder='type email'
+                            placeholder='Type username'
                             loadOptions={loadOptions}
                         />
                         {/* <AsyncSelect isMulti ></AsyncSelect> */}

@@ -6,16 +6,13 @@ import { db } from "@/app/lib/prisma";
 
 export async function POST(req: NextRequest) {
     try {
-        const data = await req.json()
-        const users = await db.user.findMany({
+        const body = await req.json()
+        const users = await db.user.findFirst({
             where: {
-                email: {
-                    contains: data.email
-                },
-                projectId: data.projectId
+                id: body?.userId
             }
         })
-        return NextResponse.json(users)
+        return NextResponse.json(users?.firstName)
     } catch (error) {
         console.log(error)
     }

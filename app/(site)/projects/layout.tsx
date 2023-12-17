@@ -1,18 +1,81 @@
-import React, { ReactNode } from 'react'
+'use client'
+import React, { ReactNode, useRef, useState } from 'react'
 import Link from 'next/link'
 import ButtonRound from '@/app/components/ButtonRound'
+import { GoProjectSymlink } from "react-icons/go";
+import { Button, Dialog } from '@radix-ui/themes';
+import { Input } from 'postcss';
 // import AddProjectDropdownButton from '@/app/components/createProjectButton'
 
 function ProjectsLayout({ children }: { children: ReactNode }) {
+
+
+    const inviteRef = useRef<any>();
+    const dialogRef = useRef<any>();
+    const [message, setMessage] = useState<string>('');
+
+
+    function handleJoinProject() {
+        fetch('/api/joinProject/', {
+            method: "POST",
+            body: JSON.stringify({
+                userId: localStorage.getItem('userId'),
+                invite: inviteRef.current.value,
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(async response => {
+                const data = await response.json()
+                if (response.ok) {
+                    console.log('Successful Join')
+                    setMessage(data)
+                } else {
+                    console.log('X Not Successful Join')
+                    setMessage(data)
+                }
+                dialogRef.current.click();
+                console.log(data)
+            })
+    }
+
     return (
-        <div className='flex flex-col gap-10 h-fit '>
-            <div className='flex justify-between w-full items-center'>
-                <h1 className='text-5xl font-bold '>Projects</h1>
-                {/* <AddProjectDropdownButton/> */}
-                <Link href={'/projects/add'}><ButtonRound label={<><i className='fa-solid fa-plus mx-4'></i>AddProject</>} /></Link>
+        <>
+            <Dialog.Root>
+                <Dialog.Trigger>
+                    <Button ref={dialogRef} className='!hidden'></Button>
+                </Dialog.Trigger>
+                <Dialog.Content className='flex flex-col gap-2 !w-[300px]'>
+                    <Dialog.Title className='!text-center'>{message}</Dialog.Title>
+                    <Dialog.Close>
+                        <Button className='!bg-gray-400 !cursor-pointer hover:!bg-dark2 duration-150'>Ok</Button>
+                    </Dialog.Close>
+                </Dialog.Content>
+            </Dialog.Root>
+            <div className='flex flex-col gap-10 h-fit '>
+                <div className='flex justify-between w-full items-center'>
+                    <h1 className='text-5xl font-bold '>Projects</h1>
+                    {/* <AddProjectDropdownButton/> */}
+                    <div className='flex gap-2'>
+                        <Dialog.Root>
+                            <Dialog.Trigger>
+                                <ButtonRound className='flex gap-1 justify-center items-center' label={<><GoProjectSymlink />Join</>} />
+                            </Dialog.Trigger>
+                            <Dialog.Content className='flex flex-col gap-2 !w-[300px]'>
+                                <Dialog.Title>Join a Project</Dialog.Title>
+                                <input placeholder='Invitation Link' className='p-2 w-full border-[1px] border-black' ref={inviteRef}></input>
+                                <Dialog.Close>
+                                    <Button className='!bg-gray-400 !cursor-pointer hover:!bg-dark2 duration-150' onClick={handleJoinProject}>Join</Button>
+                                </Dialog.Close>
+                            </Dialog.Content>
+                        </Dialog.Root>
+                        <Link href={'/projects/add'}><ButtonRound className='flex gap-1 justify-center items-center' label={<><i className='fa-solid fa-plus mx-4'></i>Add Project</>} /></Link>
+                    </div>
+                </div>
+                {children}
             </div>
-            {children}
-        </div>
+        </>
     )
 }
 

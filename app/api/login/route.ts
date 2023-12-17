@@ -14,19 +14,6 @@ export async function POST(request: NextRequest) {
     }
     )
 
-    const expires = new Date(Date.now() + (1000 * 60 * 60 * 24)); // Set expires to 24 hours from now
-    // const session = db.session.create({
-    //     data: {
-    //         userId: user?.id,
-    //         expires,
-    //     },
-    // });
-
-
-
-
-    //  ('sessionId', sessionId, { maxAge: 60 * 60 * 24 }); // Expires in 24 hours
-
 
 
     // BASIC CHECKS below, will strengthen it later using zod
@@ -41,7 +28,7 @@ export async function POST(request: NextRequest) {
     // YOU CAN SETUP SESSION HERE
 
     console.log(user)
-    return NextResponse.json("Login Successful", { status: 200 })
+    return NextResponse.json({ message: "Login Successful", userId: user.id }, { status: 200 })
     // const { data, error } = await supabase.auth.signInWithOAuth({
     //     provider: "google"
     // })

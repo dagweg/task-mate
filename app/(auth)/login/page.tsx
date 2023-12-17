@@ -40,7 +40,7 @@ const Page: React.FC<PageProps> = ({ error }) => {
   const dialogRef = useRef<any>()
   const navigator = useRouter()
   const router = useParams();
-  let redirectUrl = 'http://location:3000';
+  let redirectUrl = 'http://localhost:3000';
 
   useEffect(() => {
     const url = new URL(location.href);
@@ -68,6 +68,10 @@ const Page: React.FC<PageProps> = ({ error }) => {
 
         if (response.ok) {
           console.log('Login successful!')
+          // when its succesful, we store the userId in the local storage...
+          localStorage.removeItem('userId')
+          localStorage.setItem('userId', data.userId)
+          console.log(data.userId)
           navigator.push('/')
         } else {
           console.log('Login, not successful')
@@ -110,15 +114,15 @@ const Page: React.FC<PageProps> = ({ error }) => {
         <h1 className="text-5xl font-bold tracking-wide py-10">Login</h1>
         <div className="flex flex-col gap-2">
           <form onSubmit={handleSubmit} className='flex flex-col gap-3 w-[300px]'>
-            {/* <TextBox placeholder="Email" onChange={(e: any) => handleInputChange(e, 'email')} />
+            <TextBox placeholder="Email" onChange={(e: any) => handleInputChange(e, 'email')} />
             <TextBox placeholder="Password" onChange={(e: any) => handleInputChange(e, 'passWord')} />
             <input type='submit' value={'Signin'} className='bg-dark1 rounded-sm cursor-pointer text-white py-4 hover:bg-dark2 w-full font-semibold'></input>
-            <div className="flex items-center space-x-4">
+            {/* <div className="flex items-center space-x-4">
               <div className="flex-grow h-[1px] bg-black" />
               <p>or</p>
               <div className="flex-grow h-[1px] bg-black" />
             </div> */}
-            <div
+            {/* <div
               className="group flex justify-center items-center  gap-6 bg-white text-black border-black border-2 shadow-lg py-4  px-2 w-full rounded-sm  hover:bg-gray-100  active:scale-105 duration-150 text-xl cursor-pointer "
               onClick={() => {
                 signIn('google', {
@@ -143,11 +147,11 @@ const Page: React.FC<PageProps> = ({ error }) => {
               <label htmlFor="google" className="text-sm group-hover:text-white duration-150 ">
                 Continue with Githhub
               </label>
-            </div>
+            </div> */}
 
-            {/* <p>
+            <p>
               New to Task Mate? <Link href="/signup" className='underline font-semibold'>Create Account</Link>
-            </p> */}
+            </p>
           </form>
         </div>
         {errorMessage && (

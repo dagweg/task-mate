@@ -3,18 +3,83 @@
 import ButtonRound from '@/app/components/ButtonRound'
 import Panel from '@/app/components/Panel'
 import TextBox from '@/app/components/TextBox'
-import React from 'react'
+import TextList from '@/app/components/TextList'
+import { Button, Dialog, Flex, TextField } from '@radix-ui/themes'
+import React, { useEffect, useRef, useState } from 'react'
 import { BsInfoSquare } from 'react-icons/bs'
 
 function AddProject() {
+
+
+    const [userEmails, setUserEmails] = useState<string[]>([])
+    const [message, setMessage] = useState<string>('');
+    const titleRef = useRef<any>();
+    const descRef = useRef<any>();
+    const dialogRef = useRef<any>();
+
+    function handleCreateProject() {
+        const formData = {
+            title: titleRef.current.value,
+            description: descRef.current?.value,
+            creatorId: localStorage.getItem('userId'),
+            users: userEmails
+        }
+
+        console.log(JSON.stringify(formData))
+
+        fetch('/api/addProject', {
+            method: "POST",
+            body: JSON.stringify(formData),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+            .then(async response => {
+                const data = await response.json()
+                if (response.ok) {
+                    console.log("Project Created Successfully")
+                    setMessage(prev => "Project Created Successfully")
+                    dialogRef.current.click()
+                } else {
+                    console.log("X Project creation unsuccessful")
+                    setMessage(prev => data)
+                    dialogRef.current.click()
+                }
+            })
+    }
+
     return (
         <div>
+            <Dialog.Root >
+                <Dialog.Trigger>
+                    <Button ref={dialogRef} className='!hidden'></Button>
+                </Dialog.Trigger>
+                <Dialog.Content style={{ maxWidth: 450 }} className='flex flex-col justify-center items-center '>
+                    <Dialog.Title>{message}</Dialog.Title>
+                    <Flex gap="3" mt="4" justify="end">
+                        <Dialog.Close>
+                            <Button variant="soft" color="gray">
+                                Ok
+                            </Button>
+                        </Dialog.Close>
+                    </Flex>
+                </Dialog.Content>
+            </Dialog.Root>
             <div className='w-[650px] mx-auto h-fit relative rounded-2xl space-y-20 gap-20 px-16 max-w-7xl items-center'>
                 <div className='flex flex-col gap-4 '>
-                    <TextBox label='Project Name' />
+                    <div>
+                        <p>Project Title</p>
+                        <input
+                            type="text"
+                            placeholder=""
+                            className='border-black border-[1px] p-2 w-full'
+                            ref={titleRef}
+                        />
+                    </div>
+                    {/* <TextBox label='Project Name' ref={titleRef} /> */}
                     <div className='text-field flex flex-col'>
                         <label htmlFor="">Project Description</label>
-                        <textarea name="" id="" rows={30} className='outline-none border border-black h-28  p-3 border-b-2 border-[#2226] rounded-sm focus:border-dark2 focus:bg-gray-100 w-[100%] focus:border-b-4'></textarea>
+                        <textarea name="" id="" rows={30} ref={descRef} className='outline-none border border-black h-28  p-3 border-b-2 border-[#2226] rounded-sm focus:border-dark2 focus:bg-gray-100 w-[100%] focus:border-b-4'></textarea>
                     </div>
                 </div>
                 <div className='flex flex-col gap-10 justify-center'>
@@ -30,20 +95,13 @@ function AddProject() {
                                 <p className='text-sm'>Don`t worry you can edit them later.</p>
                             </div>
                         </div>
-                        <TextBox />
-                        {/** Test added email*/}
-                        <div className='flex overflow-x-scroll'>
-                            <div className='bg-dark2 w-fit text-white text-xs py-2 px-5 rounded-full my-3 hover:scale-95 duration-200 cursor-pointer'>dagtef@gmail.com</div>
-                            <div className='bg-dark2 w-fit text-white text-xs py-2 px-5 rounded-full my-3 hover:scale-95 duration-200 cursor-pointer'>wegd42@gmail.com</div>
-                            <div className='bg-dark2 w-fit text-white text-xs py-2 px-5 rounded-full my-3 hover:scale-95 duration-200 cursor-pointer'>wegd42@gmail.com</div>
-                            <div className='bg-dark2 w-fit text-white text-xs py-2 px-5 rounded-full my-3 hover:scale-95 duration-200 cursor-pointer'>dagtef@gmail.com</div>
-                            <div className='bg-dark2 w-fit text-white text-xs py-2 px-5 rounded-full my-3 hover:scale-95 duration-200 cursor-pointer'>wegd42@gmail.com</div>
-                            <div className='bg-dark2 w-fit text-white text-xs py-2 px-5 rounded-full my-3 hover:scale-95 duration-200 cursor-pointer'>wegd42@gmail.com</div>
+                        <div className='flex gap-1  max-w-full'>
+                            <TextList emailList={userEmails} setEmailList={setUserEmails} />
                         </div>
                     </div>
 
                     <div className='flex justify-end items-center'>
-                        <ButtonRound label='Create Project' className='!px-10' />
+                        <ButtonRound label='Create Project' className='!px-10' onClick={handleCreateProject} />
                     </div>
                 </div>
             </div>
