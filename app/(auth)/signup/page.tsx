@@ -15,10 +15,12 @@ import { Button, Dialog, Flex, IconButton, TextField } from '@radix-ui/themes'
 import Link from 'next/link'
 import MessageBox from '@/app/components/MessageBox'
 import { FaUserAlt } from "react-icons/fa";
+import { cn } from '@/app/lib/utils'
 
 function SignUp() {
 
     const [countryCode, setCountryCode] = useState([])
+    const [message, setMessage] = useState<string>('Account created successfully!');
     const [accountCreated, setAccountCreated] = useState<boolean>(false);
     const [formData, setFormData] = useState({
         firstName: '',
@@ -44,9 +46,12 @@ function SignUp() {
                 if (response.ok) {
                     console.log('Registerd Successfully')
                     setAccountCreated(true);
+                    setMessage('Account created successfully!')
                     dialogRef.current.click()
                 } else {
                     console.log(data)
+                    setMessage('Account creation failed!')
+                    dialogRef.current.click();
                 }
             })
 
@@ -81,6 +86,8 @@ function SignUp() {
         fetchCountryCodes()
     }, [])
 
+    const [agreed, setAgreed] = useState<boolean>(false)
+
     return (
         <div className='flex flex-col h-full w-full justify-center items-center'>
             <Dialog.Root >
@@ -88,7 +95,7 @@ function SignUp() {
                     <Button ref={dialogRef}></Button>
                 </Dialog.Trigger>
                 <Dialog.Content style={{ maxWidth: 450 }} className='flex flex-col justify-center items-center '>
-                    <Dialog.Title>Account created successfully!</Dialog.Title>
+                    <Dialog.Title>{message}</Dialog.Title>
                     <Flex gap="3" mt="4" justify="end">
                         <Dialog.Close>
                             <Button variant="soft" color="gray">
@@ -144,15 +151,15 @@ function SignUp() {
                     </div>
                     <div className='flex-col space-y-2 my-3 '>
                         <div className='flex gap-4 items-start'>
-                            <input type='checkbox' className='my-2' ></input>
+                            <input type='checkbox' className='my-2' checked={agreed} onChange={() => setAgreed(!agreed)}></input>
                             <p className='text-md text-[15px]'>I agree with the licenses, terms and conditions of this software.</p>
                         </div>
                     </div>
-                    <input type='submit' value={'Create Account'} className='bg-dark1 rounded-md cursor-pointer text-white py-4 hover:bg-dark2'></input>
+                    <input type='submit' disabled={!agreed} value={'Create Account'} className={cn('rounded-md cursor-pointer text-black bg-gray-200 py-4 ', agreed && 'bg-dark1 hover:bg-dark2 text-white')}></input>
                     <p>Already have an account? <span className='font-semibold underline hover: cursor-pointer' onClick={() => router.push('/login')}>Login</span></p>
                 </form>
             </div>
-        </div>
+        </div >
     )
 }
 

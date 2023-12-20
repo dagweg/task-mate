@@ -115,7 +115,7 @@ const Page: React.FC<PageProps> = ({ error }) => {
         <div className="flex flex-col gap-2">
           <form onSubmit={handleSubmit} className='flex flex-col gap-3 w-[300px]'>
             <TextBox placeholder="Email" onChange={(e: any) => handleInputChange(e, 'email')} />
-            <TextBox placeholder="Password" onChange={(e: any) => handleInputChange(e, 'passWord')} />
+            <TextBox placeholder="Password" type='password' onChange={(e: any) => handleInputChange(e, 'passWord')} />
             <input type='submit' value={'Signin'} className='bg-dark1 rounded-sm cursor-pointer text-white py-4 hover:bg-dark2 w-full font-semibold'></input>
             {/* <div className="flex items-center space-x-4">
               <div className="flex-grow h-[1px] bg-black" />

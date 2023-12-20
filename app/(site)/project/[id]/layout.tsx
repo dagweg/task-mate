@@ -21,13 +21,15 @@ function ProjectLayout({ children }: { children: ReactNode }) {
 
     const pathname = usePathname();
     const searchParams = useSearchParams()
+    const projectdId = searchParams.get("pid")
 
     // let paths = pathname.split('/')
     // let path = decodeURIComponent(paths[paths.length - 1])
     // let {pname, pid} = 
 
     useEffect(() => {
-        console.log(searchParams.keys)
+        // console.log(searchParams.keys)
+        console.log(searchParams)
         getProductOwner()
     }, [])
 
@@ -82,16 +84,28 @@ function ProjectLayout({ children }: { children: ReactNode }) {
     }
 
 
+    useEffect(() => {
+        fetch(`http://localhost:3000/api/task?pid=${projectdId}`)
+            .then(async response => {
+                const data = await response.json();
+
+                if (response.ok) {
+                    setTaskPanes(data)
+                }
+            })
+    }, [])
+
 
     return (
         <div className='flex flex-col h-screen'>
             <div className='flex justify-between'>
                 <span className='font-bold'>{ }</span>
-                <p>Project Owner: {pOwner}</p>
+                {/* <p>Project Owner: {pOwner}</p> */}
             </div>
             <div className='flex gap-4'>
                 <p className='bg-gray-200 rounded-t-lg p-2 text-sm hover:bg-gray-100 duration-150 cursor-pointer'>Add Task</p>
                 <Link href={'./viewtasks'}><p className='bg-gray-200 rounded-t-lg p-2 text-sm hover:bg-gray-100 duration-150 cursor-pointer'>View Tasks</p></Link>
+                <Link href={`./members?pid=${projectdId}`}><p className='bg-gray-200 rounded-t-lg p-2 text-sm hover:bg-gray-100 duration-150 cursor-pointer'>Members</p></Link>
             </div>
             <div className='flex items-center justify-between'>
                 <TopNav links={[

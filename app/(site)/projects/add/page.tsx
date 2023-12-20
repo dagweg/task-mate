@@ -101,7 +101,7 @@ function AddProject() {
                     </div>
 
                     <div className='flex justify-end items-center'>
-                        <ButtonRound label='Create Project' className='!px-10' onClick={handleCreateProject} />
+                        <ButtonRound label='Finish' className='!px-10' onClick={handleCreateProject} />
                     </div>
                 </div>
             </div>

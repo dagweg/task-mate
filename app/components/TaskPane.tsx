@@ -22,9 +22,10 @@ import { useParams } from 'next/navigation'
 
 function TaskPane(props: TaskPaneType) {
 
-    const [taskPane, setTaskPane] = useState<TaskPaneType>(props)
-    const [subTasks, setSubTasks] = useState<SubTaskType[]>(props.subtasks)
+    const [taskPane, setTaskPane] = useState<TaskPaneType>(props || [])
+    const [subTasks, setSubTasks] = useState<SubTaskType[]>(props.subtasks || [])
     const [tpTitle, setTpTitle] = useState<string>(props.title)
+
 
     const params = useSearchParams()
 
@@ -110,124 +111,19 @@ function TaskPane(props: TaskPaneType) {
         }
     }
 
-    return (
-        <div className='task-pane'>
-            <Card className='!bg-gray-200  h-fit !border-2 duration-75 '>
-                {
-                    taskPane.isEditMode ?
-                        <>
-                            <TextField.Root className='flex items-center'>
-                                <TextField.Input placeholder='Task Title' autoFocus onBlur={handleTitleBlur} className='!p-2' value={tpTitle} onChange={e => setTpTitle(e.target.value)} ></TextField.Input>
-                                <TextField.Slot>
-                                    <IconButton className=' !m-1 !bg-gray-200 hover:!bg-neutral-600' onClick={saveTaskTitle}>
-                                        <FaCheck></FaCheck>
-                                    </IconButton>
-                                </TextField.Slot>
-                            </TextField.Root>
-                        </>
-                        :
-                        <>
-                            <div className='flex items-center justify-between' >
-                                <h1 className='uppercase text-xl tracking-wider font-semibold'>{taskPane.title}</h1>
-                                <DropdownMenu.Root>
-                                    <DropdownMenu.Trigger>
-                                        <IconButton className=' !m-1 !bg-gray-200 hover:!bg-neutral-300 !text-xl !text-black'><IoIosMore /></IconButton>
-                                    </DropdownMenu.Trigger>
-                                    <DropdownMenu.Content className='min-w-[10rem]'>
-                                        <DropdownMenu.Item onClick={editTaskTitle} className=' !m-1  hover:!bg-neutral-600 hover:!text-white !text-black'>Edit Title</DropdownMenu.Item>
-                                        <DropdownMenu.Separator />
-                                        <DropdownMenu.Item onClick={deleteTaskPane} className=' !m-1  hover:!bg-red-500 hover:!text-white !text-black'>Delete</DropdownMenu.Item>
-                                    </DropdownMenu.Content>
-                                </DropdownMenu.Root>
-                            </div>
-
-                            <div className='sub-task-container space-y-[10px] py-2'>
-                                {
-                                    subTasks.map(subTask => (
-                                        <SubTask key={subTask.id} props={{ ...subTask }} taskId={taskPane.id as string} />
-                                    ))
-                                }
-                            </div>
-
-                            <div className='flex justify-end'>
-                                <IconButton onClick={addSubTask} className=' !m-1 !bg-gray-400 hover:!bg-neutral-600 !w-fit !px-4 gap-2'><IoAdd />Add Subtask</IconButton>
-                            </div>
-                        </>
-                }
-
-            </Card>
-        </div>
-    )
-}
-
-
-function SubTask({ props, taskId }: { props: SubTaskType, taskId: string }) {
-
-
-    const [subTask, setSubTask] = useState<SubTaskType>(props)
-    const [stTitle, setStTitle] = useState<string>(props.title)
-    const [desc, setDesc] = useState<string>(props.description)
-    const [selectedUsers, setSelectedUsers] = useState<any>([])
     const dialogRef = useRef<any>()
+    const [desc, setDesc] = useState<string>(props.description as string)
 
-    useEffect(() => {
-
-    })
-
-    function saveSubTaskTitle() {
-        const newSubTask: SubTaskType = {
-            ...subTask,
-            title: stTitle,
-            isEditMode: false
-        }
-
-
-
-        fetch('http://localhost:3000/api/subtask', {
-            method: "POST",
-            body: JSON.stringify({
-                title: stTitle,
-                taskId: taskId
-            }),
-            headers: {
-                "Content-Type": 'application'
-            }
-        })
-            .then(async response => {
-                const data = await response.json()
-
-                if (response.ok) {
-                    // add
-
-                }
-                else {
-
-                }
-            })
-            .catch(e => console.log(e))
-
-        setSubTask(prev => newSubTask)
-    }
-
-    function editSubTaskTitle() {
-        const newSubTask: SubTaskType = {
-            ...subTask,
-            isEditMode: true
-        }
-        setSubTask(prev => newSubTask)
-    }
-    function deleteSubTask() {
-        props.removeSubTaskCallback(subTask.id)
-    }
-
-    function openSubTaskDialog(bool: boolean) {
-        const opened: SubTaskType = {
-            ...subTask,
-            isOpen: bool
-        }
-        setSubTask(prev => opened)
+    function openTaskDialog(bool: boolean) {
+        // const opened: SubTaskType = {
+        //     ...subTask,
+        //     isOpen: bool
+        // }
+        // setSubTask(prev => opened)
         dialogRef.current.click()
     }
+
+    const [selectedUsers, setSelectedUsers] = useState<any>([])
 
     function handleUserSelectChange() {
 
@@ -246,40 +142,56 @@ function SubTask({ props, taskId }: { props: SubTaskType, taskId: string }) {
         return Promise.resolve(data as OptionsOrGroups<any, GroupBase<any>>)
     }
 
-    return (
-        <>
-            {
-                subTask.isEditMode ?
-                    <>
-                        <TextField.Root className='flex items-center'>
-                            <TextField.Input placeholder='Subtask' className='!p-2' value={stTitle} onChange={e => setStTitle(e.target.value)}></TextField.Input>
-                            <TextField.Slot>
-                                <IconButton className=' !m-1 !bg-gray-200 hover:!bg-neutral-600' onClick={saveSubTaskTitle}>
-                                    <FaCheck></FaCheck>
-                                </IconButton>
-                            </TextField.Slot>
-                        </TextField.Root>
-                    </>
-                    :
-                    <>
-                        <div className='flex items-center justify-between bg-white hover:bg-slate-100 rounded-xl px-2 '>
-                            <div onClick={() => openSubTaskDialog(true)} className=' flex-grow py-2 '>
-                                <h1 className='uppercase text-sm px-2 tracking-wider font-semibold'>{subTask.title}</h1>
-                            </div>
-                            <DropdownMenu.Root>
-                                <DropdownMenu.Trigger>
-                                    <IconButton className=' !m-1 !bg-gray-200 hover:!bg-neutral-300 !text-xl !text-black'><MdEdit /></IconButton>
-                                </DropdownMenu.Trigger>
-                                <DropdownMenu.Content className='min-w-[10rem]'>
-                                    <DropdownMenu.Item onClick={editSubTaskTitle} className='z-10 !m-1  hover:!bg-neutral-600 hover:!text-white !text-black'>Edit Title</DropdownMenu.Item>
-                                    <DropdownMenu.Separator />
-                                    <DropdownMenu.Item onClick={deleteSubTask} className=' !m-1  hover:!bg-red-500 hover:!text-white !text-black'>Delete</DropdownMenu.Item>
-                                </DropdownMenu.Content>
-                            </DropdownMenu.Root>
-                        </div>
-                    </>
 
-            }
+    return (
+        <div className='task-pane' >
+            <Card className='!bg-gray-200  h-fit !border-2 duration-75 ' >
+                {
+                    taskPane.isEditMode ?
+                        <>
+                            <TextField.Root className='flex items-center'>
+                                <TextField.Input placeholder='Task Title' autoFocus onBlur={handleTitleBlur} className='!p-2' value={tpTitle} onChange={e => setTpTitle(e.target.value)} ></TextField.Input>
+                                <TextField.Slot>
+                                    <IconButton className=' !m-1 !bg-gray-200 hover:!bg-neutral-600' onClick={saveTaskTitle}>
+                                        <FaCheck></FaCheck>
+                                    </IconButton>
+                                </TextField.Slot>
+                            </TextField.Root>
+                        </>
+                        :
+                        <>
+                            <div className='flex items-center justify-between' >
+                                <h1 className='uppercase text-xl tracking-wider font-semibold'>{taskPane.title}</h1>
+                                <div className='flex items-center'>
+                                    <Button onClick={() => openTaskDialog(true)} className='!cursor-pointer !bg-gray-100 !text-black hover:!bg-dark2 hover:!text-white'><MdEdit /></Button>
+                                    <DropdownMenu.Root>
+                                        <DropdownMenu.Trigger>
+                                            <IconButton className=' !m-1 !bg-gray-200 hover:!bg-neutral-300 !text-xl !text-black'><IoIosMore /></IconButton>
+                                        </DropdownMenu.Trigger>
+                                        <DropdownMenu.Content className='min-w-[10rem]'>
+                                            <DropdownMenu.Item onClick={editTaskTitle} className=' !m-1  hover:!bg-neutral-600 hover:!text-white !text-black'>Edit Title</DropdownMenu.Item>
+                                            <DropdownMenu.Separator />
+                                            <DropdownMenu.Item onClick={deleteTaskPane} className=' !m-1  hover:!bg-red-500 hover:!text-white !text-black'>Delete</DropdownMenu.Item>
+                                        </DropdownMenu.Content>
+                                    </DropdownMenu.Root>
+                                </div>
+                            </div>
+
+                            <div className='sub-task-container space-y-[10px] py-2'>
+                                {
+                                    subTasks.map(subTask => (
+                                        <SubTask key={subTask.id} props={{ ...subTask }} taskId={taskPane.id as string} projectId={projectId as string} />
+                                    ))
+                                }
+                            </div>
+
+                            <div className='flex justify-end'>
+                                <IconButton onClick={addSubTask} className=' !m-1 !bg-gray-400 hover:!bg-neutral-600 !w-fit !px-4 gap-2'><IoAdd />Add Subtask</IconButton>
+                            </div>
+                        </>
+                }
+
+            </Card>
             <Dialog.Root>
                 <Dialog.Trigger>
                     <Button ref={dialogRef} className='!hidden'></Button>
@@ -287,7 +199,7 @@ function SubTask({ props, taskId }: { props: SubTaskType, taskId: string }) {
                 <Dialog.Content>
                     <Dialog.Title className='flex space-x-4'>
                         <MdAddToQueue className='text-2xl' />
-                        <h1>{subTask.title}</h1>
+                        <h1>{tpTitle}</h1>
                     </Dialog.Title>
                     <div>
                         Description:
@@ -316,8 +228,103 @@ function SubTask({ props, taskId }: { props: SubTaskType, taskId: string }) {
                             </DropdownMenu.Content>
                         </DropdownMenu.Root> */}
                     </div>
+                    <Button onClick={() => openTaskDialog(true)} className='!cursor-pointer !bg-gray-100 !text-black hover:!bg-dark2 hover:!text-white !my-2 !px-2 !py-4'>Save</Button>
                 </Dialog.Content>
             </Dialog.Root>
+        </div>
+    )
+}
+
+
+function SubTask({ props, taskId, projectId }: { props: SubTaskType, taskId: string, projectId: string }) {
+
+
+    const [subTask, setSubTask] = useState<SubTaskType>(props)
+    const [stTitle, setStTitle] = useState<string>(props.title)
+
+
+
+    useEffect(() => {
+
+    })
+
+    function saveSubTaskTitle() {
+        const newSubTask: SubTaskType = {
+            ...subTask,
+            title: stTitle,
+            isEditMode: false
+        }
+
+
+
+        fetch(`http://localhost:3000/api/subtask?sname=${stTitle}&tid=${taskId}&pid=${projectId}`)
+            .then(async response => {
+                const data = await response.json()
+
+                if (response.ok) {
+                    // add
+                    setSubTask(data)
+
+                }
+                else {
+
+                }
+            })
+            .catch(e => console.log(e))
+
+        setSubTask(prev => newSubTask)
+    }
+
+    function editSubTaskTitle() {
+        const newSubTask: SubTaskType = {
+            ...subTask,
+            isEditMode: true
+        }
+        setSubTask(prev => newSubTask)
+    }
+    function deleteSubTask() {
+        props.removeSubTaskCallback(subTask.id)
+    }
+
+
+
+
+
+    return (
+        <>
+            {
+                subTask.isEditMode ?
+                    <>
+                        <TextField.Root className='flex items-center'>
+                            <TextField.Input placeholder='Subtask' className='!p-2' value={stTitle} onChange={e => setStTitle(e.target.value)}></TextField.Input>
+                            <TextField.Slot>
+                                <IconButton className=' !m-1 !bg-gray-200 hover:!bg-neutral-600' onClick={saveSubTaskTitle}>
+                                    <FaCheck></FaCheck>
+                                </IconButton>
+                            </TextField.Slot>
+                        </TextField.Root>
+                    </>
+                    :
+                    <>
+                        <div className='flex items-center justify-between bg-white hover:bg-slate-100 rounded-xl px-2 '>
+                            <div className=' flex-grow py-2 '>
+                                <h1 className='uppercase text-sm px-2 tracking-wider font-semibold'>{subTask.title}</h1>
+                            </div>
+                            <DropdownMenu.Root>
+                                <DropdownMenu.Trigger>
+                                    <IconButton className=' !m-1 !bg-gray-200 hover:!bg-neutral-300 !text-xl !text-black'><MdEdit /></IconButton>
+                                </DropdownMenu.Trigger>
+                                <DropdownMenu.Content className='min-w-[10rem]'>
+                                    <DropdownMenu.Item onClick={editSubTaskTitle} className='z-10 !m-1  hover:!bg-neutral-600 hover:!text-white !text-black'>Edit Title</DropdownMenu.Item>
+                                    <DropdownMenu.Separator />
+                                    <DropdownMenu.Item onClick={deleteSubTask} className=' !m-1  hover:!bg-red-500 hover:!text-white !text-black'>Delete</DropdownMenu.Item>
+                                </DropdownMenu.Content>
+                            </DropdownMenu.Root>
+                        </div>
+                    </>
+
+            }
+
         </>
     )
 

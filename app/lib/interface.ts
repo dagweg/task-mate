@@ -14,6 +14,7 @@ export interface TaskPaneType {
     id: string,
     title: string,
     subtasks: SubTaskType[],
+    description?: string,
     isEditMode: boolean,
     isFirstTime: boolean,
     removeTaskPaneCallback: (taskPaneId: string) => void

@@ -1,23 +1,31 @@
 import { db } from "@/app/lib/prisma";
-import { connect } from "http2";
 import { NextRequest, NextResponse } from "next/server";
+
 
 
 export async function POST(req: NextRequest) {
     try {
-        const body = await req.json()
+        const pid = req.nextUrl.searchParams.get('pid')
+        const taskId = req.nextUrl.searchParams.get('tid')
+        const subTaskName = req.nextUrl.searchParams.get('sname')
 
-        // const result = await db.subTask.create({
-        //     data: {
-        //         title: body.title,
-        //         taskId: body.taskId
-        //     }
-        // })
-
-        // console.log(result)
-        console.log(body)
-        // const task = await db.create
-        return NextResponse.json({})
+        const updatedTask = await db.task.update({
+            where: {
+                id: taskId as string,
+            },
+            data: {
+                SubTask: {
+                    create: {
+                        title: subTaskName as string
+                    },
+                },
+            },
+            include: {
+                SubTask: true,
+            },
+        });
+        console.log(updatedTask)
+        return NextResponse.json(updatedTask?.SubTask, { status: 200 })
     }
     catch (e) {
         console.log(e)
