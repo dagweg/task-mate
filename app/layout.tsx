@@ -14,6 +14,7 @@ import AuthLayout from './(auth)/layout';
 import Link from 'next/link';
 
 import router from 'next/navigation'
+import { useEffect } from 'react';
 
 
 // export const metadata: Metadata = {
@@ -40,6 +41,25 @@ export default function RootLayout({
   if (!localStorage.getItem('userId')) {
     router.push('/login')
   }
+
+  useEffect(() => {
+    const fun = async () => {
+      try {
+        const response = await fetch(`http://localhost:3000/api/getUser?uid=${localStorage.getItem('userId')}`);
+
+        if (response.ok) {
+          const data = await response.json();
+          console.log("Logged in as ", data.name);
+        } else {
+          console.error('Error getting user name');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+    fun();
+  })
 
   return (
     <html lang="en">

@@ -53,7 +53,7 @@ function ProjectsLayout({ children }: { children: ReactNode }) {
                     </Dialog.Close>
                 </Dialog.Content>
             </Dialog.Root>
-            <div className='flex flex-col gap-10 h-fit '>
+            <div className='flex flex-col gap-2 h-fit '>
                 <div className='flex justify-between w-full items-center'>
                     <h1 className='text-5xl font-bold '>Projects</h1>
                     {/* <AddProjectDropdownButton/> */}
@@ -73,6 +73,12 @@ function ProjectsLayout({ children }: { children: ReactNode }) {
                         <Link href={'/projects/add'}><ButtonRound className='flex gap-1 justify-center items-center' label={<><i className='fa-solid fa-plus mx-4'></i>Add Project</>} /></Link>
                     </div>
                 </div>
+                <div className='flex gap-2'>
+                    <Link href={'/projects/my-projects'}><Button className='!rounded-t-lg  !rounded-b-none !bg-gray-100 !cursor-pointer !text-black hover:!bg-dark2 hover:!text-white duration-75'>My projects</Button></Link>
+                    <Link href={'/projects/other-projects'}><Button className='!rounded-t-lg  !rounded-b-none !bg-gray-100 !cursor-pointer !text-black hover:!bg-dark2 hover:!text-white duration-75'>Other projects</Button></Link>
+                </div>
+            </div>
+            <div className='my-2'>
                 {children}
             </div>
         </>

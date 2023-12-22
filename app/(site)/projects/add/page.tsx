@@ -88,11 +88,11 @@ function AddProject() {
                         <div className='flex flex-col gap-3 justify-center my-2'>
                             <div className='flex gap-4 items-center'>
                                 <BsInfoSquare />
-                                <p className='text-sm'>To add email, just write them separated by commas.</p>
+                                <p className='text-sm'>To add members write their email address and press [Enter].</p>
                             </div>
                             <div className='flex gap-4 items-center'>
                                 <BsInfoSquare />
-                                <p className='text-sm'>Don`t worry you can edit them later.</p>
+                                <p className='text-sm'>To remove members click on the email you just added.</p>
                             </div>
                         </div>
                         <div className='flex gap-1  max-w-full'>

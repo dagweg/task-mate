@@ -5,30 +5,36 @@ import { Cookies } from 'react-cookie';
 
 export async function POST(request: NextRequest) {
 
-    const body = await request.json()
+    try{
+        const body = await request.json()
 
-    const user = await db.user.findFirst({
-        where: {
-            email: body?.email,
+        const user = await db.user.findFirst({
+            where: {
+                email: body?.email,
+            }
         }
+        )
+
+
+
+        // BASIC CHECKS below, will strengthen it later using zod
+        if (!user?.email) {
+            return NextResponse.json("No account, please create one!", { status: 400 })
+        }
+
+        if (user.password !== body.passWord) {
+            return NextResponse.json("Password is incorrect", { status: 400 })
+        }
+
+        // YOU CAN SETUP SESSION HERE
+
+        console.log(user)
+        return NextResponse.json({ message: "Login Successful", userId: user.id }, { status: 200 }) 
     }
-    )
-
-
-
-    // BASIC CHECKS below, will strengthen it later using zod
-    if (!user?.email) {
-        return NextResponse.json("No account, please create one!", { status: 400 })
+    catch(e){
+        console.log(e)
+        return NextResponse.json("An error has occured!",{status:500});
     }
-
-    if (user.password !== body.passWord) {
-        return NextResponse.json("Password is incorrect", { status: 400 })
-    }
-
-    // YOU CAN SETUP SESSION HERE
-
-    console.log(user)
-    return NextResponse.json({ message: "Login Successful", userId: user.id }, { status: 200 })
     // const { data, error } = await supabase.auth.signInWithOAuth({
     //     provider: "google"
     // })
