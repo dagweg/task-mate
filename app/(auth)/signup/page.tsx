@@ -149,13 +149,13 @@ function SignUp() {
                             <TextBox className='!h-10 max-w-2xl !flex-grow' onChange={(e: any) => handleInputChange(e, 'phoneNumber')} />
                         </div>
                     </div>
-                    <div className='flex-col space-y-2 my-3 '>
+                    {/* <div className='flex-col space-y-2 my-3 '>
                         <div className='flex gap-4 items-start'>
                             <input type='checkbox' className='my-2' checked={agreed} onChange={() => setAgreed(!agreed)}></input>
                             <p className='text-md text-[15px]'>I agree with the licenses, terms and conditions of this software.</p>
                         </div>
-                    </div>
-                    <input type='submit' disabled={!agreed} value={'Create Account'} className={cn('rounded-md cursor-pointer text-black bg-gray-200 py-4 ', agreed && 'bg-dark1 hover:bg-dark2 text-white')}></input>
+                    </div> */}
+                    <input type='submit' value={'Create Account'} className={cn('rounded-md cursor-pointer py-4 my-2 bg-dark1 hover:bg-dark2 text-white')}></input>
                     <p>Already have an account? <span className='font-semibold underline hover: cursor-pointer' onClick={() => router.push('/login')}>Login</span></p>
                 </form>
             </div>
