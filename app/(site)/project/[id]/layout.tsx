@@ -95,7 +95,6 @@ function ProjectLayout({ children }: { children: ReactNode }) {
             })
     }, [])
 
-
     return (
         <div className='flex flex-col h-screen'>
             <div className='flex justify-between'>
