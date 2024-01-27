@@ -40,9 +40,17 @@ function SignUp() {
     const handleSubmit = (e: any) => {
         e.preventDefault()
 
+        if (formData.passWord !== formData.confirmPassWord) {
+            setMessage("Passwords don't match. Please try again!")
+            dialogRef.current.click();
+            return
+        }
+
+
         fetch('api/addUser/', { method: 'POST', body: JSON.stringify(formData), headers: { 'Content-Type': 'application/json' } })
             .then(async response => {
                 const data = await response.json()
+
                 if (response.ok) {
                     console.log('Registerd Successfully')
                     setAccountCreated(true);
@@ -50,7 +58,15 @@ function SignUp() {
                     dialogRef.current.click()
                 } else {
                     console.log(data)
+
                     setMessage('Account creation failed!')
+                    // let arr = data.issues
+                    // for (let d of arr) {
+                    //     if (d.message) {
+                    //         setMessage(d.message);
+                    //         break;
+                    //     }
+                    // }
                     dialogRef.current.click();
                 }
             })
@@ -98,18 +114,27 @@ function SignUp() {
                     <Dialog.Title>{message}</Dialog.Title>
                     <Flex gap="3" mt="4" justify="end">
                         <Dialog.Close>
-                            <Button variant="soft" color="gray">
-                                Cancel
-                            </Button>
+                            {
+                                accountCreated ?
+                                    <Button variant="soft" color="gray">
+                                        Cancel
+                                    </Button>
+                                    :
+                                    <Button variant="soft" color="gray">
+                                        Ok
+                                    </Button>
+                            }
                         </Dialog.Close>
-                        <Link href={'/login'}><Button className='!bg-gray-300 !text-black hover:!bg-dark2 hover:!text-white ' >Login</Button></Link>
+                        {
+                            accountCreated && <Link href={'/login'}><Button className='!bg-gray-300 !text-black hover:!bg-dark2 hover:!text-white ' >Login</Button></Link>
+                        }
                     </Flex>
                 </Dialog.Content>
             </Dialog.Root>
-            <div className='w-[700px] px-20 py-16'>
+            <div className='w-fit lg:w-[700px] px-20 py-16 border-[1px] shadow-sm rounded-md'>
                 <h1 className='font-bold text-5xl my-7 text-center'>Sign Up</h1>
                 <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
-                    <div className='grid grid-cols-2 gap-2'>
+                    <div className='grid lg:grid-cols-2 gap-2'>
                         <div className='flex flex-col'>
                             <label htmlFor="first-name">First Name</label>
                             <TextBox className='!h-10' onChange={(e: any) => handleInputChange(e, 'firstName')} />
@@ -119,7 +144,7 @@ function SignUp() {
                             <TextBox className='!h-10' onChange={(e: any) => handleInputChange(e, 'lastName')} />
                         </div>
                     </div>
-                    <div className='grid grid-cols-2 gap-2'>
+                    <div className='grid lg:grid-cols-2 gap-2'>
                         <div className='flex flex-col'>
                             <label htmlFor="first-name">Email</label>
                             <TextBox className='!h-10' onChange={(e: any) => handleInputChange(e, 'email')} />

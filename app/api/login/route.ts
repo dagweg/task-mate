@@ -5,7 +5,7 @@ import { Cookies } from 'react-cookie';
 
 export async function POST(request: NextRequest) {
 
-    try{
+    try {
         const body = await request.json()
 
         const user = await db.user.findFirst({
@@ -29,11 +29,11 @@ export async function POST(request: NextRequest) {
         // YOU CAN SETUP SESSION HERE
 
         console.log(user)
-        return NextResponse.json({ message: "Login Successful", userId: user.id }, { status: 200 }) 
+        return NextResponse.json({ message: "Login Successful", userId: user.id }, { status: 200 })
     }
-    catch(e){
+    catch (e) {
         console.log(e)
-        return NextResponse.json("An error has occured!",{status:500});
+        return NextResponse.json("An error has occured!", { status: 500 });
     }
     // const { data, error } = await supabase.auth.signInWithOAuth({
     //     provider: "google"

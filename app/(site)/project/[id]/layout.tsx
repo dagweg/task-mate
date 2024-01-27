@@ -91,6 +91,7 @@ function ProjectLayout({ children }: { children: ReactNode }) {
 
                 if (response.ok) {
                     setTaskPanes(data)
+                    // console.log(data)
                 }
             })
     }, [])

@@ -3,7 +3,7 @@ import Image from 'next/image'
 export default function AuthLayout({ children, }: { children: React.ReactNode }) {
     return (
         <body>
-            <section className='grid grid-cols-1 md:grid-cols-2'>
+            <section className='grid grid-cols-1 lg:grid-cols-2'>
 
                 <div className="body col-span-1 w-full min-h-screen ">
                     {children}

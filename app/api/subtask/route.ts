@@ -3,29 +3,30 @@ import { NextRequest, NextResponse } from "next/server";
 
 
 
-export async function POST(req: NextRequest) {
+export async function GET(req: NextRequest) {
     try {
         const pid = req.nextUrl.searchParams.get('pid')
         const taskId = req.nextUrl.searchParams.get('tid')
         const subTaskName = req.nextUrl.searchParams.get('sname')
+        const subTaskId = req.nextUrl.searchParams.get('subTaskId')
 
-        const updatedTask = await db.task.update({
+        const subTask = await db.subTask.upsert({
             where: {
-                id: taskId as string,
+                id: subTaskId as string,
+                taskId: taskId as string
             },
-            data: {
-                SubTask: {
-                    create: {
-                        title: subTaskName as string
-                    },
-                },
+            update: {
+                title: subTaskName as string
             },
-            include: {
-                SubTask: true,
-            },
-        });
-        console.log(updatedTask)
-        return NextResponse.json(updatedTask?.SubTask, { status: 200 })
+            create: {
+                title: subTaskName as string,
+                taskId: taskId as string,
+            }
+        })
+
+
+        console.log(subTask)
+        return NextResponse.json(subTask, { status: 200 })
     }
     catch (e) {
         console.log(e)

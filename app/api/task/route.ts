@@ -30,6 +30,8 @@ export async function GET(req: NextRequest) {
             }
         })
 
+        // console.log(project?.tasks)
+
         return NextResponse.json(project?.tasks, { status: 200 })
     }
     catch (e) {

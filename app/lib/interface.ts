@@ -13,7 +13,7 @@ export interface SubTaskType {
 export interface TaskPaneType {
     id: string,
     title: string,
-    subtasks: SubTaskType[],
+    SubTask: SubTaskType[],
     description?: string,
     isEditMode: boolean,
     isFirstTime: boolean,

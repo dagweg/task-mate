@@ -3,20 +3,25 @@ import { db } from "@/app/lib/prisma";
 import { z } from "zod";
 import { checkPassword } from "@/app/lib/dbfunctions";
 
-// Zod validation
-// const createUserSchema = z.object({
-//     firstName: z.string().min(1, { message: "First name is required" }),
-//     lastName: z.string().min(1, { message: "Last name is required" }),
-//     password: z.string().min(1, { message: "Password is required" }),
-//     email: z.string().email({ message: "Invalid email address" }).min(1, { message: "Email is required" }),
-//     phoneNumber: z.string().min(1, { message: "Phone number is required" }),
-// });
-
+//Zod validation
+const createUserSchema = z.object({
+    firstName: z.string().min(1, { message: "First name is required" }),
+    lastName: z.string().min(1, { message: "Last name is required" }),
+    password: z.string().min(1, { message: "Password is required" }),
+    email: z.string().min(1, { message: "Email is required" }),
+    phoneNumber: z.string().min(1, { message: "Phone number is required" }),
+});
 
 export async function POST(request: NextRequest) {
     try {
         const body = await request.json()
-        // const validation = createUserSchema.safeParse(body)
+        const validation = createUserSchema.safeParse(body)
+
+        // if (!validation.success) {
+        //     return NextResponse.json(validation.error, { status: 400 })
+        // }
+
+        console.log('dafas')
 
         // if (!validation.success) {
         //     return NextResponse.json(validation.error.errors, { status: 400 })
