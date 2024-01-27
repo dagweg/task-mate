@@ -6,20 +6,25 @@ export async function POST(req: NextRequest) {
     try {
         const body = await req.json()
 
-        const subtask = await db.subTask.update({
-            data: {
-                title: body.subTaskTitle,
-                progress: body.subTaskProgress,
-            },
-            where: {
-                taskId: body.taskId,
-                id: body.subTaskId,
-            }
-        })
+        const subTasks = body.subTasks
+
+        for (let subTask of subTasks) {
+            const subtask = await db.subTask.update({
+                data: {
+                    title: subTask.title,
+                    progress: subTask.progress,
+                },
+                where: {
+                    taskId: body.taskId,
+                    id: subTask.id,
+                }
+            })
+        }
 
         const updated = await db.task.update({
             data: {
                 title: body.title as string,
+                description: body.description as string
             },
             where: {
                 id: body.taskId,
@@ -27,7 +32,6 @@ export async function POST(req: NextRequest) {
             }
         })
 
-        console.log(subtask)
         console.log(updated)
 
         return NextResponse.json({}, { status: 200 })

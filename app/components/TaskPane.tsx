@@ -27,7 +27,8 @@ function TaskPane(props: TaskPaneType) {
 
     const [taskPane, setTaskPane] = useState<TaskPaneType>(props || [])
     const [subTasks, setSubTasks] = useState<SubTaskType[]>(props.SubTask || [])
-    const [tpTitle, setTpTitle] = useState<string>(props.title)
+    const [tpTitle, setTpTitle] = useState<string>(props.title || '')
+    // const [taskPaneDesc, setTaskPaneDesc] = useState<string>(props.description || '');
 
 
     const params = useSearchParams()
@@ -36,14 +37,17 @@ function TaskPane(props: TaskPaneType) {
     const projectId = params.get('pid')
 
     const dialogRef = useRef<any>()
-    const [desc, setDesc] = useState<string>(props.description as string)
+    const [taskPaneDesc, setTaskPaneDesc] = useState({
+        value: props.description as string,
+        isEditMode: false
+    })
     const [selectedUsers, setSelectedUsers] = useState<any>([])
 
     function saveTask() {
         const newTaskPane: TaskPaneType = {
             ...taskPane,
             title: tpTitle,
-            description: desc,
+            description: taskPaneDesc.value,
             SubTask: subTasks,
             isEditMode: false
         }
@@ -56,7 +60,8 @@ function TaskPane(props: TaskPaneType) {
                 title: tpTitle,
                 taskId: taskPane.id,
                 projectId: projectId,
-                subTaskTitle: subTasks,
+                subTasks: subTasks,
+                description: taskPaneDesc.value,
             }),
             headers: {
                 "Content-Type": 'application'
@@ -130,13 +135,23 @@ function TaskPane(props: TaskPaneType) {
 
 
 
-    function openTaskDialog(bool: boolean) {
-        // const opened: SubTaskType = {
-        //     ...subTask,
-        //     isOpen: bool
-        // }
-        // setSubTask(prev => opened)
+    function toggleTaskDialog() {
         dialogRef.current.click()
+    }
+
+    function saveTaskPaneDesc() {
+        setTaskPaneDesc({
+            ...taskPaneDesc,
+            isEditMode: false
+        })
+        saveTask()
+    }
+
+    function editTaskPaneDesc() {
+        setTaskPaneDesc({
+            ...taskPaneDesc,
+            isEditMode: true
+        })
     }
 
 
@@ -173,7 +188,7 @@ function TaskPane(props: TaskPaneType) {
                             <div className='flex items-center justify-between' >
                                 <h1 className='uppercase text-xl tracking-wider font-semibold'>{taskPane.title}</h1>
                                 <div className='flex items-center'>
-                                    <Button onClick={() => openTaskDialog(true)} className='!cursor-pointer !bg-gray-100 !text-black hover:!bg-dark2 hover:!text-white'><MdEdit /></Button>
+                                    <Button onClick={() => dialogRef.current.click()} className='!cursor-pointer !bg-gray-100 !text-black hover:!bg-dark2 hover:!text-white'><MdEdit /></Button>
                                     <DropdownMenu.Root>
                                         <DropdownMenu.Trigger>
                                             <IconButton className=' !m-1 !bg-gray-200 hover:!bg-neutral-300 !text-xl !text-black'><IoIosMore /></IconButton>
@@ -238,10 +253,17 @@ function TaskPane(props: TaskPaneType) {
                     </Dialog.Title>
                     <div>
                         Description:
-                        <TextArea onChange={e => setDesc(prev => e.target.value)} value={desc}>
-                        </TextArea>
+                        {
+                            taskPaneDesc.isEditMode ?
+                                <TextArea onChange={e => setTaskPaneDesc({ ...taskPaneDesc, value: e.target.value })} value={taskPaneDesc.value}>
+                                </TextArea>
+                                :
+                                <div className='hover:bg-gray-50 py-3 px-2 cursor-text' onClick={editTaskPaneDesc} >
+                                    <p className='font-serif'>{taskPaneDesc.value}</p>
+                                </div>
+                        }
                     </div>
-                    <Button onClick={() => openTaskDialog(true)} className='!cursor-pointer !bg-gray-100 !text-black hover:!bg-dark2 hover:!text-white !my-2 !px-2 !py-4'>Save</Button>
+                    <Button onClick={() => saveTaskPaneDesc()} className='!cursor-pointer !bg-gray-100 !text-black hover:!bg-dark2 hover:!text-white !my-2 !px-2 !py-4'>Save</Button>
                 </Dialog.Content>
             </Dialog.Root>
         </div>
