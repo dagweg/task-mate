@@ -38,7 +38,7 @@ function TaskPane(props: TaskPaneType) {
 
     const dialogRef = useRef<any>()
     const [taskPaneDesc, setTaskPaneDesc] = useState({
-        value: props.description as string,
+        value: props.description as string || '',
         isEditMode: false
     })
     const [selectedUsers, setSelectedUsers] = useState<any>([])
@@ -188,7 +188,7 @@ function TaskPane(props: TaskPaneType) {
                             <div className='flex items-center justify-between' >
                                 <h1 className='uppercase text-xl tracking-wider font-semibold'>{taskPane.title}</h1>
                                 <div className='flex items-center'>
-                                    <Button onClick={() => dialogRef.current.click()} className='!cursor-pointer !bg-gray-100 !text-black hover:!bg-dark2 hover:!text-white'><MdEdit /></Button>
+                                    <Button onClick={() => dialogRef.current.click()} className='!cursor-pointer !bg-transparent !text-black hover:!bg-dark2 hover:!text-white'><MdEdit /></Button>
                                     <DropdownMenu.Root>
                                         <DropdownMenu.Trigger>
                                             <IconButton className=' !m-1 !bg-gray-200 hover:!bg-neutral-300 !text-xl !text-black'><IoIosMore /></IconButton>

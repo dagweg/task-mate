@@ -8,29 +8,45 @@ export async function POST(req: NextRequest) {
 
         const subTasks = body.subTasks
 
-        for (let subTask of subTasks) {
-            const subtask = await db.subTask.update({
-                data: {
-                    title: subTask.title,
-                    progress: subTask.progress,
-                },
-                where: {
-                    taskId: body.taskId,
-                    id: subTask.id,
-                }
-            })
-        }
-
-        const updated = await db.task.update({
-            data: {
-                title: body.title as string,
-                description: body.description as string
-            },
+        const updated = await db.task.upsert({
             where: {
                 id: body.taskId,
                 projectId: body.projectId
+            },
+            update: {
+                title: body.title as string,
+                description: body.description as string
+            },
+            create: {
+                title: body.title as string,
+                description: body.description as string,
+                projectId: body.projectId as string,
+                dueDate: new Date() // Provide a valid due date here
+            },
+            include: {
+                SubTask: true
             }
         })
+
+        for (let subTask of subTasks) {
+            const subtask = await db.subTask.upsert({
+                where: {
+                    taskId: body.taskId,
+                    id: subTask.id,
+                },
+                update: {
+                    title: subTask.title,
+                    progress: subTask.progress,
+                },
+                create: {
+                    title: subTask.title as string,
+                    taskId: body.taskId
+                }
+
+            })
+        }
+
+
 
         console.log(updated)
 

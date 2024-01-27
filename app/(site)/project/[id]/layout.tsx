@@ -40,7 +40,7 @@ function ProjectLayout({ children }: { children: ReactNode }) {
         const newTask: TaskPaneType = {
             id: nanoid(),
             title: '',
-            subtasks: [],
+            SubTask: [],
             isEditMode: true,
             isFirstTime: true,
             removeTaskPaneCallback: (taskPaneId: string) => {
@@ -104,7 +104,7 @@ function ProjectLayout({ children }: { children: ReactNode }) {
             </div>
             <div className='flex gap-4'>
                 <p className='bg-gray-200 rounded-t-lg p-2 text-sm hover:bg-gray-100 duration-150 cursor-pointer'>Add Task</p>
-                <Link href={'./viewtasks'}><p className='bg-gray-200 rounded-t-lg p-2 text-sm hover:bg-gray-100 duration-150 cursor-pointer'>View Tasks</p></Link>
+                <Link href={`./viewtasks?pid=${projectdId}`}><p className='bg-gray-200 rounded-t-lg p-2 text-sm hover:bg-gray-100 duration-150 cursor-pointer'>View Tasks</p></Link>
                 <Link href={`./members?pid=${projectdId}`}><p className='bg-gray-200 rounded-t-lg p-2 text-sm hover:bg-gray-100 duration-150 cursor-pointer'>Members</p></Link>
             </div>
             <div className='flex items-center justify-between'>
