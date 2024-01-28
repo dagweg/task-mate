@@ -16,15 +16,16 @@ import { IoClose } from "react-icons/io5";
 import { MDXEditor, headingsPlugin, listsPlugin, quotePlugin, thematicBreakPlugin } from '@mdxeditor/editor'
 import { MdDescription } from "react-icons/md";
 import { useParams } from 'next/navigation'
-import { title } from 'process'
+import { pid, title } from 'process'
 // import MDEditor from '@uiw/react-md-editor';
 
 
 
 function TaskPane(props: TaskPaneType) {
 
-    console.log(props)
+    // console.log(props)
 
+    const [project, setProject] = useState<any>()
     const [taskPane, setTaskPane] = useState<TaskPaneType>(props || [])
     const [subTasks, setSubTasks] = useState<SubTaskType[]>(props.SubTask || [])
     const [tpTitle, setTpTitle] = useState<string>(props.title || '')
@@ -70,6 +71,8 @@ function TaskPane(props: TaskPaneType) {
             .then(async response => {
                 const data = await response.json();
             })
+
+
 
         // fetch('http://localhost:3000/api/task', {
         //     method: "POST",
@@ -168,9 +171,34 @@ function TaskPane(props: TaskPaneType) {
         setSubTasks(newSubTasks);
     }
 
+    useEffect(() => {
+        const fetchProject = async () => {
+            try {
+                const response = await fetch('http://localhost:3000/api/getProject', {
+                    method: "POST",
+                    body: JSON.stringify({
+                        projectId: projectId
+                    })
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    setProject(data);
+                    console.log(project); // Log the updated data immediately after setting the state
+                } else {
+                    throw new Error('Failed to fetch project');
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchProject();
+    }, []);
+
+
     return (
         <div className='task-pane' >
-            <Card className='!bg-gray-200  h-fit !border-2 duration-75 ' >
+            <Card className='!bg-gray-100  h-fit !border-2 duration-75 ' >
                 {
                     taskPane.isEditMode ?
                         <>
@@ -186,12 +214,12 @@ function TaskPane(props: TaskPaneType) {
                         :
                         <>
                             <div className='flex items-center justify-between' >
-                                <h1 className='uppercase text-md tracking-wider font-semibold'>{taskPane.title}</h1>
+                                <h1 className='text-md tracking-wider font-bold capitalize'>{taskPane.title}</h1>
                                 <div className='flex items-center'>
-                                    <Button onClick={() => dialogRef.current.click()} className='!cursor-pointer !bg-transparent !text-black hover:!bg-dark2 hover:!text-white'><MdEdit /></Button>
+                                    <Button onClick={() => dialogRef.current.click()} className='!cursor-pointer !bg-transparent !text-black hover:!bg-gray-300 '><MdEdit /></Button>
                                     <DropdownMenu.Root>
                                         <DropdownMenu.Trigger>
-                                            <IconButton className=' !m-1 !bg-gray-200 hover:!bg-neutral-300 !text-xl !text-black'><IoIosMore /></IconButton>
+                                            <IconButton className=' !m-1 !bg-transparent hover:!bg-neutral-300 !text-xl !text-black'><IoIosMore /></IconButton>
                                         </DropdownMenu.Trigger>
                                         <DropdownMenu.Content className='min-w-[10rem]'>
                                             <DropdownMenu.Item onClick={editTaskTitle} className=' !m-1  hover:!bg-neutral-600 hover:!text-white !text-black'>Edit Title</DropdownMenu.Item>
@@ -263,6 +291,18 @@ function TaskPane(props: TaskPaneType) {
                                 </div>
                         }
                     </div>
+                    <div>
+                        <select>
+                            {
+                                project && project.users
+                                && project.users.map((user: any, key: any) => (
+                                    <option key={key}>
+                                        {user.firstName}
+                                    </option>
+                                ))
+                            }
+                        </select>
+                    </div>
                     <Button onClick={() => saveTaskPaneDesc()} className='!cursor-pointer !bg-gray-100 !text-black hover:!bg-dark2 hover:!text-white !my-2 !px-2 !py-4'>Save</Button>
                 </Dialog.Content>
             </Dialog.Root>
@@ -301,7 +341,7 @@ function SubTask({ key, updateSubTask, subTask, taskId, projectId }: { key: any,
 
                 }
             })
-            .catch(e => console.log(e))
+
 
         ssetSubTask(newSubTask)
     }
@@ -333,13 +373,13 @@ function SubTask({ key, updateSubTask, subTask, taskId, projectId }: { key: any,
                     </>
                     :
                     <>
-                        <div className='flex items-center justify-between bg-white hover:bg-slate-100 rounded-xl px-2 '>
+                        <div className='flex items-center  justify-between bg-white hover:bg-slate-100 border-2 border-transparent hover:border-slate-200 rounded-xl px-2 h-10'>
                             <div className=' flex-grow py-2 '>
-                                <h1 className='uppercase text-xs px-2 tracking-wider font-medium'>{ssubTask.title}</h1>
+                                <h1 className='capitalize text-sm px-2 tracking-wider font-medium'>{ssubTask.title}</h1>
                             </div>
                             <DropdownMenu.Root>
                                 <DropdownMenu.Trigger>
-                                    <IconButton className=' !m-1 !bg-gray-200 hover:!bg-neutral-300 !text-xl !text-black'><MdEdit /></IconButton>
+                                    <IconButton className=' !m-1 !bg-transparent hover:!bg-slate-200  !text-xs !text-black'><MdMoreHoriz /></IconButton>
                                 </DropdownMenu.Trigger>
                                 <DropdownMenu.Content className='min-w-[10rem]'>
                                     <DropdownMenu.Item onClick={editSubTaskTitle} className='z-10 !m-1  hover:!bg-neutral-600 hover:!text-white !text-black'>Edit Title</DropdownMenu.Item>
