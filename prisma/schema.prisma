@@ -71,7 +71,7 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
-}
+} 
 
 model Project {
   id           String        @id @default(cuid())

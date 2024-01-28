@@ -16,6 +16,7 @@ export async function POST(req: NextRequest) {
             update: {
                 title: body.title as string,
                 description: body.description as string
+                
             },
             create: {
                 title: body.title as string,
