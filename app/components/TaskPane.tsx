@@ -183,7 +183,6 @@ function TaskPane(props: TaskPaneType) {
                 if (response.ok) {
                     const data = await response.json();
                     setProject(data);
-                    console.log(project); // Log the updated data immediately after setting the state
                 } else {
                     throw new Error('Failed to fetch project');
                 }

@@ -9,7 +9,7 @@ import React, { useEffect, useState } from 'react'
 import { AiOutlineClear } from 'react-icons/ai'
 import { FaUsers } from 'react-icons/fa'
 import { IoStatsChart } from 'react-icons/io5'
-import { MdAddBox } from 'react-icons/md'
+import { MdAddBox, MdAddToPhotos } from 'react-icons/md'
 
 function page() {
     const searchParams = useSearchParams()
@@ -61,8 +61,8 @@ function page() {
         <>
             <div className='flex items-center justify-between'>
                 <TopNav links={[
-                    { label: <MdAddBox />, link: "#", onClickCallback: () => addTask(), className: 'add-new-task relative hover:!bg-gray-200 hover:!text-black rounded-sm !w-fit ' },
-                    { label: <IoStatsChart />, link: "#", className: 'generate-task-report  relative hover:!bg-gray-200 hover:!text-black rounded-sm !w-fit ' }
+                    { label: <MdAddToPhotos />, link: "#", onClickCallback: () => addTask(), className: 'add-new-task relative hover:!bg-gray-200 hover:!text-black rounded-sm !w-fit text-xl' },
+                    // { label: <IoStatsChart />, link: "#", className: 'generate-task-report  relative hover:!bg-gray-200 hover:!text-black rounded-sm !w-fit ' }
                 ]}
                     className='rounded-sm flex !gap-0 !space-x-0 h-full '></TopNav>
 
