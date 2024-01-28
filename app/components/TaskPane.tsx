@@ -186,7 +186,7 @@ function TaskPane(props: TaskPaneType) {
                         :
                         <>
                             <div className='flex items-center justify-between' >
-                                <h1 className='uppercase text-xl tracking-wider font-semibold'>{taskPane.title}</h1>
+                                <h1 className='uppercase text-md tracking-wider font-semibold'>{taskPane.title}</h1>
                                 <div className='flex items-center'>
                                     <Button onClick={() => dialogRef.current.click()} className='!cursor-pointer !bg-transparent !text-black hover:!bg-dark2 hover:!text-white'><MdEdit /></Button>
                                     <DropdownMenu.Root>
@@ -335,7 +335,7 @@ function SubTask({ key, updateSubTask, subTask, taskId, projectId }: { key: any,
                     <>
                         <div className='flex items-center justify-between bg-white hover:bg-slate-100 rounded-xl px-2 '>
                             <div className=' flex-grow py-2 '>
-                                <h1 className='uppercase text-sm px-2 tracking-wider font-semibold'>{ssubTask.title}</h1>
+                                <h1 className='uppercase text-xs px-2 tracking-wider font-medium'>{ssubTask.title}</h1>
                             </div>
                             <DropdownMenu.Root>
                                 <DropdownMenu.Trigger>

@@ -1,0 +1,51 @@
+.add-new-task:hover.add-new-task::before {
+    content: "Add new Task";
+    transform: translateY(150%);
+    @apply z-10 absolute bg-neutral-800 text-white w-full h-full rounded-md text-xs px-2 flex items-center
+}
+
+.add-new-task:active.add-new-task::after,
+.add-new-task:active.add-new-task::before {
+    @apply hidden
+}
+
+.add-member:hover.add-member::before {
+    content: "Add Members";
+    transform: translateY(150%);
+    @apply z-10 absolute bg-neutral-800 text-white w-full h-full rounded-md text-xs px-2 flex items-center
+}
+
+.add-member:active.add-member::after,
+.add-member:active.add-member::before {
+    @apply hidden
+}
+
+
+.generate-task-report:hover.generate-task-report::before {
+    content: "Get Report";
+    transform: translateY(150%);
+    transition: 150ms ease-in;
+    /* width: fit-content; */
+    @apply z-10 absolute bg-neutral-800 text-white h-full rounded-md text-xs px-2 flex items-center
+}
+
+
+.generate-task-report:active.generate-task-report::before,
+.generate-task-report:active.generate-task-report::after {
+    @apply hidden
+}
+
+
+.users-online:hover.users-online::before {
+    content: "Online Users";
+    transform: translateY(200%);
+    transition: 150ms ease-in;
+    transition-delay: 1s;
+    /* width: fit-content; */
+    @apply z-10 absolute bg-neutral-800 text-white h-fit py-2 w-fit rounded-md text-xs px-2 flex items-center
+}
+
+.generate-task-report:active.generate-task-report::before,
+.generate-task-report:active.generate-task-report::after {
+    @apply hidden
+}

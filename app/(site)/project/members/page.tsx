@@ -7,10 +7,11 @@ import { User } from '@prisma/client'
 import { Button, Dialog, DropdownMenu, IconButton } from '@radix-ui/themes'
 import { IoIosMore } from 'react-icons/io'
 import { BsBack, BsBackspace, BsInfoSquare } from 'react-icons/bs'
-import { IoArrowBackCircleOutline, IoPersonAddOutline } from 'react-icons/io5'
+import { IoArrowBackCircleOutline, IoPersonAddOutline, IoPersonAddSharp } from 'react-icons/io5'
 import TextBox from '@/app/components/TextBox'
 import TextList from '@/app/components/TextList'
 import ButtonRound from '@/app/components/ButtonRound'
+import TopNav from '@/app/components/TopNav'
 
 function Members() {
 
@@ -73,14 +74,21 @@ function Members() {
         <>
             <div className='flex justify-between items-center'>
                 <div className='flex gap-5'>
-                    <div className='text-3xl hover:translate-x-1 duration-75 scale-105 active:scale-90' onClick={() => window.history.back()}>
+                    {/* <div className='text-3xl hover:translate-x-1 duration-75 scale-105 active:scale-90' onClick={() => window.history.back()}>
                         <IoArrowBackCircleOutline></IoArrowBackCircleOutline>
-                    </div>
-                    <h1 className='text-3xl font-semibold'>Members</h1>
+                    </div> */}
+                    {/* <h1 className='text-3xl font-semibold'>Members</h1> */}
                 </div>
-                <div className='text-3xl hover:bg-gray-100 rounded-full p-2 active:bg-transparent cursor-pointer' onClick={() => toggleAddMemberDialog()}>
+                <TopNav links={[
+                    { label: <IoPersonAddSharp />, link: "#", onClickCallback: () => toggleAddMemberDialog(), className: 'add-member relative hover:!bg-gray-200 hover:!text-black rounded-sm !w-fit ' },
+                    // { label: <IoStatsChart />, link: "#", className: 'generate-task-report  relative hover:!bg-gray-200 hover:!text-black rounded-sm !w-fit ' }
+                ]}
+                    className='rounded-sm flex !gap-0 !space-x-0 h-full '>
+
+                </TopNav>
+                {/* <div className='text-3xl hover:bg-gray-100 rounded-full p-2 active:bg-transparent cursor-pointer' onClick={() => toggleAddMemberDialog()}>
                     <IoPersonAddOutline></IoPersonAddOutline>
-                </div>
+                </div> */}
             </div>
             <div className="flex min-h-screen justify-center w-full">
                 <div className="overflow-x-auto min-w-full">
@@ -145,11 +153,14 @@ function Members() {
                                 <TextList emailList={userEmails} setEmailList={setUserEmails} />
                             </div>
                         </div>
-                        <button className='bg-transparent border-2 p-2 hover:bg-dark2 text-black hover:text-white w-52 rounded-sm duration-75' onClick={addMembers}>
-                            Add
-                        </button>
+                        <Dialog.Close>
+                            <button className='bg-transparent border-2 p-2 hover:bg-dark2 text-black hover:text-white w-52 rounded-sm duration-75' onClick={addMembers}>
+                                Add
+                            </button>
+                        </Dialog.Close>
                     </div>
                 </Dialog.Content>
+
             </Dialog.Root>
 
         </>

@@ -7,6 +7,9 @@ export async function POST(request: NextRequest) {
         const projects = await db.project.findMany({
             where: {
                 creatorId: body?.creatorId
+            },
+            include: {
+                users: true
             }
         })
         return NextResponse.json(projects, { status: 200 })

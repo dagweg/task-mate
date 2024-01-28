@@ -31,9 +31,9 @@ const TextList = ({ emailList, setEmailList }: Props) => {
                 placeholder="Press Enter to add user"
                 className='border-black border-[1px] p-2 w-full'
             />
-            <div className='grid grid-cols-3 gap-1 my-2 overflow-x-scroll'>
+            <div className='grid grid-cols-3 gap-1 my-2 '>
                 {emailList.map((text, index) => (
-                    <div key={index} className='text-xs flex items-center justify-center bg-dark2 text-white rounded-full p-2 px-4 cursor-pointer hover:bg-red-800 duration-75' onClick={() => handleTextClick(index)}>{text}</div>
+                    <div key={index} className='text-xs flex items-center justify-center bg-dark2 text-white rounded-lg p-2 px-4 cursor-pointer hover:bg-red-950 duration-75' onClick={() => handleTextClick(index)}>{text}</div>
                 ))}
             </div>
         </div>
