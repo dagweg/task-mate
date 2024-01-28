@@ -29,7 +29,7 @@ function page() {
             }
         }
 
-        console.log(taskPanes)
+        // console.log(taskPanes)
 
         setTaskPanes(prev => [...prev, newTask])
     }
@@ -52,7 +52,7 @@ function page() {
 
                 if (response.ok) {
                     setTaskPanes(data)
-                    // console.log(data)
+
                 }
             })
     }, [])
@@ -82,7 +82,7 @@ function page() {
             <div className='flex flex-col items-center'>
                 <div className='w-full max-w-[1600px] mx-0 flex-grow rounded-lg px-0'>
 
-                    <div className=' grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 p-4 gap-5'>
+                    <div className=' grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 p-4 gap-5'>
                         {/* {children}? */}
                         {taskPanes.map((taskPane: TaskPaneType, index: any) => (
                             <TaskPane
