@@ -109,7 +109,6 @@ function Members() {
                                             <td className="py-3 px-4">{mem.lastName}</td>
                                             <td className="py-3 px-4">{mem.email}</td>
                                             <td className="py-3 px-4">{mem.role}</td>
-                                            <td className="py-3 px-4">add members </td>
                                             <td className="py-3 px-4">
                                                       
                                              </td>
