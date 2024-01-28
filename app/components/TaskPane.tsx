@@ -28,7 +28,6 @@ function TaskPane(props: TaskPaneType) {
     // console.log(props)
 
     const [project, setProject] = useState<any>()
-    const [project, setProject] = useState<any>()
     const [taskPane, setTaskPane] = useState<TaskPaneType>(props || [])
     const [subTasks, setSubTasks] = useState<SubTaskType[]>(props.SubTask || [])
     const [tpTitle, setTpTitle] = useState<string>(props.title || '')
@@ -262,7 +261,7 @@ function TaskPane(props: TaskPaneType) {
 
     return (
         <div className='task-pane' >
-            <Card className='!bg-gray-100  h-fit !border-2 duration-75 ' >
+            {/* <Card className='!bg-gray-100  h-fit !border-2 duration-75 ' > */}
             <Card className='!bg-gray-100  h-fit !border-2 duration-75 ' >
                 {
                     taskPane.isEditMode ?
@@ -308,7 +307,7 @@ function TaskPane(props: TaskPaneType) {
                             </div>
                         </>
                 }
-
+            
             </Card>
 
             {/** the dialog where information gets edited */}
