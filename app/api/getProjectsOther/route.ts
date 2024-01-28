@@ -12,6 +12,9 @@ export async function POST(request: NextRequest) {
                         id: body.uid as string
                     }
                 }
+            },
+            include: {
+                users: true
             }
         })
         console.log(projects)

@@ -49,8 +49,8 @@ function AddProject() {
     }
 
     return (
-        <div>
-            <Dialog.Root >
+        <div className='flex '>
+            <Dialog.Root>
                 <Dialog.Trigger>
                     <Button ref={dialogRef} className='!hidden'></Button>
                 </Dialog.Trigger>
@@ -65,8 +65,8 @@ function AddProject() {
                     </Flex>
                 </Dialog.Content>
             </Dialog.Root>
-            <div className='w-[650px] mx-auto h-fit relative rounded-2xl space-y-20 gap-20 px-16 max-w-7xl items-center'>
-                <div className='flex flex-col gap-4 '>
+            <div className='w-full h-fit relative rounded-2xl space-y-20 gap-20 px-16 max-w-7xl py-8'>
+                <div className='flex flex-col gap-4  max-w-[650px]'>
                     <div>
                         <p>Project Title</p>
                         <input
@@ -82,8 +82,8 @@ function AddProject() {
                         <textarea name="" id="" rows={30} ref={descRef} className='outline-none border border-black h-28  p-3 border-b-2 border-[#2226] rounded-sm focus:border-dark2 focus:bg-gray-100 w-[100%] focus:border-b-4'></textarea>
                     </div>
                 </div>
-                <div className='flex flex-col gap-10 justify-center'>
-                    <div>
+                <div className='flex flex-col gap-10 justify-center '>
+                    <div className='max-w-[650px]'>
                         <h1 className='font-semibold'>Add team members</h1>
                         <div className='flex flex-col gap-3 justify-center my-2'>
                             <div className='flex gap-4 items-center'>

@@ -6,7 +6,7 @@ import MyProjects from '../../projects/my-projects/page';
 function Project() {
     return (
         <>
-            <MyProjects />
+
         </>
     )
 }

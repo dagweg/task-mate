@@ -5,6 +5,8 @@ import ButtonRound from '@/app/components/ButtonRound'
 import { GoProjectSymlink } from "react-icons/go";
 import { Button, Dialog } from '@radix-ui/themes';
 import { Input } from 'postcss';
+import classNames from 'classnames';
+import { usePathname } from 'next/navigation';
 // import AddProjectDropdownButton from '@/app/components/createProjectButton'
 
 function ProjectsLayout({ children }: { children: ReactNode }) {
@@ -13,6 +15,7 @@ function ProjectsLayout({ children }: { children: ReactNode }) {
     const inviteRef = useRef<any>();
     const dialogRef = useRef<any>();
     const [message, setMessage] = useState<string>('');
+    const pathname = usePathname()
 
 
     function handleJoinProject() {
@@ -74,8 +77,16 @@ function ProjectsLayout({ children }: { children: ReactNode }) {
                     </div>
                 </div>
                 <div className='flex gap-2'>
-                    <Link href={'/projects/my-projects'}><Button className='!rounded-t-lg  !rounded-b-none !bg-gray-100 !cursor-pointer !text-black hover:!bg-dark2 hover:!text-white duration-75'>My projects</Button></Link>
-                    <Link href={'/projects/other-projects'}><Button className='!rounded-t-lg  !rounded-b-none !bg-gray-100 !cursor-pointer !text-black hover:!bg-dark2 hover:!text-white duration-75'>Other projects</Button></Link>
+                    <Link href={'/projects/my-projects'}><Button className={classNames({
+                        '!rounded-t-lg  !rounded-b-none  !cursor-pointer  !text-black hover:!bg-gray-300 duration-75': true,
+                        '!bg-transparent': !pathname.includes('my'),
+                        '!bg-gray-200': pathname.includes('my-projects')
+                    })}>My projects</Button></Link>
+                    <Link href={'/projects/other-projects'}><Button className={classNames({
+                        '!rounded-t-lg  !rounded-b-none  !cursor-pointer  !text-black hover:!bg-gray-300 duration-75': true,
+                        '!bg-transparent': !pathname.includes('other'),
+                        '!bg-gray-200': pathname.includes('other-projects')
+                    })}>Other projects</Button></Link>
                 </div>
             </div>
             <div className='my-2'>
