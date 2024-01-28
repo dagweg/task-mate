@@ -4,10 +4,11 @@ import React, { useEffect, useRef, useState } from 'react'
 
 import { useSearchParams } from 'next/navigation'
 import { User } from '@prisma/client'
-import { Button, Dialog, DropdownMenu, IconButton } from '@radix-ui/themes'
+import { Button, Dialog, DropdownMenu, IconButton,Select } from '@radix-ui/themes'
 import { IoIosMore } from 'react-icons/io'
 import { BsBack, BsBackspace, BsInfoSquare } from 'react-icons/bs'
 import { IoArrowBackCircleOutline, IoPersonAddOutline } from 'react-icons/io5'
+
 import TextBox from '@/app/components/TextBox'
 import TextList from '@/app/components/TextList'
 import ButtonRound from '@/app/components/ButtonRound'
@@ -108,6 +109,10 @@ function Members() {
                                             <td className="py-3 px-4">{mem.lastName}</td>
                                             <td className="py-3 px-4">{mem.email}</td>
                                             <td className="py-3 px-4">{mem.role}</td>
+                                            <td className="py-3 px-4">add members </td>
+                                            <td className="py-3 px-4">
+                                                      
+                                             </td>
                                             <DropdownMenu.Root>
                                                 <DropdownMenu.Trigger>
                                                     <IconButton className=' !m-1 !bg-gray-200 hover:!bg-neutral-300 !text-xl !text-black'><IoIosMore /></IconButton>
@@ -116,6 +121,9 @@ function Members() {
                                                     <DropdownMenu.Item onClick={() => handleMemberRemove(mem.id)} className=' !m-1  hover:!bg-red-500 hover:!text-white !text-black'>Remove Member</DropdownMenu.Item>
                                                 </DropdownMenu.Content>
                                             </DropdownMenu.Root>
+                                            
+  
+  
                                         </tr>
                                     ))}
                                 </tbody>
@@ -132,11 +140,11 @@ function Members() {
                         <div>
                             <h1 className='font-semibold'>Add team members</h1>
                             <div className='flex flex-col gap-3 justify-center my-2'>
-                                <div className='flex gap-4 items-center'>
+                                <div className='flex gap-2 items-center'>
                                     <BsInfoSquare />
                                     <p className='text-sm'>To add members write their email address and press [Enter].</p>
                                 </div>
-                                <div className='flex gap-4 items-center'>
+                                <div className='flex gap-2 items-center'>
                                     <BsInfoSquare />
                                     <p className='text-sm'>To remove members click on the email you just added.</p>
                                 </div>

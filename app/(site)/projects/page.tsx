@@ -19,9 +19,9 @@ function Projects({ children }: { children: ReactNode }) {
 
 
     return (
-        <>
+         <>
             <MyProjects />
-        </>
+         </>
     )
 }
 

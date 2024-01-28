@@ -86,7 +86,6 @@ model Project {
   updatedAt    DateTime      @default(now()) @updatedAt
   users        User[]
   stakeHolders Stakeholder[] //to be seen
-
   @@index([title])
 }
 

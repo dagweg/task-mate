@@ -136,8 +136,9 @@ function ProjectLayout({ children }: { children: ReactNode }) {
                                 key={taskPane.id}
                                 {...taskPane}
                             />
+                            
                         ))}
-
+                           
                     </div>
                 </div>
             </div>
