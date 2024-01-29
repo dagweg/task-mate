@@ -13,7 +13,7 @@ function OtherProjects() {
             fetch(`/api/getProjectsOther`, {
                 method: "POST",
                 body: JSON.stringify({
-                    uid: localStorage.getItem('userId')
+                    uid: window.localStorage.getItem('userId')
                 })
             })
                 .then(async response => {

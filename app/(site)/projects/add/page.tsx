@@ -19,7 +19,7 @@ function AddProject() {
         const formData = {
             title: titleRef.current.value,
             description: descRef.current?.value,
-            creatorId: localStorage.getItem('userId'),
+            creatorId: window.localStorage.getItem('userId'),
             users: userEmails
         }
 
