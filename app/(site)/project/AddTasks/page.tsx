@@ -9,7 +9,7 @@ import { MdAddToPhotos } from 'react-icons/md'
 
 function AddTasks() {
     const searchParams = useSearchParams()
-    const projectdId = searchParams.get("pid")
+    const projectId = searchParams.get("pid")
     const [taskPanes, setTaskPanes] = useState<TaskPaneType[]>([])
 
     const addTask = () => {
@@ -29,8 +29,12 @@ function AddTasks() {
     }
 
     useEffect(() => {
-        const fetchPath = `/api/task?pid=${projectdId}`
-        fetch(fetchPath)
+        fetch(`/api/task?pid=${projectId}`, {
+            method: "POST",
+            body: JSON.stringify({
+                pid: projectId
+            })
+        })
             .then(async response => {
                 const data = await response.json();
 

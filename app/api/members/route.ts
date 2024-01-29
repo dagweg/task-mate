@@ -2,13 +2,16 @@ import { NextResponse, NextRequest } from "next/server";
 import { db } from '@/app/lib/prisma'
 import { connect } from "http2";
 
-export async function GET(request: NextRequest) {
+export async function POST(request: NextRequest) {
     try {
 
-        const pid = request.nextUrl.searchParams.get('pid')
+        const body = await request.json()
+
+        const pid = body.pid
+        const uid = body.uid
+
         console.log(pid)
 
-        const uid = request.nextUrl.searchParams.get('uid')
         if (uid) {
             const project = await db.project.update({
                 where: {

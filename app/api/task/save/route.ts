@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
             update: {
                 title: body.title as string,
                 description: body.description as string
-                
+
             },
             create: {
                 title: body.title as string,
@@ -46,9 +46,6 @@ export async function POST(req: NextRequest) {
 
             })
         }
-
-
-
         console.log(updated)
 
         return NextResponse.json({}, { status: 200 })
@@ -56,19 +53,5 @@ export async function POST(req: NextRequest) {
     catch (e) {
         console.log(e)
         return NextResponse.json({}, { status: 500 })
-    }
-}
-
-export async function GET(req: NextRequest) {
-    try {
-        const pid = req.nextUrl.searchParams.get('pid')
-
-
-
-        return NextResponse.json({})
-    }
-    catch (e) {
-        console.log(e)
-        return NextResponse.json({})
     }
 }

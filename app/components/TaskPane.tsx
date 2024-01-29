@@ -329,7 +329,15 @@ function SubTask({ subTask, taskId, projectId }: { subTask: SubTaskType, taskId:
 
 
 
-        fetch(`/api/subtask?sname=${ssubTask.title}&tid=${taskId}&pid=${projectId}&subTaskId=${subTask.id}`)
+        fetch(`/api/subtask`, {
+            method: "POST",
+            body: JSON.stringify({
+                sname: ssubTask.title,
+                tid: taskId,
+                pid: projectId,
+                subTaskId: subTask.id
+            })
+        })
             .then(async response => {
                 const data = await response.json()
 

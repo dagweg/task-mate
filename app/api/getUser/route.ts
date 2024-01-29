@@ -4,12 +4,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/app/lib/prisma";
 
 
-export async function GET(req: NextRequest) {
+export async function POST(req: NextRequest) {
     try {
-        const userId = req.nextUrl.searchParams.get('uid')
+        const body = await req.json()
         const users = await db.user.findFirst({
             where: {
-                id: userId as string
+                id: body?.uid as string
             }
         })
         return NextResponse.json({

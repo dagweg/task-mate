@@ -3,12 +3,15 @@ import { NextRequest, NextResponse } from "next/server";
 
 
 
-export async function GET(req: NextRequest) {
+export async function POST(req: NextRequest) {
     try {
-        const pid = req.nextUrl.searchParams.get('pid')
-        const taskId = req.nextUrl.searchParams.get('tid')
-        const subTaskName = req.nextUrl.searchParams.get('sname')
-        const subTaskId = req.nextUrl.searchParams.get('subTaskId')
+
+        const body = await req.json();
+
+        const pid = body.pid
+        const taskId = body.tid
+        const subTaskName = body.sname
+        const subTaskId = body.subTaskId
 
         const subTask = await db.subTask.upsert({
             where: {

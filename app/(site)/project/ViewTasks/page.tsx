@@ -25,7 +25,12 @@ function ViewTasks() {
     }
 
     useEffect(() => {
-        fetch(`/api/task?pid=${projectId}`)
+        fetch(`/api/task`, {
+            method: "POST",
+            body: JSON.stringify({
+                pid: projectId
+            })
+        })
             .then(async response => {
                 if (response.ok) {
                     const data = await response.json();

@@ -36,7 +36,13 @@ function Members() {
     }, [])
 
     function handleMemberRemove(uid: any) {
-        fetch(`/api/members?pid=${pid}&uid=${uid}`)
+        fetch(`/api/members`, {
+            method: "POST",
+            body: JSON.stringify({
+                uid: uid,
+                pid: pid
+            })
+        })
             .then(async response => {
                 const data = await response.json()
 

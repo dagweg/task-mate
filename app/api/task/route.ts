@@ -4,18 +4,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
     try {
-
-        return NextResponse.json({})
-    }
-    catch (e) {
-        console.log(e)
-        return NextResponse.json({})
-    }
-}
-
-export async function GET(req: NextRequest) {
-    try {
-        const pid = req.nextUrl.searchParams.get('pid')
+        const body = await req.json()
+        const pid = body.pid
 
         const project = await db.project.findFirst({
             where: {
@@ -30,9 +20,6 @@ export async function GET(req: NextRequest) {
                 }
             }
         })
-
-        // console.log(project?.tasks)
-
         return NextResponse.json(project?.tasks, { status: 200 })
     }
     catch (e) {

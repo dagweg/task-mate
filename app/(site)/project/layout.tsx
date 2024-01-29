@@ -24,12 +24,18 @@ function ProjectLayout({ children }: { children: ReactNode }) {
                     'rounded-full active:bg-slate-200 py-2 px-4 text-sm hover:bg-gray-100 duration-150 cursor-pointer': true,
                     'bg-slate-200': pathname.includes('ViewTasks')
                 })}>View Tasks</p></Link>
+                <Link href={`/project/chat?pid=${projectdId}`}> <p className={classNames({
+                    'rounded-full active:bg-slate-200 py-2 px-4 text-sm hover:bg-gray-100 duration-150 cursor-pointer': true,
+                    'bg-slate-200': pathname.includes('chat')
+                })}>Chat</p></Link>
                 <Link href={`./members?pid=${projectdId}`}><p className={classNames({
                     'rounded-full active:bg-slate-200 py-2 px-4 text-sm hover:bg-gray-100 duration-150 cursor-pointer': true,
                     'bg-slate-200': pathname.includes('members')
                 })}>Members</p></Link>
             </div>
-            {children}
+            <div className='flex-grow'>
+                {children}
+            </div>
         </div>
     )
 }
