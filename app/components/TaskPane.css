@@ -2,16 +2,6 @@
     @apply !relative w-[100%] h-fit bg-gray-100 hover:border-red-300 border-2 px-4 py-4 shadow-md flex flex-col gap-2 duration-150 ease-in-out rounded-lg text-sm
 }
 
-/* 
-@keyframes reveal-task-pane {
-    0% {
-        scale: 0;
-    }
-
-} */
-
-
-
 .task-pane:hover .delete-task {
     @apply block
 }

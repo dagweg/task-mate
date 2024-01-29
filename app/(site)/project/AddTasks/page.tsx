@@ -5,7 +5,6 @@ import { TaskPaneType } from '@/app/lib/interface'
 import { nanoid } from 'nanoid'
 import { useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
-import { BsCheckLg } from 'react-icons/bs'
 import { MdAddToPhotos } from 'react-icons/md'
 
 function AddTasks() {
