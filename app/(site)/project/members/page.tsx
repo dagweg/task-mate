@@ -25,7 +25,12 @@ function Members() {
     const pid = sp.get('pid')
 
     useEffect(() => {
-        fetch(`/api/members?pid=${pid}`)
+        fetch(`/api/members`, {
+            method: "POST",
+            body: JSON.stringify({
+                pid: pid
+            })
+        })
             .then(async response => {
                 const data = await response.json()
 
