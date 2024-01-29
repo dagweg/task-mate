@@ -16,6 +16,8 @@ function ProjectLayout({ children }: { children: ReactNode }) {
     const projectdId = searchParams.get("pid")
     // const [pathname, setPathName] = useState<string>(window.location.href)
     const [taskPanes, setTaskPanes] = useState<TaskPaneType[]>([])
+    const [project, setProject] = useState<any>();
+    const [userId, setUserId] = useState<any>();
 
     // const [pOwner, setPOwner] = useState<string>('')
 
@@ -51,6 +53,22 @@ function ProjectLayout({ children }: { children: ReactNode }) {
 
         console.log(searchParams)
         // setPathName(window.location.href)
+
+        setUserId(localStorage.getItem('userId'))
+
+        fetch('http://localhost:3000/api/getProject', {
+            method: "POST",
+            body: JSON.stringify({
+                projectId: projectdId
+            })
+        })
+            .then(async response => {
+                const data = await response.json()
+                if (response.ok) {
+                    setProject(data)
+                }
+            })
+
     }, [])
 
     return (
@@ -60,10 +78,12 @@ function ProjectLayout({ children }: { children: ReactNode }) {
                 {/* <p>Project Owner: {pOwner}</p> */}
             </div>
             <div className='flex gap-4 bg-slate-50 p-2 rounded-lg shadow-sm'>
-                <Link href={`/project/AddTasks?pid=${projectdId}`}> <p className={classNames({
-                    'rounded-full active:bg-slate-200 py-2 px-4 text-sm hover:bg-gray-100 duration-150 cursor-pointer': true,
-                    'bg-slate-200': pathname.includes('AddTasks')
-                })}>Add Task</p></Link>
+                {
+                    <Link href={`/project/AddTasks?pid=${projectdId}`}> <p className={classNames({
+                        'rounded-full active:bg-slate-200 py-2 px-4 text-sm hover:bg-gray-100 duration-150 cursor-pointer': true,
+                        'bg-slate-200': pathname.includes('AddTasks')
+                    })}>Add Task</p></Link>
+                }
                 <Link href={`/project/ViewTasks?pid=${projectdId}`}><p className={classNames({
                     'rounded-full active:bg-slate-200 py-2 px-4 text-sm hover:bg-gray-100 duration-150 cursor-pointer': true,
                     'bg-slate-200': pathname.includes('ViewTasks')

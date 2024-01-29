@@ -24,7 +24,8 @@ export async function GET(req: NextRequest) {
             include: {
                 tasks: {
                     include: {
-                        SubTask: true
+                        SubTask: true,
+                        assignedTo: true
                     }
                 }
             }
