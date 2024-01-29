@@ -5,6 +5,7 @@ import { TaskPaneType } from '@/app/lib/interface'
 import { nanoid } from 'nanoid'
 import { useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
+import { BsCheckLg } from 'react-icons/bs'
 import { MdAddToPhotos } from 'react-icons/md'
 
 function AddTasks() {
@@ -27,14 +28,17 @@ function AddTasks() {
 
         setTaskPanes(prev => [...prev, newTask])
     }
+
     useEffect(() => {
-        fetch(`http://localhost:3000/api/task?pid=${projectdId}`)
+        const fetchPath = `/api/task?pid=${projectdId}`
+        fetch(fetchPath)
             .then(async response => {
                 const data = await response.json();
 
                 if (response.ok) {
                     setTaskPanes(data)
-
+                } else {
+                    console.log("ERROR! Couldn't fetch tasks")
                 }
             })
     }, [])

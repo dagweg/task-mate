@@ -2,19 +2,11 @@
 
 import TextBox from '@/app/components/TextBox'
 import React, { useEffect, useRef } from 'react'
-import { parsePhoneNumber } from 'libphonenumber-js'
 import { useRouter } from 'next/navigation'
 
 import { useState } from 'react'
-// import { countryCodes, CountryCode } from '@/app/data/country'
-
-import { POST } from '@/app/api/route'
-import Image from 'next/image'
-
-import { Button, Dialog, Flex, IconButton, TextField } from '@radix-ui/themes'
+import { Button, Dialog, Flex } from '@radix-ui/themes'
 import Link from 'next/link'
-import MessageBox from '@/app/components/MessageBox'
-import { FaUserAlt } from "react-icons/fa";
 import { cn } from '@/app/lib/utils'
 
 function SignUp() {
@@ -47,7 +39,7 @@ function SignUp() {
         }
 
 
-        fetch('api/addUser/', { method: 'POST', body: JSON.stringify(formData), headers: { 'Content-Type': 'application/json' } })
+        fetch('/api/addUser/', { method: 'POST', body: JSON.stringify(formData), headers: { 'Content-Type': 'application/json' } })
             .then(async response => {
                 const data = await response.json()
 

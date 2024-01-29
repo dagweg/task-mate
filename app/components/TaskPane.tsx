@@ -1,43 +1,29 @@
-import React, { ChangeEvent, useEffect, useRef } from 'react'
+'use client'
+
+import React, { useEffect, useRef } from 'react'
 import { useState } from 'react'
 import { TaskPaneType } from '@/app/lib/interface'
 import { SubTaskType } from '@/app/lib/interface'
-import { Button, Card, Dialog, DropdownMenu, Flex, IconButton, Text, TextArea, TextField } from '@radix-ui/themes'
+import { Button, Card, Dialog, DropdownMenu, IconButton, TextArea, TextField } from '@radix-ui/themes'
 import { FaCheck } from "react-icons/fa";
 import { IoIosMore } from "react-icons/io";
 import { IoAdd } from "react-icons/io5";
 import { nanoid } from 'nanoid'
-import { MdEdit, MdMore, MdMoreHoriz } from "react-icons/md";
+import { MdEdit, MdMoreHoriz } from "react-icons/md";
 import { MdAddToQueue } from "react-icons/md";
-import AsyncSelect from 'react-select/async'
-import { OptionsOrGroups, GroupBase } from 'react-select'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { IoClose } from "react-icons/io5";
-import { MDXEditor, headingsPlugin, listsPlugin, quotePlugin, thematicBreakPlugin } from '@mdxeditor/editor'
-import { MdDescription } from "react-icons/md";
-import { useParams } from 'next/navigation'
-import { pid, title } from 'process'
+import { useSearchParams } from 'next/navigation'
 import { User } from '@prisma/client'
-import { db } from '../lib/prisma'
-// import MDEditor from '@uiw/react-md-editor';
-
 
 
 function TaskPane(props: TaskPaneType) {
-
-    // console.log(props)
 
     const [project, setProject] = useState<any>()
     const [taskPane, setTaskPane] = useState<TaskPaneType>(props || [])
     const [subTasks, setSubTasks] = useState<SubTaskType[]>(props.SubTask || [])
     const [tpTitle, setTpTitle] = useState<string>(props.title || '')
-    const [selectedUserIds,setSelectedUserIds] = useState<string[]>([])
-    // const [taskPaneDesc, setTaskPaneDesc] = useState<string>(props.description || '');
-
-
+    const [selectedUserIds, setSelectedUserIds] = useState<string[]>([])
     const params = useSearchParams()
 
-    const projectName = params.get('pname')
     const projectId = params.get('pid')
 
     const dialogRef = useRef<any>()
@@ -45,9 +31,6 @@ function TaskPane(props: TaskPaneType) {
         value: props.description as string || '',
         isEditMode: false
     })
-    const [selectedUsers, setSelectedUsers] = useState<string[]>([])
-
-    
 
     function saveTask() {
         const newTaskPane: TaskPaneType = {
@@ -60,7 +43,7 @@ function TaskPane(props: TaskPaneType) {
 
         setTaskPane(prev => newTaskPane)
 
-        fetch('http://localhost:3000/api/task/save', {
+        fetch('/api/task/save', {
             method: "POST",
             body: JSON.stringify({
                 title: tpTitle,
@@ -77,36 +60,6 @@ function TaskPane(props: TaskPaneType) {
                 const data = await response.json();
             })
 
-
-
-
-
-        // fetch('http://localhost:3000/api/task', {
-        //     method: "POST",
-        //     body: JSON.stringify({
-        //         title: tpTitle,
-        //         projectId: projectId
-        //     }),
-        //     headers: {
-        //         "Content-Type": 'application'
-        //     }
-        // })
-        //     .then(async response => {
-        //         const data = await response.json()
-
-        //         console.log(data)
-        //         if (response.ok) {
-        //             // PROBLEM
-        //             // setTaskPane({
-        //             //     ...taskPane,
-        //             //     id: data.id
-        //             // })
-        //         }
-        //         else {
-
-        //         }
-        //     })
-        //     .catch(e => console.log(e))
     }
     function editTaskTitle() {
         const newTaskPane: TaskPaneType = {
@@ -143,28 +96,6 @@ function TaskPane(props: TaskPaneType) {
         }
     }
 
-    const handleAssigneeChange =async (event: React.ChangeEvent<HTMLSelectElement>) => {
-        //      fetch('http://localhost:3000/api/task/save', {
-        //     method: "POST",
-        //     body: JSON.stringify({
-        //         title: tpTitle,
-        //         taskId: taskPane.id,
-        //         projectId: projectId,
-        //         subTasks: subTasks,
-        //         description: taskPaneDesc.value,
-        //     }),
-        //     headers: {
-        //         "Content-Type": 'application'
-        //     }
-        // })
-        //     .then(async response => {
-        //         const data = await response.json();
-        //     })
-      };
-    function toggleTaskDialog() {
-        dialogRef.current.click()
-    }
-
     function saveTaskPaneDesc() {
         setTaskPaneDesc({
             ...taskPaneDesc,
@@ -197,7 +128,7 @@ function TaskPane(props: TaskPaneType) {
     useEffect(() => {
         const fetchProject = async () => {
             try {
-                const response = await fetch('http://localhost:3000/api/getProject', {
+                const response = await fetch('/api/getProject', {
                     method: "POST",
                     body: JSON.stringify({
                         projectId: projectId
@@ -217,33 +148,33 @@ function TaskPane(props: TaskPaneType) {
         fetchProject();
     }, []);
 
-    const handleCheckboxChange = (userId:string) => {
-    // Toggle the selection state of the user
-    console.log("selected ",userId)
-    setSelectedUserIds((prevSelectedUserIds:string[]) => {
-        if(selectedUserIds.length==0){
-            return [userId]
-        }
-        else if (prevSelectedUserIds.includes(userId)) {
-            return prevSelectedUserIds.filter((id) => id !== userId);
-        } else {
-            return [...prevSelectedUserIds, userId];
-        }
-    });
+    const handleCheckboxChange = (userId: string) => {
+        // Toggle the selection state of the user
+        console.log("selected ", userId)
+        setSelectedUserIds((prevSelectedUserIds: string[]) => {
+            if (selectedUserIds.length == 0) {
+                return [userId]
+            }
+            else if (prevSelectedUserIds.includes(userId)) {
+                return prevSelectedUserIds.filter((id) => id !== userId);
+            } else {
+                return [...prevSelectedUserIds, userId];
+            }
+        });
 
-    console.log("selected +++++++++ ",selectedUserIds)
+        console.log("selected +++++++++ ", selectedUserIds)
     };
 
 
     const handleTaskAssignment = async () => {
-        
-        
-        fetch('http://localhost:3000/api/task/assign', {
+
+
+        fetch('/api/task/assign', {
             method: "POST",
             body: JSON.stringify({
                 taskId: taskPane.id,
                 projectId: projectId,
-                userIds :selectedUserIds
+                userIds: selectedUserIds
             }),
             headers: {
                 "Content-Type": 'application'
@@ -251,17 +182,13 @@ function TaskPane(props: TaskPaneType) {
         })
             .then(async response => {
                 const data = await response.json();
-                console.log("yeeeeeeey +++++++++",data)
+                console.log("yeeeeeeey +++++++++", data)
             })
 
     };
 
-
-
-
     return (
         <div className='task-pane' >
-            {/* <Card className='!bg-gray-100  h-fit !border-2 duration-75 ' > */}
             <Card className='!bg-gray-100  h-fit !border-2 duration-75 ' >
                 {
                     taskPane.isEditMode ?
@@ -297,7 +224,7 @@ function TaskPane(props: TaskPaneType) {
                             <div className='sub-task-container space-y-[10px] py-2'>
                                 {
                                     subTasks.map(subTask => (
-                                        <SubTask key={subTask.id} updateSubTask={updateSubTask} subTask={subTask} taskId={taskPane.id as string} projectId={projectId as string} />
+                                        <SubTask key={subTask.id} subTask={subTask} taskId={taskPane.id as string} projectId={projectId as string} />
                                     ))
                                 }
                             </div>
@@ -307,7 +234,7 @@ function TaskPane(props: TaskPaneType) {
                             </div>
                         </>
                 }
-            
+
             </Card>
 
             {/** the dialog where information gets edited */}
@@ -369,17 +296,17 @@ function TaskPane(props: TaskPaneType) {
                                         onChange={() => handleCheckboxChange(user.id)}
                                         className="mr-2"
                                     />
-                            <label htmlFor={user.id} className="text-sm">{user.firstName}</label>
-                            </div>
+                                    <label htmlFor={user.id} className="text-sm">{user.firstName}</label>
+                                </div>
                             ))}
                             <button
-                            className="bg-blue-500 text-white px-4 py-2 rounded-md mt-4"
-                            onClick={handleTaskAssignment}
+                                className="bg-blue-500 text-white px-4 py-2 rounded-md mt-4"
+                                onClick={handleTaskAssignment}
                             >
-                            Assign Task
+                                Assign Task
                             </button>
                         </div>
-                        
+
                     </div>
                     <Button onClick={() => saveTaskPaneDesc()} className='!cursor-pointer !bg-gray-100 !text-black hover:!bg-dark2 hover:!text-white !my-2 !px-2 !py-4'>Save</Button>
                 </Dialog.Content>
@@ -389,14 +316,9 @@ function TaskPane(props: TaskPaneType) {
 }
 
 
-function SubTask({ key, updateSubTask, subTask, taskId, projectId }: { key: any, updateSubTask: any, subTask: SubTaskType, taskId: string, projectId: string }) {
+function SubTask({ subTask, taskId, projectId }: { subTask: SubTaskType, taskId: string, projectId: string }) {
 
-    // const [subTask, setSubTask] = useState<SubTaskType>(props)
     const [ssubTask, ssetSubTask] = useState<SubTaskType>(subTask)
-
-    useEffect(() => {
-
-    })
 
     function saveSubTaskTitle() {
         const newSubTask: SubTaskType = {
@@ -407,16 +329,15 @@ function SubTask({ key, updateSubTask, subTask, taskId, projectId }: { key: any,
 
 
 
-        fetch(`http://localhost:3000/api/subtask?sname=${ssubTask.title}&tid=${taskId}&pid=${projectId}&subTaskId=${subTask.id}`)
+        fetch(`/api/subtask?sname=${ssubTask.title}&tid=${taskId}&pid=${projectId}&subTaskId=${subTask.id}`)
             .then(async response => {
                 const data = await response.json()
 
                 if (response.ok) {
-                    // add
                     ssetSubTask(data)
                 }
                 else {
-
+                    console.log("ERROR- saving subtask")
                 }
             })
 
@@ -440,8 +361,8 @@ function SubTask({ key, updateSubTask, subTask, taskId, projectId }: { key: any,
             {
                 ssubTask.isEditMode ?
                     <>
-                        <TextField.Root className='flex items-center'>
-                            <TextField.Input placeholder='Subtask' className='!p-2' value={ssubTask.title} onChange={e => ssetSubTask({ ...ssubTask, title: e.target.value })}></TextField.Input>
+                        <TextField.Root className='flex items-center '>
+                            <TextField.Input placeholder='Subtask' className='!p-2 ' value={ssubTask.title} onChange={e => ssetSubTask({ ...ssubTask, title: e.target.value })}></TextField.Input>
                             <TextField.Slot>
                                 <IconButton className=' !m-1 !bg-gray-200 hover:!bg-neutral-600' onClick={saveSubTaskTitle}>
                                     <FaCheck></FaCheck>

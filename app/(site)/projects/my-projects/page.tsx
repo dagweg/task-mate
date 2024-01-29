@@ -3,14 +3,6 @@
 import Link from 'next/link'
 import React, { ReactElement, useEffect, useState } from 'react'
 import { cn } from '@/app/lib/utils'
-// import { shortener } from '@/app/lib/utils'
-
-
-interface Project {
-    name: string,
-    description: string,
-    members_count: number
-}
 
 function MyProjects() {
 
@@ -18,8 +10,7 @@ function MyProjects() {
 
     useEffect(() => {
         const fetchProjects = async () => {
-            // const userId = localStorage.getItem('userId')
-            fetch(`http://localhost:3000/api/getProjects`, {
+            fetch(`/api/getProjects`, {
                 method: "POST",
                 body: JSON.stringify({
                     creatorId: localStorage.getItem('userId')
@@ -64,17 +55,6 @@ function MyProjects() {
                         </Link>
                     ))
             }
-            {/* <Link href={'/project/[id]'} as={`/project/test-project`}>
-                <div className='flex flex-col justify-around cols-span-1  overflow-hidden bg-[#a6a1b1] w-full h-full max-w-[500px] p-7 rounded-[10px] shadow-sm bg-opacity-10 hover:scale-[101%] duration-200 hover:bg-white hover:shadow-2xl cursor-pointer active:scale-100'>
-                    <h1 className='font-bold tracking-wide text-2xl py-2'>{shortener('test-project', 22)}</h1>
-                    <p className='text-sm text-justify '>
-                        {shortener('this is the project descritption', 200)}
-                    </p>
-                    <div className='bg-gray-200 w-fit p-2 rounded-lg font-semibold shadow-sm mt-8'>
-                        25/25 Members
-                    </div>
-                </div>
-            </Link> */}
         </div>
     )
 }

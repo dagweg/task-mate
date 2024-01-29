@@ -1,16 +1,13 @@
 'use client'
 
 import React, { useEffect, useRef, useState } from 'react'
-
 import { useSearchParams } from 'next/navigation'
 import { User } from '@prisma/client'
-import { Button, Dialog, DropdownMenu, IconButton, Separator, Slot } from '@radix-ui/themes'
+import { Button, Dialog, DropdownMenu, IconButton, Separator } from '@radix-ui/themes'
 import { IoIosMore } from 'react-icons/io'
-import { BsBack, BsBackspace, BsInfoSquare } from 'react-icons/bs'
-import { IoArrowBackCircleOutline, IoPersonAddOutline, IoPersonAddSharp, IoRemove } from 'react-icons/io5'
-import TextBox from '@/app/components/TextBox'
+import { BsInfoSquare } from 'react-icons/bs'
+import { IoPersonAddSharp } from 'react-icons/io5'
 import TextList from '@/app/components/TextList'
-import ButtonRound from '@/app/components/ButtonRound'
 import TopNav from '@/app/components/TopNav'
 import { FaRegTrashAlt } from 'react-icons/fa'
 import { RiAdminFill } from 'react-icons/ri'
@@ -28,7 +25,7 @@ function Members() {
     const pid = sp.get('pid')
 
     useEffect(() => {
-        fetch(`http://localhost:3000/api/members?pid=${pid}`)
+        fetch(`/api/members?pid=${pid}`)
             .then(async response => {
                 const data = await response.json()
 
@@ -39,7 +36,7 @@ function Members() {
     }, [])
 
     function handleMemberRemove(uid: any) {
-        fetch(`http://localhost:3000/api/members?pid=${pid}&uid=${uid}`)
+        fetch(`/api/members?pid=${pid}&uid=${uid}`)
             .then(async response => {
                 const data = await response.json()
 
@@ -54,7 +51,7 @@ function Members() {
     }
 
     function addMembers() {
-        fetch('http://localhost:3000/api/members/add', {
+        fetch('/api/members/add', {
             method: "POST",
             body: JSON.stringify({
                 userEmails: userEmails,
@@ -80,22 +77,11 @@ function Members() {
     return (
         <>
             <div className='flex justify-between items-center'>
-                <div className='flex gap-5'>
-                    {/* <div className='text-3xl hover:translate-x-1 duration-75 scale-105 active:scale-90' onClick={() => window.history.back()}>
-                        <IoArrowBackCircleOutline></IoArrowBackCircleOutline>
-                    </div> */}
-                    {/* <h1 className='text-3xl font-semibold'>Members</h1> */}
-                </div>
                 <TopNav links={[
                     { label: <IoPersonAddSharp />, link: "#", onClickCallback: () => toggleAddMemberDialog(), className: 'add-member relative hover:!bg-gray-200 hover:!text-black rounded-sm !w-fit ' },
-                    // { label: <IoStatsChart />, link: "#", className: 'generate-task-report  relative hover:!bg-gray-200 hover:!text-black rounded-sm !w-fit ' }
                 ]}
                     className='rounded-sm flex !gap-0 !space-x-0 h-full '>
-
                 </TopNav>
-                {/* <div className='text-3xl hover:bg-gray-100 rounded-full p-2 active:bg-transparent cursor-pointer' onClick={() => toggleAddMemberDialog()}>
-                    <IoPersonAddOutline></IoPersonAddOutline>
-                </div> */}
             </div>
             <div className="flex min-h-screen justify-center w-full">
                 <div className="overflow-x-auto min-w-full">

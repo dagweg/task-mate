@@ -1,13 +1,10 @@
 'use client'
 
 import React, { useState, useEffect, useRef } from 'react';
-import { FaGithub } from 'react-icons/fa6';
-import { useParams, useRouter } from 'next/navigation';
-import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import TextBox from '@/app/components/TextBox';
 import Link from 'next/link';
 import { Button, Dialog, Flex } from '@radix-ui/themes';
-import { FaGoogle } from 'react-icons/fa';
 
 
 interface PageProps {
@@ -28,7 +25,7 @@ const errors: { [key: string]: string } = {
   default: 'Unable to sign in.',
 };
 
-const Page: React.FC<PageProps> = ({ error }) => {
+const Login: React.FC<PageProps> = ({ error }) => {
   const errorMessage = error && (errors[error] ?? errors.default);
 
   const [formData, setFormData] = useState({
@@ -39,7 +36,6 @@ const Page: React.FC<PageProps> = ({ error }) => {
   const [message, setMessage] = useState<string>('')
   const dialogRef = useRef<any>()
   const navigator = useRouter()
-  const router = useParams();
   let redirectUrl = 'http://localhost:3000';
 
   useEffect(() => {
@@ -48,15 +44,10 @@ const Page: React.FC<PageProps> = ({ error }) => {
   }, []);
 
 
-
-  const handleLogin = () => {
-    signIn();
-  };
-
   const handleSubmit = (e: any) => {
     e.preventDefault();
 
-    fetch('api/login', {
+    fetch('/api/login', {
       method: 'POST',
       body: JSON.stringify(formData),
       headers: {
@@ -68,7 +59,6 @@ const Page: React.FC<PageProps> = ({ error }) => {
 
         if (response.ok) {
           console.log('Login successful!')
-          // when its succesful, we store the userId in the local storage...
           localStorage.removeItem('userId')
           localStorage.setItem('userId', data.userId)
           console.log(data.userId)
@@ -88,7 +78,6 @@ const Page: React.FC<PageProps> = ({ error }) => {
         ...prev,
         [field]: e.target.value
       }
-      // console.log(updated)
       return updated
     })
   }
@@ -117,38 +106,6 @@ const Page: React.FC<PageProps> = ({ error }) => {
             <TextBox placeholder="Email" onChange={(e: any) => handleInputChange(e, 'email')} />
             <TextBox placeholder="Password" type='password' onChange={(e: any) => handleInputChange(e, 'passWord')} />
             <input type='submit' value={'Signin'} className='bg-dark1 rounded-sm cursor-pointer text-white py-4 hover:bg-dark2 w-full font-semibold'></input>
-            {/* <div className="flex items-center space-x-4">
-              <div className="flex-grow h-[1px] bg-black" />
-              <p>or</p>
-              <div className="flex-grow h-[1px] bg-black" />
-            </div> */}
-            {/* <div
-              className="group flex justify-center items-center  gap-6 bg-white text-black border-black border-2 shadow-lg py-4  px-2 w-full rounded-sm  hover:bg-gray-100  active:scale-105 duration-150 text-xl cursor-pointer "
-              onClick={() => {
-                signIn('google', {
-                  callbackUrl: redirectUrl,
-                });
-              }}
-            >
-              <FaGoogle className="scale-150 duration-150 " />
-              <label htmlFor="google" className="text-sm duration-150 ">
-                Continue with Google
-              </label>
-            </div>
-            <div
-              className="group flex justify-center items-center  gap-6 bg-stone-800 text-stone-50 border-black border-2 shadow-lg py-4 px-2 w-full rounded-sm  hover:bg-dark2 active:scale-105 duration-150 text-xl cursor-pointer "
-              onClick={() => {
-                signIn('github', {
-                  callbackUrl: redirectUrl,
-                });
-              }}
-            >
-              <FaGithub className="scale-150  group-hover:text-white duration-150 " />
-              <label htmlFor="google" className="text-sm group-hover:text-white duration-150 ">
-                Continue with Githhub
-              </label>
-            </div> */}
-
             <p>
               New to Task Mate? <Link href="/signup" className='underline font-semibold'>Create Account</Link>
             </p>
@@ -162,4 +119,4 @@ const Page: React.FC<PageProps> = ({ error }) => {
   );
 };
 
-export default Page;
+export default Login;

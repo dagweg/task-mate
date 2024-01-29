@@ -45,7 +45,7 @@ export default function RootLayout({
   useEffect(() => {
     const fun = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/api/getUser?uid=${localStorage.getItem('userId')}`);
+        const response = await fetch(`/api/getUser?uid=${localStorage.getItem('userId')}`);
 
         if (response.ok) {
           const data = await response.json();

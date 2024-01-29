@@ -1,17 +1,8 @@
 'use client'
-import React, { useEffect, useRef, useState } from 'react'
-import { SubTask, Task, User } from '@prisma/client'
+import React, { useEffect, useState } from 'react'
+import { SubTask } from '@prisma/client'
 import { useSearchParams } from 'next/navigation'
-import { Button, Dialog, DropdownMenu, IconButton, Select } from '@radix-ui/themes'
-import { IoIosMore } from 'react-icons/io'
-import { BsBack, BsBackspace, BsInfoSquare } from 'react-icons/bs'
-import { IoArrowBackCircleOutline } from 'react-icons/io5'
-import { TfiCalendar } from "react-icons/tfi";
 import { BiBullseye } from "react-icons/bi";
-import { GoTasklist } from "react-icons/go";
-import TextBox from '@/app/components/TextBox'
-import TextList from '@/app/components/TextList'
-import ButtonRound from '@/app/components/ButtonRound'
 function ViewTasks() {
 
     const [tasks, setTasks] = useState([]);
@@ -34,7 +25,7 @@ function ViewTasks() {
     }
 
     useEffect(() => {
-        fetch(`http://localhost:3000/api/task?pid=${projectId}`)
+        fetch(`/api/task?pid=${projectId}`)
             .then(async response => {
                 if (response.ok) {
                     const data = await response.json();
@@ -53,7 +44,7 @@ function ViewTasks() {
     }, [projectId]);
 
     if (loading) {
-        return <p>Loading...</p>; // Add a loading indicator
+        return <p>Loading...</p>; // Add a loading indicator    
     }
 
     if (error) {

@@ -1,11 +1,9 @@
 'use client'
 
 import ButtonRound from '@/app/components/ButtonRound'
-import Panel from '@/app/components/Panel'
-import TextBox from '@/app/components/TextBox'
 import TextList from '@/app/components/TextList'
-import { Button, Dialog, Flex, TextField } from '@radix-ui/themes'
-import React, { useEffect, useRef, useState } from 'react'
+import { Button, Dialog, Flex } from '@radix-ui/themes'
+import React, { useRef, useState } from 'react'
 import { BsInfoSquare } from 'react-icons/bs'
 
 function AddProject() {
@@ -76,7 +74,6 @@ function AddProject() {
                             ref={titleRef}
                         />
                     </div>
-                    {/* <TextBox label='Project Name' ref={titleRef} /> */}
                     <div className='text-field flex flex-col'>
                         <label htmlFor="">Project Description</label>
                         <textarea name="" id="" rows={30} ref={descRef} className='outline-none border border-black h-28  p-3 border-b-2 border-[#2226] rounded-sm focus:border-dark2 focus:bg-gray-100 w-[100%] focus:border-b-4'></textarea>
@@ -110,27 +107,3 @@ function AddProject() {
 }
 
 export default AddProject
-
-
-{/* <div>
-                        <h1 className='font-semibold'>Add Stakeholders</h1>
-                        <div className='flex flex-col gap-3 justify-center my-2'>
-                            <div className='flex gap-4 items-center'>
-                                <BsInfoSquare />
-                                <p className='text-sm'>To add email, just write them separated by commas.</p>
-                            </div>
-                            <div className='flex gap-4 items-center'>
-                                <BsInfoSquare />
-                                <p className='text-sm'>Don`t worry you can edit them later.</p>
-                            </div>
-                        </div>
-                        <TextBox />
-
-                        <div className='flex overflow-x-scroll'>
-                            <Panel text={'dagtef@gmail.com'} />
-                            <Panel text={'dagtef2@gmail.com'} />
-                            <Panel text={'wegtef2@gmail.com'} />
-                            <Panel text={'wegtef2@gmail.com'} />
-                            <Panel text={'wegtef2@gmail.com'} />
-                        </div>
-                    </div> */}
