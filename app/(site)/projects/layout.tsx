@@ -19,10 +19,11 @@ function ProjectsLayout({ children }: { children: ReactNode }) {
 
 
     function handleJoinProject() {
+
         fetch('/api/joinProject/', {
             method: "POST",
             body: JSON.stringify({
-                userId: window.localStorage.getItem('userId'),
+                userId: window?.localStorage.getItem('userId'),
                 invite: inviteRef.current.value,
             }),
             headers: {

@@ -36,8 +36,9 @@ function Login() {
 
         if (response.ok) {
           console.log('Login successful!')
-          window.localStorage.removeItem('userId')
-          window.localStorage.setItem('userId', data.userId)
+          window?.localStorage.removeItem('userId')
+          window?.localStorage.setItem('userId', data.userId)
+
           console.log(data.userId)
           navigator.push('/')
         } else {

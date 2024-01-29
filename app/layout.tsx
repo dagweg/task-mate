@@ -16,7 +16,7 @@ export default function RootLayout({
 }) {
 
   const router = useRouter()
-  if (!window.localStorage.getItem('userId')) {
+  if (!window?.localStorage.getItem('userId')) {
     router.push('/login')
   }
 
@@ -26,7 +26,7 @@ export default function RootLayout({
         const response = await fetch(`/api/getUser`, {
           method: "POST",
           body: JSON.stringify({
-            uid: window.localStorage.getItem('userId')
+            uid: window?.localStorage.getItem('userId')
           })
         });
 
@@ -39,6 +39,7 @@ export default function RootLayout({
       } catch (error) {
         console.error('Error:', error);
       }
+
     };
 
     fun();

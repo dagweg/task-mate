@@ -33,7 +33,7 @@ function SideNav() {
 
     useEffect(() => {
         console.log('/n/n/n')
-        console.log(window.localStorage.getItem('userId'))
+        console.log(window?.localStorage.getItem('userId'))
     })
 
     return (
