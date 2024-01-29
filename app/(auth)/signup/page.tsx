@@ -3,7 +3,6 @@
 import TextBox from '@/app/components/TextBox'
 import React, { useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
-
 import { useState } from 'react'
 import { Button, Dialog, Flex } from '@radix-ui/themes'
 import Link from 'next/link'
@@ -52,18 +51,9 @@ function SignUp() {
                     console.log(data)
 
                     setMessage('Account creation failed!')
-                    // let arr = data.issues
-                    // for (let d of arr) {
-                    //     if (d.message) {
-                    //         setMessage(d.message);
-                    //         break;
-                    //     }
-                    // }
                     dialogRef.current.click();
                 }
             })
-
-        // console.log(formData)
 
     }
 
@@ -73,7 +63,6 @@ function SignUp() {
                 ...prev,
                 [field]: e.target.value
             };
-            // console.log(updatedFormData);
             return updatedFormData;
         });
     }
@@ -93,8 +82,6 @@ function SignUp() {
         }
         fetchCountryCodes()
     }, [])
-
-    const [agreed, setAgreed] = useState<boolean>(false)
 
     return (
         <div className='flex flex-col h-full w-full justify-center items-center'>
@@ -166,12 +153,6 @@ function SignUp() {
                             <TextBox className='!h-10 max-w-2xl !flex-grow' onChange={(e: any) => handleInputChange(e, 'phoneNumber')} />
                         </div>
                     </div>
-                    {/* <div className='flex-col space-y-2 my-3 '>
-                        <div className='flex gap-4 items-start'>
-                            <input type='checkbox' className='my-2' checked={agreed} onChange={() => setAgreed(!agreed)}></input>
-                            <p className='text-md text-[15px]'>I agree with the licenses, terms and conditions of this software.</p>
-                        </div>
-                    </div> */}
                     <input type='submit' value={'Create Account'} className={cn('rounded-md cursor-pointer py-4 my-2 bg-dark1 hover:bg-dark2 text-white')}></input>
                     <p>Already have an account? <span className='font-semibold underline hover: cursor-pointer' onClick={() => router.push('/login')}>Login</span></p>
                 </form>

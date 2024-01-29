@@ -6,28 +6,7 @@ import TextBox from '@/app/components/TextBox';
 import Link from 'next/link';
 import { Button, Dialog, Flex } from '@radix-ui/themes';
 
-
-interface PageProps {
-  error?: string;
-}
-
-const errors: { [key: string]: string } = {
-  Signin: 'Try signing in with a different account.',
-  OAuthSignin: 'Try signing in with a different account.',
-  OAuthCallback: 'Try signing in with a different account.',
-  OAuthCreateAccount: 'Try signing in with a different account.',
-  EmailCreateAccount: 'Try signing in with a different account.',
-  Callback: 'Try signing in with a different account.',
-  OAuthAccountNotLinked:
-    'To confirm your identity, sign in with the same account you used originally.',
-  EmailSignin: 'Check your email address.',
-  CredentialsSignin: 'Sign in failed. Check the details you provided are correct.',
-  default: 'Unable to sign in.',
-};
-
-const Login: React.FC<PageProps> = ({ error }) => {
-  const errorMessage = error && (errors[error] ?? errors.default);
-
+function Login() {
   const [formData, setFormData] = useState({
     email: '',
     passWord: ''
@@ -36,11 +15,9 @@ const Login: React.FC<PageProps> = ({ error }) => {
   const [message, setMessage] = useState<string>('')
   const dialogRef = useRef<any>()
   const navigator = useRouter()
-  let redirectUrl = 'http://localhost:3000';
 
   useEffect(() => {
     const url = new URL(location.href);
-    redirectUrl = url.searchParams.get('callbackUrl')!;
   }, []);
 
 
@@ -111,9 +88,6 @@ const Login: React.FC<PageProps> = ({ error }) => {
             </p>
           </form>
         </div>
-        {errorMessage && (
-          <div className="w-full bg-[rgba(255,10,10,.2)] h-40">{errorMessage}</div>
-        )}
       </div>
     </>
   );
