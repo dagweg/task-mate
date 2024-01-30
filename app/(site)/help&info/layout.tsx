@@ -12,7 +12,7 @@ function HelpAndInfoLayout({ children }: { children: ReactNode }) {
                 { label: "FAQ", link: '/help&info/faq' },
                 { label: "Terms of use", link: '/help&info/terms-of-use' },
                 { label: "Privacy Policy", link: '/help&info/privacy-policy' },
-                { label: "About us", link: '/help&info/about-us' },
+                // { label: "About us", link: '/help&info/about-us' },
             ]} />
             <div className='bg-gray-100 rounded-md w-full flex-grow p-5'>
                 {children}

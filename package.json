@@ -31,6 +31,7 @@
     "react-cookie": "^6.1.1",
     "react-dom": "^18",
     "react-icons": "^4.11.0",
+    "react-spinners": "^0.13.8",
     "repair": "^0.1.1",
     "tailwind-merge": "^2.0.0",
     "vercel": "^33.4.0",

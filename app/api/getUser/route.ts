@@ -9,11 +9,12 @@ export async function POST(req: NextRequest) {
         const body = await req.json()
         const users = await db.user.findFirst({
             where: {
-                id: body?.uid as string
+                id: body?.uid as string,
             }
         })
         return NextResponse.json({
-            name: users?.firstName
+            name: users?.firstName,
+            email: users?.email
         }, { status: 200 })
     } catch (error) {
         console.log(error)
