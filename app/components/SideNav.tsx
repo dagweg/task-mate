@@ -13,9 +13,11 @@ import './sidenav.css'
 import { cn } from '../lib/utils'
 import { FaUserAlt } from "react-icons/fa";
 import { Button, Dialog } from '@radix-ui/themes'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 
 function SideNav() {
+
+    const pathname = usePathname();
 
     enum sb {
         enabled = 'w-fit transition-all duration-500',
@@ -93,19 +95,31 @@ function SideNav() {
                     <nav className={cn('flex', sideBar)}>
                         <div className={cn('flex flex-col h-full  space-y-0 px-2 justify-between py-16')}>
                             <div className='flex flex-col gap-4'>
-                                <Link href={'/dashboard'} className='side-nav-button hover:bg-white flex justify-start p-4  px-7 rounded-lg duration-75 gap-2 items-center'>
+                                <Link href={'/dashboard'} className={classNames({
+                                    'side-nav-button hover:bg-white flex justify-start p-4  px-7 rounded-lg duration-75 gap-2 items-center': true,
+                                    'bg-white': pathname.includes('dashboard')
+                                })}>
                                     <BiSolidDashboard className={'scale-150'} />
                                     <label htmlFor="" className={cn(sb.disabled == sideBar ? 'hidden' : '')}>Dashboard</label>
                                 </Link>
-                                <Link href={'/projects'} className='side-nav-button hover:bg-white flex justify-start p-4  px-7 rounded-lg duration-75 gap-2 items-center'>
+                                <Link href={'/projects'} className={classNames({
+                                    'side-nav-button hover:bg-white flex justify-start p-4  px-7 rounded-lg duration-75 gap-2 items-center': true,
+                                    'bg-white': pathname.includes('projects')
+                                })}>
                                     <AiOutlineProject className={'scale-150'} />
                                     <label htmlFor="" className={cn(sb.disabled == sideBar ? 'hidden' : '')}>Projects</label>
                                 </Link>
-                                <Link href={'/settings'} className='side-nav-button  hover:bg-white flex justify-start p-4  px-7 rounded-lg duration-75 gap-2 items-center'>
+                                <Link href={'/settings'} className={classNames({
+                                    'side-nav-button  hover:bg-white flex justify-start p-4  px-7 rounded-lg duration-75 gap-2 items-center': true,
+                                    'bg-white': pathname.includes('settings')
+                                })}>
                                     <FiSettings className={'scale-150'} />
                                     <label htmlFor="" className={cn(sb.disabled == sideBar ? 'hidden' : '')}>Settings</label>
                                 </Link>
-                                <Link href={'/help&info'} className='side-nav-button  hover:bg-white flex justify-start p-4  px-7 rounded-lg duration-75 gap-2 items-center'>
+                                <Link href={'/help&info'} className={classNames({
+                                    'side-nav-button  hover:bg-white flex justify-start p-4  px-7 rounded-lg duration-75 gap-2 items-center': true,
+                                    'bg-white': pathname.includes('help&info')
+                                })}>
                                     <FiHelpCircle className={'scale-150'} />
                                     <label htmlFor="" className={cn(sb.disabled == sideBar ? 'hidden' : '')}>Help & Information</label>
                                 </Link>
