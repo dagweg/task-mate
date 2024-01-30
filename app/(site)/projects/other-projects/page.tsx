@@ -9,26 +9,28 @@ function OtherProjects() {
     const [projects, setProjects] = useState<ReactElement[]>([])
 
     useEffect(() => {
-        const fetchProjects = async () => {
-            fetch(`/api/getProjectsOther`, {
-                method: "POST",
-                body: JSON.stringify({
-                    uid: window?.localStorage.getItem('userId')
+        if (typeof window !== 'undefined') {
+            const fetchProjects = async () => {
+                fetch(`/api/getProjectsOther`, {
+                    method: "POST",
+                    body: JSON.stringify({
+                        uid: window?.localStorage.getItem('userId')
+                    })
                 })
-            })
-                .then(async response => {
-                    const data = await response.json()
-                    if (response.ok) {
-                        setProjects(prev => data)
-                    }
-                    console.log(data)
-                })
-                .catch(error => {
-                    console.log(error)
-                })
-        }
+                    .then(async response => {
+                        const data = await response.json()
+                        if (response.ok) {
+                            setProjects(prev => data)
+                        }
+                        console.log(data)
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+            }
 
-        fetchProjects()
+            fetchProjects()
+        }
     }, [])
 
     return (

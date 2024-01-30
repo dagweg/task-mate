@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
 import { BiSolidDashboard } from 'react-icons/bi'
 import { AiOutlineProject } from 'react-icons/ai'
@@ -30,11 +30,6 @@ function SideNav() {
             setSideBar(sb.enabled)
         }
     }
-
-    useEffect(() => {
-        console.log('/n/n/n')
-        console.log(window?.localStorage.getItem('userId'))
-    })
 
     return (
         <div className=' h-screen flex text-white w-fit z-10'>

@@ -15,18 +15,25 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
 
+
+
+
   const router = useRouter()
-  if (!window?.localStorage.getItem('userId')) {
-    router.push('/login')
-  }
 
   useEffect(() => {
+    let userId = window.localStorage.getItem('userId')
+
+    // basic session handling {must be done right}
+    if (!userId) {
+      router.push('/login')
+    }
+
     const fun = async () => {
       try {
         const response = await fetch(`/api/getUser`, {
           method: "POST",
           body: JSON.stringify({
-            uid: window?.localStorage.getItem('userId')
+            uid: userId
           })
         });
 

@@ -16,8 +16,10 @@ function Login() {
   const dialogRef = useRef<any>()
   const navigator = useRouter()
 
+  const [userId, setUserId] = useState<any>()
+
   useEffect(() => {
-    const url = new URL(location.href);
+    setUserId(window.localStorage.getItem('userId'))
   }, []);
 
 
@@ -36,8 +38,11 @@ function Login() {
 
         if (response.ok) {
           console.log('Login successful!')
-          window?.localStorage.removeItem('userId')
-          window?.localStorage.setItem('userId', data.userId)
+
+          if (typeof window !== 'undefined') {
+            window.localStorage.removeItem('userId')
+            window.localStorage.setItem('userId', data.userId)
+          }
 
           console.log(data.userId)
           navigator.push('/')
