@@ -5,7 +5,7 @@ export default function AuthLayout({ children, }: { children: React.ReactNode })
         <body>
             <section className=''>
 
-                <div className='fixed w-full h-full z-10 flex items-center justify-center'>
+                <div className='fixed w-full h-full z-[2] flex items-center justify-center'>
                     {children}
                 </div>
 

@@ -89,7 +89,7 @@ function SignUp() {
                 <Dialog.Trigger>
                     <Button ref={dialogRef}></Button>
                 </Dialog.Trigger>
-                <Dialog.Content style={{ maxWidth: 450 }} className='flex flex-col justify-center items-center '>
+                <Dialog.Content style={{ maxWidth: 450 }} className='flex flex-col justify-center items-center z-10'>
                     <Dialog.Title>{message}</Dialog.Title>
                     <Flex gap="3" mt="4" justify="end">
                         <Dialog.Close>

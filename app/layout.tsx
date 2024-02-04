@@ -59,7 +59,7 @@ export default function RootLayout({
             <Theme>
               {
                 <section className='flex fixed h-screen w-full'>
-                  {userId !== null && <SideNav />}
+                  <SideNav />
                   <main className='flex-grow h-screen overflow-y-scroll w-full px-16 py-10'>{children}</main>
                 </section>
               }
