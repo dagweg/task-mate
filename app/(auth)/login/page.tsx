@@ -67,7 +67,7 @@ function Login() {
 
   return (
     <>
-      <div className="relative w-full h-full flex flex-col justify-center items-center p-10">
+      <div className="relative bg-white rounded-lg  w-fit mx-auto flex flex-col justify-center items-center p-10 bg-opacity-50 backdrop-blur-lg">
         <Dialog.Root >
           <Dialog.Trigger>
             <Button ref={dialogRef}></Button>
@@ -83,15 +83,21 @@ function Login() {
             </Flex>
           </Dialog.Content>
         </Dialog.Root>
-        <h1 className="text-5xl font-bold tracking-wide py-10">Login</h1>
+        <h1 className="text-5xl tracking-wide py-5 self-start px-2">Login </h1>
         <div className="flex flex-col gap-2">
           <form onSubmit={handleSubmit} className='flex flex-col gap-3 w-[300px]'>
-            <TextBox placeholder="Email" onChange={(e: any) => handleInputChange(e, 'email')} />
-            <TextBox placeholder="Password" type='password' onChange={(e: any) => handleInputChange(e, 'passWord')} />
-            <input type='submit' value={'Signin'} className='bg-dark1 rounded-sm cursor-pointer text-white py-4 hover:bg-dark2 w-full font-semibold'></input>
-            <p>
-              New to Task Mate? <Link href="/signup" className='underline font-semibold'>Create Account</Link>
+            <TextBox placeholder="Email" onChange={(e: any) => handleInputChange(e, 'email')} className='!rounded-full !border-0 focus:!bg-opacity-80 outline-gray-400 outline-offset-[-2px] focus:!outline-gray-800' />
+            <TextBox placeholder="Password" type='password' onChange={(e: any) => handleInputChange(e, 'passWord')} className='!rounded-full !border-0 focus:!bg-opacity-80 outline-gray-400 outline-offset-[-2px] focus:!outline-gray-800' />
+            <input type='submit' value={'Signin'} className='bg-slate-500  cursor-pointer text-white py-3 hover:bg-slate-900 duration-75 transition w-full font-semibold !rounded-full'></input>
+
+            <p className='text-sm flex gap-2 px-3'>
+              New to Task Mate?
+              <Link href="/signup" className='font-semibold flex flex-col w-fit group '>
+                Create Account
+                <span className='scale-x-0 duration-100 origin-center bg-black h-[2px] group-hover:scale-x-100'></span>
+              </Link>
             </p>
+
           </form>
         </div>
       </div>
