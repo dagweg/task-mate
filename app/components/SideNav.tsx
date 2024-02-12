@@ -20,7 +20,7 @@ function SideNav() {
     const pathname = usePathname();
 
     enum sb {
-        enabled = 'w-fit transition-all duration-500',
+        enabled = '!w-[250px] transition-all duration-500',
         disabled = 'w-fit p-0 m-0  transition-all duration-300'
     }
 
@@ -72,8 +72,10 @@ function SideNav() {
 
     return (
         <>
-            <div className=' h-screen flex  text-white z-10'>
-                <div className={cn(`bg-gray-200 text-black h-full space-y-4 `, sideBar, sb.disabled == sideBar ? 'flex flex-col items-center' : '')}>
+            <div className={cn(
+                pathname.includes('login') || pathname.includes('signup') ? 'hidden' : ' h-screen flex  text-white z-10'
+            )}>
+                <div className={cn(`relative bg-gray-200 text-black h-full space-y-4 `, sideBar, sb.disabled == sideBar ? 'flex flex-col items-center' : '')}>
 
                     <div className="user py-5 w-full flex items-center  gap-4  border-b  px-2 m-2">
                         {
@@ -84,7 +86,7 @@ function SideNav() {
                                 {
                                     sideBar == sb.enabled &&
                                     <div>
-                                        <p>{user.name}</p>
+                                        <p>{user.name ?? ''}</p>
                                         <p className='text-xs'>{user.email}</p>
                                     </div>
                                 }
@@ -92,8 +94,8 @@ function SideNav() {
                         }
                     </div>
 
-                    <nav className={cn('flex', sideBar)}>
-                        <div className={cn('flex flex-col h-full  space-y-0 px-2 justify-between py-16')}>
+                    <nav className={cn(' flex ', sideBar)}>
+                        <div className={cn('flex flex-col h-full space-y-0 px-2 justify-between py-16')}>
                             <div className='flex flex-col gap-4'>
                                 <Link href={'/dashboard'} className={classNames({
                                     'side-nav-button hover:bg-white flex justify-start p-4  px-7 rounded-lg duration-75 gap-2 items-center': true,

@@ -67,38 +67,47 @@ function Login() {
 
   return (
     <>
-      <div className="relative bg-white rounded-lg  w-fit mx-auto flex flex-col justify-center items-center p-10 bg-opacity-50 backdrop-blur-lg">
-        <Dialog.Root >
-          <Dialog.Trigger>
-            <Button ref={dialogRef}></Button>
-          </Dialog.Trigger>
-          <Dialog.Content style={{ maxWidth: 450 }} className='flex flex-col justify-center items-center z-10'>
-            <Dialog.Title>{message}</Dialog.Title>
-            <Flex gap="3" mt="4" justify="end">
-              <Dialog.Close>
-                <Button variant="soft" color="gray">
-                  Ok
-                </Button>
-              </Dialog.Close>
-            </Flex>
-          </Dialog.Content>
-        </Dialog.Root>
-        <h1 className="text-5xl tracking-wide py-5 self-start px-2">Login </h1>
-        <div className="flex flex-col gap-2">
-          <form onSubmit={handleSubmit} className='flex flex-col gap-3 w-[300px]'>
-            <TextBox placeholder="Email" onChange={(e: any) => handleInputChange(e, 'email')} className='!rounded-full !border-0 focus:!bg-opacity-80 outline-gray-400 outline-offset-[-2px] focus:!outline-gray-800' />
-            <TextBox placeholder="Password" type='password' onChange={(e: any) => handleInputChange(e, 'passWord')} className='!rounded-full !border-0 focus:!bg-opacity-80 outline-gray-400 outline-offset-[-2px] focus:!outline-gray-800' />
-            <input type='submit' value={'Signin'} className='bg-slate-500  cursor-pointer text-white py-3 hover:bg-slate-900 duration-75 transition w-full font-semibold !rounded-full'></input>
+      <Dialog.Root >
+        <Dialog.Trigger>
+          <Button ref={dialogRef}></Button>
+        </Dialog.Trigger>
+        <Dialog.Content style={{ maxWidth: 450 }} className='flex flex-col justify-center items-center !z-[100] relative'>
+          <Dialog.Title>{message}</Dialog.Title>
+          <Flex gap="3" mt="4" justify="end">
+            <Dialog.Close>
+              <Button variant="soft" color="gray">
+                Ok
+              </Button>
+            </Dialog.Close>
+          </Flex>
+        </Dialog.Content>
+      </Dialog.Root>
+      <div className="relative mx-auto w-[400px] min-w-fit h-fit min-h-[300px] lg:w-[500px]  border-[1px] shadow-md rounded-md  bg-white bg-opacity-50 backdrop-blur-lg  group/main">
+        <div className='bg-slate-400 absolute inset-0 z-[0] scale-[1] scale-x-[1.01] group-hover/main:bg-gray-800    origin-center  rounded-md duration-300'>
+        </div>
+        <div className='relative w-full min-h-[300px]  bg-white px-16 py-10 flex flex-col md:flex-row items-center justify-center gap-10'>
+          <div className='h-full px-2 flex flex-col justify-center'>
+            <h1 className="text-5xl tracking-wide  self-start font-bold  inset-0 ">Login </h1>
+            <p className='text-center'>To Task Mate</p>
 
-            <p className='text-sm flex gap-2 px-3'>
-              New to Task Mate?
-              <Link href="/signup" className='font-semibold flex flex-col w-fit group '>
-                Create Account
-                <span className='scale-x-0 duration-100 origin-center bg-black h-[2px] group-hover:scale-x-100'></span>
-              </Link>
-            </p>
+          </div>
+          <div className='bg-black h-full w-[1px] bg-opacity-20 '></div>
+          <div className="flex flex-col gap-2">
+            <form onSubmit={handleSubmit} className='flex flex-col gap-3 w-[300px]'>
+              <TextBox placeholder="Email" onChange={(e: any) => handleInputChange(e, 'email')} className='!rounded-lg !border-0 focus:!bg-opacity-80 outline-gray-400 outline-offset-[-2px] focus:!outline-gray-800' />
+              <TextBox placeholder="Password" type='password' onChange={(e: any) => handleInputChange(e, 'passWord')} className='!rounded-lg !border-0 focus:!bg-opacity-80 outline-gray-400 outline-offset-[-2px] focus:!outline-gray-800' />
+              <input type='submit' value={'Signin'} className='bg-slate-500  cursor-pointer text-white py-3 hover:bg-slate-900 duration-75 transition w-full font-semibold !rounded-lg'></input>
 
-          </form>
+              <p className='text-sm flex gap-2 px-3'>
+                New to Task Mate?
+                <Link href="/signup" className='font-semibold flex flex-col w-fit group '>
+                  Create Account
+                  <span className='scale-x-0 duration-100 origin-center bg-black h-[2px] group-hover:scale-x-100'></span>
+                </Link>
+              </p>
+
+            </form>
+          </div>
         </div>
       </div>
     </>
