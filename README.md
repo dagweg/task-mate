@@ -24,4 +24,3 @@
 ![image](https://github.com/dagweg/task-mate/assets/90281138/08dd43d4-d7f0-42a3-a24b-7165307c90e3)
 ![image](https://github.com/dagweg/task-mate/assets/90281138/24aed160-0d06-468c-b468-062c639468fb)
 ![image](https://github.com/dagweg/task-mate/assets/90281138/f797f2bf-5761-40f7-a84f-28c66af62290)
-![image](https://github.com/dagweg/task-mate/assets/90281138/62e04bf9-febd-4ba8-bd68-895ae2f889b0)
