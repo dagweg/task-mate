@@ -1,3 +1,14 @@
+# All New
+![image](https://github.com/dagweg/task-mate/assets/90281138/55e43fc1-a754-4d73-8939-3b6178ab106b)
+![image](https://github.com/dagweg/task-mate/assets/90281138/ef254265-69a9-4e13-8d97-74f3fcd707eb)
+![image](https://github.com/dagweg/task-mate/assets/90281138/15dd7a94-de6e-4097-84f6-2dfc86f01a6e)
+![image](https://github.com/dagweg/task-mate/assets/90281138/84adc8fb-3802-471d-9db8-8d943dc4c2c4)
+![image](https://github.com/dagweg/task-mate/assets/90281138/b4fdc3ca-e364-44d5-a75f-e117b5e9d57d)
+![image](https://github.com/dagweg/task-mate/assets/90281138/dca7c5c6-8391-43ff-9323-291f2e3711d6)
+![image](https://github.com/dagweg/task-mate/assets/90281138/f1a4b6a5-a589-4d50-9dcd-7f73fc4150bc)
+
+
+# Previous 2
 ![image](https://github.com/dagweg/task-mate/assets/90281138/9b194e60-8b4f-4c1e-aad9-f864c32514f4)
 ![image](https://github.com/dagweg/task-mate/assets/90281138/97d156e9-18ac-496b-a474-9a77e1d3bdf2)
 ![image](https://github.com/dagweg/task-mate/assets/90281138/692928bf-8ef3-4b4d-8eb3-e1502699110a)
