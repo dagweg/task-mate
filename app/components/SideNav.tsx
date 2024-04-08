@@ -4,16 +4,19 @@ import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { BiLogOutCircle, BiSolidDashboard } from "react-icons/bi";
 import { AiOutlineProject } from "react-icons/ai";
-import { BsFillChatFill } from "react-icons/bs";
+import { BsFillChatFill, BsStack } from "react-icons/bs";
 import { FiHelpCircle } from "react-icons/fi";
 import { FiSettings } from "react-icons/fi";
 import { BiLogOut } from "react-icons/bi";
 import classNames from "classnames";
 import "./sidenav.css";
 import { cn } from "../lib/utils";
-import { FaUserAlt } from "react-icons/fa";
+import { FaHamburger, FaUserAlt } from "react-icons/fa";
 import { Button, Dialog } from "@radix-ui/themes";
 import { usePathname, useRouter } from "next/navigation";
+import { MdMore } from "react-icons/md";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { IoClose } from "react-icons/io5";
 
 function SideNav() {
   const pathname = usePathname();
@@ -26,9 +29,12 @@ function SideNav() {
   const [sideBar, setSideBar] = useState<string>(sb.disabled);
   const [user, setUser] = useState<any>();
 
+  const sideBarRef = useRef<HTMLDivElement>(null);
+
   const router = useRouter();
 
   const toggleSideBar = () => {
+    console.log("clicked");
     if (sideBar === sb.enabled) {
       setSideBar(sb.disabled);
     } else {
@@ -44,6 +50,10 @@ function SideNav() {
       router.push("/login");
     }
   };
+
+  useEffect(() => {
+    console.log(sb.enabled == sideBar ? "enabled" : "disabled");
+  });
 
   useEffect(() => {
     let userId;
@@ -64,17 +74,57 @@ function SideNav() {
       } else {
       }
     });
+
+    const handleResize = (e: Event) => {
+      console.log("resized");
+      setSideBar(sb.disabled);
+    };
+
+    const handleClick = (e: MouseEvent) => {
+      console.log(sideBarRef.current?.clientWidth!);
+      console.log(e.x);
+      if (
+        window.innerWidth < 768 &&
+        e.x > sideBarRef.current?.clientWidth! &&
+        sideBar == sb.enabled
+      ) {
+        setSideBar(sb.disabled);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    window.addEventListener("click", handleClick);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("click", handleClick);
+    };
   }, []);
 
   return (
     <>
+      <div className="md:hidden m-3 fixed w-full ">
+        <div
+          className="text-xl p-2 bg-gray-100 w-fit rounded-full hover:bg-gray-200 cursor-pointer"
+          onClick={() => toggleSideBar()}
+        >
+          {sideBar == sb.disabled && <GiHamburgerMenu />}
+        </div>
+      </div>
       <div
+        ref={sideBarRef}
         className={cn(
-          pathname.includes("login") || pathname.includes("signup")
-            ? "hidden"
-            : " h-screen flex  text-white z-10"
+          " h-screen  absolute text-white z-[100]",
+          sideBar == sb.disabled ? "hidden" : "flex",
+          "md:flex md:relative"
         )}
       >
+        <div
+          className="md:hidden text-xl p-2 bg-gray-100 w-fit rounded-full hover:bg-gray-200 cursor-pointer absolute z-[100] text-black m-1"
+          onClick={() => toggleSideBar()}
+        >
+          {sideBar == sb.enabled && <IoClose />}
+        </div>
         <div
           className={cn(
             `relative bg-gray-200 text-black h-full space-y-4 `,
