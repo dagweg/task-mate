@@ -47,109 +47,30 @@ function ViewTasks() {
       });
   }, [projectId]);
 
-  if (loading) {
-    return <p>Loading...</p>; // Add a loading indicator
-  }
+  //   if (loading) {
+  //     return <p>Loading...</p>; // Add a loading indicator
+  //   }
 
-  if (error) {
-    return <p>Error: {error}</p>; // Display error message
-  }
+  //   if (error) {
+  //     return <p>Error: {error}</p>; // Display error message
+  //   }
 
   return (
     <>
-      <div className="flex min-h-screen justify-center w-full">
-        <div className="overflow-x-auto min-w-full">
-          {tasks.length === 0 ? (
-            <div className=" h-full flex flex-col justify-center ">
-              <tr className="text-center self-center justify-center w-full py-10 text-lg bg-gradient-to-r from-gray-50 to bg-slate-50 rounded-lg">
-                there is No task add some task
+      <div className="w-full bg-white">
+        <div>
+          <table className="w-full text-sm text-left rtl:text-right text-gray-500">
+            <thead className="text-xs text-gray-700 uppercase bg-gray-50 ">
+              <tr>
+                <th>Name</th>
+                <th>Status</th>
+                <th>Assigned Members</th>
               </tr>
-            </div>
-          ) : (
-            <table className="min-w-full bg-white shadow-md rounded-xl">
-              <thead className="bg-gray-50 border-b-2 border-gray-200">
-                <tr>
-                  <th className="w-34 p-3 text-sm font-semibold -tracking-wide text-left">
-                    Name
-                  </th>
-                  <th className="w-24 p-3 text-sm font-semibold -tracking-wide text-left">
-                    {" "}
-                    <BiBullseye />
-                    Status
-                  </th>
-                  <th className="w-32 p-3 text-sm font-semibold -tracking-wide text-left">
-                    Assign
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="text-blue-gray-900">
-                {tasks?.map((myTask: any, i) => (
-                  <React.Fragment key={i}>
-                    {/* Task row */}
-                    <tr className="border-b border-blue-gray-200">
-                      <td className="p-3 text-sm text-gray-700">
-                        {myTask.title}
-                      </td>
-                      <td className="p-3 text-sm text-gray-700">
-                        <span
-                          className={`p-1.5 text-xs font-medium uppercase tracking-wider ${getProgressStyle(
-                            myTask.progress
-                          )}`}
-                        >
-                          {myTask.progress}
-                        </span>
-                      </td>
-                      <td className="p-3 text-sm text-gray-700">
-                        {myTask.assignedTo.map((user: any, key: any) => (
-                          <p key={key}>{user.firstName}</p>
-                        ))}
-                      </td>
-                    </tr>
-                    {/* Subtask table */}
-                    <tr>
-                      <td colSpan={3}>
-                        <table className="w-full">
-                          <thead className="bg-gray-50 border-b-2 border-gray-200">
-                            <tr>
-                              <th className="w-34 p-3 text-sm font-semibold -tracking-wide text-left">
-                                Subtask Name
-                              </th>
-                              <th className="w-24 p-3 text-sm font-semibold -tracking-wide text-left">
-                                Subtask Status
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody className="text-blue-gray-900">
-                            {myTask.SubTask.map(
-                              (subTask: SubTask, j: number) => (
-                                <tr
-                                  key={j}
-                                  className="border-b border-blue-gray-200"
-                                >
-                                  <td className="p-3 text-sm text-gray-700">
-                                    {subTask.title}
-                                  </td>
-                                  <td className="p-3 text-sm text-gray-700">
-                                    <span
-                                      className={`p-1.5 text-xs font-medium uppercase tracking-wider ${getProgressStyle(
-                                        subTask.progress
-                                      )}`}
-                                    >
-                                      {subTask.progress}
-                                    </span>
-                                  </td>
-                                </tr>
-                              )
-                            )}
-                          </tbody>
-                        </table>
-                      </td>
-                    </tr>
-                  </React.Fragment>
-                ))}
-              </tbody>
-            </table>
-          )}
+            </thead>
+            <tbody>
+              <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"></tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </>
