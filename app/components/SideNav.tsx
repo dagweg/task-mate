@@ -103,7 +103,7 @@ function SideNav() {
 
   return (
     <>
-      <div className="md:hidden m-3 fixed w-full ">
+      <div className="md:hidden m-3 fixed w-full z-[100]">
         <div
           className="text-xl p-2 bg-gray-100 w-fit rounded-full hover:bg-gray-200 cursor-pointer"
           onClick={() => toggleSideBar()}

@@ -1,15 +1,15 @@
-'use client'
+"use client";
 
-import Link from 'next/link'
-import React from 'react'
-import MyProjects from './my-projects/page'
+import Link from "next/link";
+import React from "react";
+import MyProjects from "./my-projects/page";
 
 function Projects() {
-    return (
-        <>
-            <MyProjects />
-        </>
-    )
+  return (
+    <>
+      <MyProjects />
+    </>
+  );
 }
 
-export default Projects 
+export default Projects;

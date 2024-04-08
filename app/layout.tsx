@@ -65,7 +65,7 @@ export default function RootLayout({
               {
                 <section className="flex fixed h-screen w-full">
                   <SideNav />
-                  <main className="flex-grow h-screen overflow-y-scroll w-full px-16 py-10">
+                  <main className="flex-grow h-screen overflow-y-scroll w-full md:px-16 md:py-10 p-8 pt-20">
                     {children}
                   </main>
                 </section>
