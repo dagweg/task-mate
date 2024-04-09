@@ -145,8 +145,8 @@ function SideNav() {
                 </div>
                 {sideBar == sb.enabled && (
                   <div>
-                    <p>{user.name ?? ""}</p>
-                    <p className="text-xs">{user.email}</p>
+                    <p>{user?.name ?? ""}</p>
+                    <p className="text-xs">{user?.email ?? ""}</p>
                   </div>
                 )}
               </div>

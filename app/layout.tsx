@@ -11,8 +11,10 @@ import BarLoader from "react-spinners/BarLoader";
 
 export default function RootLayout({
   children,
+  param,
 }: {
   children: React.ReactNode;
+  param: string;
 }) {
   const router = useRouter();
   let userId: any = null;
