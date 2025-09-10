@@ -26,7 +26,7 @@ function ViewTasks() {
   useEffect(() => {
     fetch(`/api/task`, {
       method: "POST",
-      headers: { 'Content-Type': 'application/json' },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ pid: projectId }),
     })
       .then(async (response) => {
@@ -69,8 +69,14 @@ function ViewTasks() {
           {(tasks as any[]).map((t: any) => (
             <tr key={t.id} className="border-b last:border-b-0">
               <td className="p-3 font-medium text-gray-900">{t.title}</td>
-              <td className={"p-3 " + getProgressStyle(t.progress)}>{t.progress}</td>
-              <td className="p-3">{(t.assignedTo || []).map((u: any) => u.firstName || u.email).join(', ') || '-'}</td>
+              <td className={"p-3 " + getProgressStyle(t.progress)}>
+                {t.progress}
+              </td>
+              <td className="p-3">
+                {(t.assignedTo || [])
+                  .map((u: any) => u.firstName || u.email)
+                  .join(", ") || "-"}
+              </td>
               <td className="p-3">
                 <ul className="list-disc pl-5">
                   {(t.SubTask || []).map((s: any) => (

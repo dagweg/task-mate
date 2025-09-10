@@ -1,6 +1,6 @@
 import { NextResponse, NextRequest } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../auth/[...nextauth]/route";
+import { authOptions } from "../auth/options";
 import { db } from "@/app/lib/prisma";
 import { verifyAppToken } from "@/app/lib/auth-server";
 
