@@ -1,0 +1,8 @@
+{
+  "buildCommand": "pnpm install --frozen-lockfile=false && pnpm build",
+  "functions": {
+    "api/**": {
+      "maxDuration": 10
+    }
+  }
+}
