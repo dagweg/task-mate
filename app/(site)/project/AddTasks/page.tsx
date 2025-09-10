@@ -33,6 +33,7 @@ function AddTasks() {
   useEffect(() => {
     fetch(`/api/task?pid=${projectId}`, {
       method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         pid: projectId,
       }),
@@ -45,7 +46,7 @@ function AddTasks() {
         console.log("ERROR! Couldn't fetch tasks");
       }
     });
-  }, []);
+  }, [projectId]);
 
   return (
     <>

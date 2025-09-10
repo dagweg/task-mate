@@ -1,69 +1,48 @@
-'use client'
+"use client";
 
-import React, { useEffect, useState } from 'react'
-import { ImAttachment } from 'react-icons/im'
-import { BsEmojiSmile } from 'react-icons/bs'
-import { BsMicFill } from 'react-icons/bs'
-import { RiSendPlane2Fill } from 'react-icons/ri'
-import { TextField } from '@radix-ui/themes'
-import './chat.css'
-import ChatMessage from '../../../components/ChatMessage'
+import React, { useState } from "react";
 
 function Chat() {
+    const [messages, setMessages] = useState<string[]>([]);
+    const [input, setInput] = useState("");
 
-    const [emojis, setEmojis] = useState<any>([])
-
-    useEffect(() => {
-        fetch('https://emoji-api.com/emojis?access_key=1611a24c17507d2e9be80d8dd5efd6d1d1a377d4')
-            .then(async response => {
-                const data = await response.json()
-                if (response.ok) {
-                    setEmojis(data)
-                    console.log('Fetched emojis')
-                }
-                else {
-                    console.log('Couldnt fetch emojis')
-                }
-            })
-            .catch(e => console.log(e))
-
-    }, [])
+    const send = () => {
+        const text = input.trim();
+        if (!text) return;
+        setMessages((m) => [...m, text]);
+        setInput("");
+    };
 
     return (
-        <div className='flex flex-col gap-10 h-screen'>
-            <div className='flex flex-col justify-center items-center h-full'>
-                <div className='bg-[#a6a1b1] w-full h-full flex justify-center rounded-lg shadow-sm bg-opacity-10'>
-                    <div className='bg-gradient-to-b from-gray-100 to-blue-50 flex flex-col flex-grow h-full p-4 gap-4    '>
-                        <div className='flex flex-col flex-grow justify-end gap-2'>
-                            <ChatMessage username='Riley' message='We have meeting today afternoon' />
-
+        <div className="flex flex-col h-[calc(100vh-4rem)] bg-white rounded-xl border border-gray-200">
+            <div className="flex-1 overflow-y-auto p-4 space-y-2">
+                {messages.length === 0 ? (
+                    <div className="text-sm text-gray-500">No messages yet.</div>
+                ) : (
+                    messages.map((m, i) => (
+                        <div key={i} className="text-sm bg-gray-100 p-2 rounded-md w-fit">
+                            {m}
                         </div>
-                        <TextField.Root className='p-2'>
-                            <TextField.Slot>
-                                <ImAttachment />
-                            </TextField.Slot>
-                            <TextField.Input placeholder='' radius='full' className='!text-[14px]'></TextField.Input>
-                            <TextField.Slot>
-                                <BsEmojiSmile />
-                                <BsMicFill />
-                                <RiSendPlane2Fill />
-                            </TextField.Slot>
-                        </TextField.Root>
-                    </div>
-                    <div className='w-[250px] flex flex-col  p-3 overflow-y-scroll'>
-                        <h1 className=''>Emojis</h1>
-                        <div className='grid grid-cols-8  space-x-1 '>
-                            {
-                                emojis && emojis.map((emoji: any, key: any) => (
-                                    <span className='rounded-full hover:bg-gray-200 duration-75 aspect-square cursor-pointer flex justify-center items-center p-1'>{emoji.character}</span>
-                                ))
-                            }
-                        </div>
-                    </div>
-                </div>
+                    ))
+                )}
+            </div>
+            <div className="p-3 border-t border-gray-200 flex gap-2">
+                <input
+                    className="flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm"
+                    placeholder="Type a message"
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && send()}
+                />
+                <button
+                    className="px-3 py-2 text-sm bg-slate-900 text-white rounded-md"
+                    onClick={send}
+                >
+                    Send
+                </button>
             </div>
         </div>
-    )
+    );
 }
 
-export default Chat
+export default Chat;

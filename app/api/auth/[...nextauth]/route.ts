@@ -1,11 +1,40 @@
 import NextAuth, { type NextAuthOptions } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
+import CredentialsProvider from "next-auth/providers/credentials";
 import { db } from "@/app/lib/prisma";
+import bcrypt from "bcryptjs";
 
 export const authOptions: NextAuthOptions = {
-  // Configure one or more authentication providers
   providers: [
+    CredentialsProvider({
+      name: "Credentials",
+      credentials: {
+        email: { label: "Email", type: "text" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials) {
+        try {
+          const email = credentials?.email?.toString() || "";
+          const password = credentials?.password?.toString() || "";
+          if (!email || !password) return null;
+          const user = await db.user.findUnique({ where: { email } });
+          if (!user?.password) return null;
+          const ok = await bcrypt.compare(password, user.password);
+          if (!ok) return null;
+          return {
+            id: user.id,
+            email: user.email || undefined,
+            name:
+              [user.firstName, user.lastName].filter(Boolean).join(" ") ||
+              undefined,
+            image: user.image || undefined,
+          } as any;
+        } catch {
+          return null;
+        }
+      },
+    }),
     GithubProvider({
       clientId: process.env.GITHUB_CLIENT_ID as string,
       clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
@@ -20,11 +49,9 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     async jwt({ token, user }) {
-      // On initial sign-in, persist the user id in the token
       if (user && (user as any).id) {
         token.uid = (user as any).id;
       }
-      // If no id yet, try to resolve by email from our DB
       if (!token.uid && token.email) {
         try {
           const u = await db.user.findUnique({ where: { email: token.email } });
@@ -34,18 +61,15 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
     async session({ session, token }) {
-      // Expose the user id on the client session
       if (session.user && token?.uid) {
         (session.user as any).id = token.uid as string;
       }
       return session;
     },
-    async signIn({ user, account, profile }) {
-      // Ensure a corresponding User exists in our Prisma DB
+    async signIn({ user }) {
       try {
         const email = user?.email ?? null;
-        if (!email) return true; // allow sign-in; nothing we can do without email
-
+        if (!email) return true;
         const existing = await db.user.findUnique({ where: { email } });
         if (!existing) {
           const fullName = user?.name || "";

@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
 
         const subTasks = body.subTasks
 
-        const updated = await db.task.upsert({
+    const updated = await db.task.upsert({
             where: {
                 id: body.taskId,
                 projectId: body.projectId
@@ -19,6 +19,7 @@ export async function POST(req: NextRequest) {
 
             },
             create: {
+        id: body.taskId as string,
                 title: body.title as string,
                 description: body.description as string,
                 projectId: body.projectId as string,
@@ -32,7 +33,6 @@ export async function POST(req: NextRequest) {
         for (let subTask of subTasks) {
             const subtask = await db.subTask.upsert({
                 where: {
-                    taskId: body.taskId,
                     id: subTask.id,
                 },
                 update: {
@@ -41,14 +41,17 @@ export async function POST(req: NextRequest) {
                 },
                 create: {
                     title: subTask.title as string,
-                    taskId: body.taskId
+                    taskId: body.taskId,
+                    id: subTask.id as string
                 }
 
             })
         }
-        console.log(updated)
-
-        return NextResponse.json({}, { status: 200 })
+        const fresh = await db.task.findUnique({
+            where: { id: updated.id },
+            include: { SubTask: true, assignedTo: true }
+        })
+        return NextResponse.json(fresh, { status: 200 })
     }
     catch (e) {
         console.log(e)

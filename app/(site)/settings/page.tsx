@@ -1,9 +1,5 @@
-import React from 'react'
+import { redirect } from "next/navigation";
 
-function Settings() {
-    return (
-        <div>Account Settings</div>
-    )
+export default function Settings() {
+  redirect("/settings/account-settings");
 }
-
-export default Settings

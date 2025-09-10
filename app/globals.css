@@ -2,44 +2,43 @@
 @tailwind components;
 @tailwind utilities;
 
-
 * {
-  font-family: 'DM Sans','Montserrat', 'Segoe UI', 'SF Pro';
+  font-family: "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans",
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
   @apply m-0 p-0 box-border;
 }
 
 @layer utilities {
-
   /* Defining color palletes */
   .bg-dark2 {
-    background-color: #352F44;
+    background-color: #352f44;
   }
 
   .bg-dark1 {
-    background-color: #5C5470;
+    background-color: #5c5470;
   }
 
   .bg-light2 {
-    background-color: #B9B4C7;
+    background-color: #b9b4c7;
   }
 
   .bg-light1 {
-    background-color: #FAF0E6;
+    background-color: #faf0e6;
   }
 
   .border-dark2 {
-    border-color: #352F44;
+    border-color: #352f44;
   }
 
   .border-dark1 {
-    border-color: #5C5470;
+    border-color: #5c5470;
   }
 
   .border-light2 {
-    border-color: #B9B4C7;
+    border-color: #b9b4c7;
   }
 
   .border-light1 {
-    border-color: #FAF0E6;
+    border-color: #faf0e6;
   }
 }

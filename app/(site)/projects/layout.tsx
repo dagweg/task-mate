@@ -7,6 +7,7 @@ import { Button, Dialog } from "@radix-ui/themes";
 import { Input } from "postcss";
 import classNames from "classnames";
 import { usePathname } from "next/navigation";
+import { getAppToken } from "@/app/lib/auth-client";
 // import AddProjectDropdownButton from '@/app/components/createProjectButton'
 
 function ProjectsLayout({ children }: { children: ReactNode }) {
@@ -15,30 +16,29 @@ function ProjectsLayout({ children }: { children: ReactNode }) {
   const [message, setMessage] = useState<string>("");
   const pathname = usePathname();
 
-  function handleJoinProject() {
-    if (typeof window !== "undefined") {
-      fetch("/api/joinProject/", {
-        method: "POST",
-        body: JSON.stringify({
-          userId: window?.localStorage.getItem("userId"),
-          invite: inviteRef.current.value,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).then(async (response) => {
-        const data = await response.json();
-        if (response.ok) {
-          console.log("Successful Join");
-          setMessage(data);
-        } else {
-          console.log("X Not Successful Join");
-          setMessage(data);
-        }
-        dialogRef.current.click();
-        console.log(data);
-      });
-    }
+  async function handleJoinProject() {
+    const token = await getAppToken();
+    fetch("/api/joinProject/", {
+      method: "POST",
+      body: JSON.stringify({
+        invite: inviteRef.current.value,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+    }).then(async (response) => {
+      const data = await response.json();
+      if (response.ok) {
+        console.log("Successful Join");
+        setMessage(data);
+      } else {
+        console.log("X Not Successful Join");
+        setMessage(data);
+      }
+      dialogRef.current.click();
+      console.log(data);
+    });
   }
 
   return (
@@ -56,9 +56,11 @@ function ProjectsLayout({ children }: { children: ReactNode }) {
           </Dialog.Close>
         </Dialog.Content>
       </Dialog.Root>
-      <div className="flex flex-col gap-2 h-fit ">
-        <div className="flex flex-col justify-between w-full items-start gap-3">
-          <h1 className="text-5xl font-bold ">Projects</h1>
+      <div className="flex flex-col gap-3 h-fit ">
+        <div className="flex flex-col w-full items-start gap-3">
+          <h1 className="text-3xl md:text-4xl font-semibold tracking-tight">
+            Projects
+          </h1>
           {/* <AddProjectDropdownButton/> */}
           <div className="flex gap-2">
             <Dialog.Root>
@@ -77,12 +79,12 @@ function ProjectsLayout({ children }: { children: ReactNode }) {
                 <Dialog.Title>Join a Project</Dialog.Title>
                 <input
                   placeholder="Invitation Link"
-                  className="p-2 w-full border-[1px] border-black "
+                  className="p-2 w-full border border-gray-300 rounded-md focus:border-gray-500"
                   ref={inviteRef}
                 ></input>
                 <Dialog.Close>
                   <Button
-                    className="!bg-gray-400 !cursor-pointer hover:!bg-dark2 duration-150 "
+                    className="!bg-gray-700 !cursor-pointer hover:!bg-gray-900 duration-150 "
                     onClick={handleJoinProject}
                   >
                     Join

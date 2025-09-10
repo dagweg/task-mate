@@ -53,11 +53,16 @@ function TaskPane(props: TaskPaneType) {
                 description: taskPaneDesc.value,
             }),
             headers: {
-                "Content-Type": 'application'
+                "Content-Type": 'application/json'
             }
         })
             .then(async response => {
                 const data = await response.json();
+                if (response.ok) {
+                    // refresh state from server to ensure subtasks render
+                    setSubTasks(data?.SubTask || []);
+                    setTaskPane(prev => ({ ...prev, isEditMode: false }));
+                }
             })
 
     }
@@ -146,7 +151,7 @@ function TaskPane(props: TaskPaneType) {
         };
 
         fetchProject();
-    }, []);
+    }, [projectId]);
 
     const handleCheckboxChange = (userId: string) => {
         // Toggle the selection state of the user
@@ -336,13 +341,18 @@ function SubTask({ subTask, taskId, projectId }: { subTask: SubTaskType, taskId:
                 tid: taskId,
                 pid: projectId,
                 subTaskId: subTask.id
-            })
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
         })
             .then(async response => {
                 const data = await response.json()
 
                 if (response.ok) {
                     ssetSubTask(data)
+                    // ensure parent list reflects edits
+                    // nothing else to do here since parent re-renders from local state
                 }
                 else {
                     console.log("ERROR- saving subtask")

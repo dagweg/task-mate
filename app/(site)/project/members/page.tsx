@@ -1,8 +1,8 @@
-'use client'
+"use client"
 
 import React, { useEffect, useRef, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { User } from '@prisma/client'
+import { Role, User } from '@prisma/client'
 import { Button, Dialog, DropdownMenu, IconButton, Separator } from '@radix-ui/themes'
 import { IoIosMore } from 'react-icons/io'
 import { BsInfoSquare } from 'react-icons/bs'
@@ -16,6 +16,8 @@ function Members() {
 
     const [members, setMembers] = useState<User[]>([])
     const [userEmails, setUserEmails] = useState<string[]>([])
+    const [selected, setSelected] = useState<User | null>(null)
+    const [savingRole, setSavingRole] = useState(false)
 
     const dialogRef = useRef<any>();
     const roleChangeDialogRef = useRef<any>();
@@ -27,9 +29,8 @@ function Members() {
     useEffect(() => {
         fetch(`/api/members`, {
             method: "POST",
-            body: JSON.stringify({
-                pid: pid
-            })
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ pid })
         })
             .then(async response => {
                 const data = await response.json()
@@ -38,15 +39,13 @@ function Members() {
                     setMembers(data)
                 }
             })
-    }, [])
+    }, [pid])
 
     function handleMemberRemove(uid: any) {
         fetch(`/api/members`, {
             method: "POST",
-            body: JSON.stringify({
-                uid: uid,
-                pid: pid
-            })
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ uid, pid })
         })
             .then(async response => {
                 const data = await response.json()
@@ -64,16 +63,23 @@ function Members() {
     function addMembers() {
         fetch('/api/members/add', {
             method: "POST",
-            body: JSON.stringify({
-                userEmails: userEmails,
-                projectId: pid,
-            })
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userEmails, projectId: pid })
         })
             .then(async response => {
                 const data = await response.json()
 
                 if (response.ok) {
-                    console.log(data)
+                    // Refresh list after adding
+                    setUserEmails([])
+                    fetch(`/api/members`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ pid })
+                    }).then(async r => {
+                        const d = await r.json();
+                        if (r.ok) setMembers(d)
+                    })
                 }
                 else {
 
@@ -81,7 +87,8 @@ function Members() {
             })
     }
 
-    function handleRoleChange() {
+    function handleRoleChange(user: User) {
+        setSelected(user);
         roleChangeDialogRef.current.click();
     }
 
@@ -125,7 +132,7 @@ function Members() {
                                                     <IconButton className=' !m-1 !bg-gray-200 hover:!bg-neutral-300 !text-xl !text-black'><IoIosMore /></IconButton>
                                                 </DropdownMenu.Trigger>
                                                 <DropdownMenu.Content className='min-w-[10rem]'>
-                                                    <DropdownMenu.Item onClick={() => handleRoleChange()} className=' !m-1  hover:!bg-gray-200  !text-black !flex  !flex-start !gap-3'>
+                                                    <DropdownMenu.Item onClick={() => handleRoleChange(mem)} className=' !m-1  hover:!bg-gray-200  !text-black !flex  !flex-start !gap-3'>
                                                         <RiAdminFill />
                                                         <label htmlFor="">Change Role</label>
                                                     </DropdownMenu.Item>
@@ -172,7 +179,20 @@ function Members() {
                         </Dialog.Close>
                     </div>
                 </Dialog.Content>
-                <RoleChangeDialog roleChangeDialogRef={roleChangeDialogRef} />
+                <RoleChangeDialog roleChangeDialogRef={roleChangeDialogRef} selected={selected} saving={savingRole} onSave={async (role: Role) => {
+                    if (!selected) return;
+                    setSavingRole(true)
+                    await fetch('/api/members/role', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ uid: selected.id, role })
+                    }).then(async r => {
+                        // refresh list
+                        const res = await fetch(`/api/members`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pid }) })
+                        const d = await res.json();
+                        if (res.ok) setMembers(d)
+                    }).finally(() => setSavingRole(false))
+                }} />
             </Dialog.Root>
 
         </>
@@ -180,11 +200,9 @@ function Members() {
 }
 
 
-function RoleChangeDialog({ roleChangeDialogRef }: any) {
-
-    function saveRoleChange() {
-
-    }
+function RoleChangeDialog({ roleChangeDialogRef, selected, onSave, saving }: { roleChangeDialogRef: any, selected: User | null, onSave: (role: Role) => void, saving: boolean }) {
+    const [role, setRole] = useState<Role>(selected?.role || 'TEAM_MEMBER')
+    useEffect(() => { setRole(selected?.role || 'TEAM_MEMBER') }, [selected])
     return (
         <>
             <Dialog.Root>
@@ -198,28 +216,28 @@ function RoleChangeDialog({ roleChangeDialogRef }: any) {
                             <div className='flex flex-col gap-3 justify-center my-2'>
                                 <div className='flex gap-4 items-center'>
                                     First Name:
-                                    <p className='text-sm'>###.</p>
+                                    <p className='text-sm'>{selected?.firstName || '-'}</p>
                                 </div>
                                 <div className='flex gap-4 items-center'>
                                     Last Name:
-                                    <p className='text-sm'>###.</p>
+                                    <p className='text-sm'>{selected?.lastName || '-'}</p>
                                 </div>
                                 <div className='flex gap-4 items-center'>
                                     Email:
-                                    <p className='text-sm'>###.</p>
+                                    <p className='text-sm'>{selected?.email || '-'}</p>
                                 </div>
                                 <div className='flex gap-4 items-center'>
                                     Role:
-                                    <select name="" id="">
-                                        <option value="">Team Member</option>
-                                        <option value="">Administrator</option>
+                                    <select value={role} onChange={e => setRole(e.target.value as Role)} className='border border-gray-300 rounded-md p-1'>
+                                        <option value='TEAM_MEMBER'>Team Member</option>
+                                        <option value='TEAM_MANAGER'>Administrator</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
                         <Dialog.Close>
-                            <button className='bg-transparent border-2 p-2 hover:bg-dark2 text-black hover:text-white w-52 rounded-sm duration-75' onClick={saveRoleChange}>
-                                Save Changes
+                            <button disabled={!selected || saving} className='bg-transparent border-2 p-2 hover:bg-dark2 text-black hover:text-white w-52 rounded-sm duration-75 disabled:opacity-60' onClick={() => onSave(role)}>
+                                {saving ? 'Saving...' : 'Save Changes'}
                             </button>
                         </Dialog.Close>
                     </div>

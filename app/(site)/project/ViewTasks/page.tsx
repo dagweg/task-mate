@@ -26,9 +26,8 @@ function ViewTasks() {
   useEffect(() => {
     fetch(`/api/task`, {
       method: "POST",
-      body: JSON.stringify({
-        pid: projectId,
-      }),
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ pid: projectId }),
     })
       .then(async (response) => {
         if (response.ok) {
@@ -56,24 +55,38 @@ function ViewTasks() {
   //   }
 
   return (
-    <>
-      <div className="w-full bg-white">
-        <div>
-          <table className="w-full text-sm text-left rtl:text-right text-gray-500">
-            <thead className="text-xs text-gray-700 uppercase bg-gray-50 ">
-              <tr>
-                <th>Name</th>
-                <th>Status</th>
-                <th>Assigned Members</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </>
+    <div className="w-full bg-white rounded-xl border border-gray-200 p-4">
+      <table className="w-full text-sm text-left text-gray-600">
+        <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+          <tr>
+            <th className="p-3">Task</th>
+            <th className="p-3">Progress</th>
+            <th className="p-3">Assignees</th>
+            <th className="p-3">Subtasks</th>
+          </tr>
+        </thead>
+        <tbody>
+          {(tasks as any[]).map((t: any) => (
+            <tr key={t.id} className="border-b last:border-b-0">
+              <td className="p-3 font-medium text-gray-900">{t.title}</td>
+              <td className={"p-3 " + getProgressStyle(t.progress)}>{t.progress}</td>
+              <td className="p-3">{(t.assignedTo || []).map((u: any) => u.firstName || u.email).join(', ') || '-'}</td>
+              <td className="p-3">
+                <ul className="list-disc pl-5">
+                  {(t.SubTask || []).map((s: any) => (
+                    <li key={s.id}>{s.title}</li>
+                  ))}
+                </ul>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      {(!tasks || (tasks as any[]).length === 0) && (
+        <div className="text-sm text-gray-500 p-4">No tasks yet.</div>
+      )}
+      {error && <div className="text-sm text-red-600 p-4">{error}</div>}
+    </div>
   );
 }
 

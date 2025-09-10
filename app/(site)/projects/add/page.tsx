@@ -5,6 +5,7 @@ import TextList from "@/app/components/TextList";
 import { Button, Dialog, Flex } from "@radix-ui/themes";
 import React, { useRef, useState } from "react";
 import { BsInfoSquare } from "react-icons/bs";
+import { getAppToken } from "@/app/lib/auth-client";
 
 function AddProject() {
   const [userEmails, setUserEmails] = useState<string[]>([]);
@@ -13,21 +14,22 @@ function AddProject() {
   const descRef = useRef<any>();
   const dialogRef = useRef<any>();
 
-  function handleCreateProject() {
+  async function handleCreateProject() {
     const formData = {
       title: titleRef.current.value,
       description: descRef.current?.value,
-      creatorId: window?.localStorage.getItem("userId"),
       users: userEmails,
     };
 
     console.log(JSON.stringify(formData));
 
+    const token = await getAppToken();
     fetch("/api/addProject", {
       method: "POST",
       body: JSON.stringify(formData),
       headers: {
         "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
       },
     }).then(async (response) => {
       const data = await response.json();

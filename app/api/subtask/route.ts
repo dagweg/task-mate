@@ -13,10 +13,9 @@ export async function POST(req: NextRequest) {
         const subTaskName = body.sname
         const subTaskId = body.subTaskId
 
-        const subTask = await db.subTask.upsert({
+    const subTask = await db.subTask.upsert({
             where: {
-                id: subTaskId as string,
-                taskId: taskId as string
+        id: subTaskId as string,
             },
             update: {
                 title: subTaskName as string
@@ -24,6 +23,7 @@ export async function POST(req: NextRequest) {
             create: {
                 title: subTaskName as string,
                 taskId: taskId as string,
+        id: subTaskId as string,
             }
         })
 
